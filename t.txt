@@ -1,0 +1,2 @@
+data -> hàm băm (md5)-> json
+

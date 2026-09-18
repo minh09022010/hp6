@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="480" viewBox="0 0 600 480">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#F43F5E"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="url(#g)" rx="16"/>
+  <circle cx="300" cy="160" r="50" fill="rgba(255,255,255,0.12)"/>
+  <path d="M285 150 L320 160 L285 170 Z" fill="rgba(255,255,255,0.5)"/>
+  <text x="300" y="240" text-anchor="middle" fill="white" font-family="Inter,sans-serif" font-size="28" font-weight="700">Học trực tuyến</text>
+  <text x="300" y="275" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Inter,sans-serif" font-size="16">MinhThach Learning</text>
+  <rect x="180" y="310" width="240" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+  <rect x="220" y="330" width="160" height="8" rx="4" fill="rgba(255,255,255,0.1)"/>
+</svg>

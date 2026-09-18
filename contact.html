@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Liên hệ MinhThach Learning - Hỗ trợ, hợp tác hoặc bất kỳ câu hỏi nào về khóa học." />
+  <title>Liên hệ - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MinhThach<span> Learning</span>
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link active">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current">Liên hệ</span>
+      </nav>
+      <h1 class="page-hero-title">Liên hệ chúng tôi</h1>
+      <p class="page-hero-text">Có thắc mắc? Chúng tôi rất muốn nghe từ bạn. Hãy gửi tin nhắn cho chúng tôi.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Hãy trò chuyện</h2>
+          <p>Dù bạn có thắc mắc về khóa học, muốn trở thành giảng viên, hoặc cần hỗ trợ tài khoản — chúng tôi luôn sẵn sàng hỗ trợ bạn.</p>
+          <div class="contact-details">
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div><h4>Địa chỉ</h4><p>Cam Lộ, Quảng Trị, Việt Nam</p></div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon"><i class="fas fa-envelope"></i></div>
+              <div><h4>Email</h4><p>thachlenhatminh09022010@gmail.com</p></div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon"><i class="fas fa-phone-alt"></i></div>
+              <div><h4>Số điện thoại</h4><p>0914070720</p></div>
+            </div>
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon"><i class="fas fa-clock"></i></div>
+              <div><h4>Giờ làm việc</h4><p>Thứ 2 - Thứ 6: 9:00 - 18:00<br />Thứ 7: 10:00 - 16:00</p></div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" action="#" method="post">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Họ và tên <span class="required">*</span></label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Nguyễn Văn A" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email <span class="required">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="email@example.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Chủ đề <span class="required">*</span></label>
+            <select id="subject" name="subject" class="form-select" required>
+              <option value="">Chọn chủ đề</option>
+              <option value="general">Hỏi chung</option>
+              <option value="support">Hỗ trợ kỹ thuật</option>
+              <option value="billing">Thanh toán</option>
+              <option value="instructor">Trở thành giảng viên</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Tin nhắn <span class="required">*</span></label>
+            <textarea id="message" name="message" class="form-textarea" placeholder="Nội dung tin nhắn..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox">
+              <input type="checkbox" name="newsletter" />
+              <span>Đăng ký nhận bản tin</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-paper-plane"></i> Gửi tin nhắn</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122254.42453080865!2d106.85359961510697!3d16.75423452597395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3140f28ff2f530e5%3A0xd13219eb9ffb06ba!2zQ2FtIEzhu5ksIFF14bqjbmcgVHLhu4ssIFZp4buHdCBOYW0!5e0!3m2!1svi!2sus!4v1781399230718!5m2!1svi!2sus" width="600" height="450" style="border:0" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp, giúp học viên đạt được mục tiêu nghề nghiệp thông qua các khóa học từ chuyên gia.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="courses.html">Khóa học</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình Web</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">UI/UX Design</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud & DevOps</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 9H - 18H</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

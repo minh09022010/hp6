@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gặp gỡ các giảng viên chuyên gia của MinhThach Learning." />
+  <title>Giảng viên - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MinhThach<span> Learning</span>
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link active">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current">Giảng viên</span>
+      </nav>
+      <h1 class="page-hero-title">Gặp gỡ giảng viên chuyên gia</h1>
+      <p class="page-hero-text">Học hỏi từ các chuyên gia trong ngành với nhiều năm kinh nghiệm thực tế.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="instructors-grid">
+        <div class="instructor-profile-card">
+          <img src="images/instructor1.jpg" alt="Sarah Johnson" />
+          <h3>Sarah Johnson</h3>
+          <p class="role">Full-Stack Developer</p>
+          <p>Senior developer với 10+ năm kinh nghiệm xây dựng ứng dụng web cho các công ty Fortune 500.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">50K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">8</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.9</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+
+        <div class="instructor-profile-card">
+          <img src="images/instructor2.jpg" alt="Michael Chen" />
+          <h3>Michael Chen</h3>
+          <p class="role">Data Scientist</p>
+          <p>Tiến sĩ Machine Learning với 8+ năm kinh nghiệm trong AI và phân tích dữ liệu lớn.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">35K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">6</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.8</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+
+        <div class="instructor-profile-card">
+          <img src="images/instructor3.jpg" alt="Emily Rodriguez" />
+          <h3>Emily Rodriguez</h3>
+          <p class="role">UI/UX Design Lead</p>
+          <p>Nhà thiết kế đạt giải thưởng với 7+ năm kinh nghiệm tạo sản phẩm số lấy người dùng làm trung tâm.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">28K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">5</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.7</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+
+        <div class="instructor-profile-card">
+          <img src="images/instructor4.jpg" alt="David Kim" />
+          <h3>David Kim</h3>
+          <p class="role">Mobile Developer</p>
+          <p>Chuyên gia React Native và Flutter với 6+ năm kinh nghiệm phát triển ứng dụng di động.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">20K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">4</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.6</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+
+        <div class="instructor-profile-card">
+          <img src="images/instructor5.jpg" alt="Lisa Wang" />
+          <h3>Lisa Wang</h3>
+          <p class="role">Cloud Architect</p>
+          <p>Kiến trúc sư AWS certified với 12+ năm kinh nghiệm về cơ sở hạ tầng đám mây và DevOps.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">18K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">4</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.8</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+
+        <div class="instructor-profile-card">
+          <img src="images/instructor6.jpg" alt="Marcus Brown" />
+          <h3>Marcus Brown</h3>
+          <p class="role">Cybersecurity Expert</p>
+          <p>Chuyên gia bảo mật với 15+ năm kinh nghiệm, từng làm việc cho các cơ quan chính phủ.</p>
+          <div class="instructor-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+          <div class="instructor-profile-stats">
+            <div><div class="instructor-profile-stat-value">15K+</div><div class="instructor-profile-stat-label">Học viên</div></div>
+            <div><div class="instructor-profile-stat-value">3</div><div class="instructor-profile-stat-label">Khóa học</div></div>
+            <div><div class="instructor-profile-stat-value">4.7</div><div class="instructor-profile-stat-label">Đánh giá</div></div>
+          </div>
+          <a href="instructor-detail.html" class="btn btn-outline btn-sm" style="margin-top:20px">Xem hồ sơ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2 class="cta-title">Trở thành giảng viên</h2>
+      <p class="cta-text">Chia sẻ kiến thức và truyền cảm hứng cho học viên trên toàn thế giới.</p>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn btn-white btn-lg"><i class="fas fa-chalkboard-teacher"></i> Bắt đầu giảng dạy</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

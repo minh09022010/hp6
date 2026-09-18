@@ -1,0 +1,467 @@
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet Landscape */
+@media (max-width: 992px) {
+  .hero .container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-content {
+    order: 1;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-text {
+    margin: 0 auto 32px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero-image {
+    display: none;
+  }
+
+  .courses-grid,
+  .instructors-grid,
+  .blog-grid,
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .pricing-card.featured {
+    transform: none;
+  }
+
+  .pricing-card.featured:hover {
+    transform: translateY(-6px);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .course-detail-header {
+    grid-template-columns: 1fr;
+  }
+
+  .course-detail-sidebar {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-sidebar {
+    position: static;
+  }
+
+  .instructor-profile {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .instructor-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mission-vision {
+    grid-template-columns: 1fr;
+  }
+
+  .page-hero-title {
+    font-size: 34px;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+}
+
+/* Mobile & Tablet Portrait */
+@media (max-width: 768px) {
+  /* Mobile Container - tối ưu width */
+  .container {
+    padding: 0 20px;
+  }
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  /* Mobile Header */
+  .header {
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 24px;
+    gap: 4px;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  #menu-toggle:checked ~ .nav-menu {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .nav-link {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .nav-link:hover {
+    background: var(--primary-bg);
+  }
+
+  .nav-buttons {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .mobile-only .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Content */
+  .hero {
+    padding: 100px 0 60px;
+    min-height: auto;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .hero-stat-value {
+    font-size: 24px;
+  }
+
+  .courses-grid,
+  .instructors-grid,
+  .blog-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-number {
+    font-size: 28px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .social-auth {
+    grid-template-columns: 1fr;
+  }
+
+  .courses-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .courses-filters {
+    width: 100%;
+  }
+
+  .filter-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .page-hero {
+    padding: 100px 0 40px;
+  }
+
+  .page-hero-title {
+    font-size: 28px;
+  }
+
+  .course-detail-hero {
+    padding: 100px 0 40px;
+  }
+
+  .course-detail-info h1 {
+    font-size: 26px;
+  }
+
+  .blog-article h1 {
+    font-size: 22px;
+  }
+
+  .auth-section {
+    padding: 100px 0 60px;
+  }
+
+  .auth-card {
+    padding: 28px 24px;
+  }
+
+  .contact-form {
+    padding: 28px 24px;
+  }
+
+  .cta-title {
+    font-size: 26px;
+  }
+
+  .cta {
+    padding: 60px 0;
+  }
+
+  .stats {
+    padding: 60px 0;
+  }
+
+  .faq-question {
+    font-size: 14px;
+    padding: 16px 20px;
+  }
+
+  .faq-answer {
+    padding: 0 20px 16px;
+  }
+
+  .map-container iframe {
+    height: 250px;
+  }
+
+  .instructor-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .instructor-card img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .mission-card,
+  .vision-card {
+    padding: 28px 24px;
+  }
+
+  .course-detail-sidebar {
+    position: static;
+  }
+
+  .curriculum-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stats-box {
+    gap: 20px;
+    padding: 16px 20px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+
+  .container,
+  .navbar {
+    padding: 0 16px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .page-hero-title {
+    font-size: 24px;
+  }
+
+  .pricing-card {
+    padding: 28px 20px;
+  }
+
+  .pricing-card.featured {
+    transform: none;
+  }
+
+  .pricing-price {
+    font-size: 36px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+  }
+
+  .contact-cta-box {
+    padding: 24px 20px;
+  }
+
+  .instructor-profile-card {
+    padding: 28px 20px;
+  }
+
+  .instructor-profile-sidebar img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .instructor-profile-card img {
+    width: 100px;
+    height: 100px;
+  }
+}

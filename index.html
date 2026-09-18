@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MinhThach Learning - Nền tảng E-Learning cao cấp với các khóa học lập trình, thiết kế, kinh doanh và hơn thế nữa. Bắt đầu hành trình học tập ngay hôm nay!" />
+  <meta name="keywords" content="e-learning, online courses, programming, design, business" />
+  <title>MinhThach Learning - Nền tảng E-Learning Cao cấp</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MinhThach<span> Learning</span>
+      </a>
+
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link active">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-ghost">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fas fa-graduation-cap"></i>
+            Chào mừng đến với MinhThach Learning
+          </div>
+          <h1 class="hero-title">
+            Phát huy tiềm năng của bạn với <span>khóa học trực tuyến</span> từ chuyên gia
+          </h1>
+          <p class="hero-text">
+            Học hỏi từ chuyên gia và thăng tiến sự nghiệp với thư viện khóa học toàn diện. Tham gia cùng hơn 50.000 học viên trên toàn thế giới.
+          </p>
+          <div class="hero-actions">
+            <a href="courses.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-rocket"></i> Bắt đầu ngay
+            </a>
+            <a href="pricing.html" class="btn btn-outline btn-lg">
+              <i class="fas fa-play-circle"></i> Xem gói học
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-value">50K+</div>
+              <div class="hero-stat-label">Học viên</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">500+</div>
+              <div class="hero-stat-label">Khóa học</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">98%</div>
+              <div class="hero-stat-label">Hài lòng</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <div class="hero-image-wrapper">
+            <img src="images/hero.jpg" alt="Học viên đang học trực tuyến" />
+            <div class="hero-image-card">
+              <div class="hero-image-card-avatar">
+                <i class="fas fa-user-graduate"></i>
+              </div>
+              <div>
+                <h4>2.500+ học viên đã ghi danh</h4>
+                <p>trong 24 giờ qua</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-th-large"></i> Danh mục
+          </div>
+          <h2 class="section-title">Khám phá các Danh mục Học tập</h2>
+          <p class="section-text">
+            Lựa chọn từ nhiều danh mục đa dạng, được thiết kế để đáp ứng mọi mục tiêu học tập của bạn.
+          </p>
+        </div>
+        <div class="categories-grid">
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-code"></i></div>
+            <h3 class="category-name">Lập trình</h3>
+            <p class="category-count">120+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3 class="category-name">Thiết kế</h3>
+            <p class="category-count">85+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-chart-line"></i></div>
+            <h3 class="category-name">Kinh doanh</h3>
+            <p class="category-count">95+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-robot"></i></div>
+            <h3 class="category-name">Trí tuệ nhân tạo</h3>
+            <p class="category-count">60+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3 class="category-name">Mobile App</h3>
+            <p class="category-count">45+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-cloud"></i></div>
+            <h3 class="category-name">Cloud & DevOps</h3>
+            <p class="category-count">40+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-camera"></i></div>
+            <h3 class="category-name">Nhiếp ảnh</h3>
+            <p class="category-count">35+ khóa học</p>
+          </a>
+          <a href="courses.html" class="category-card">
+            <div class="category-icon"><i class="fas fa-language"></i></div>
+            <h3 class="category-name">Ngoại ngữ</h3>
+            <p class="category-count">55+ khóa học</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURED COURSES ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-star"></i> Khóa học nổi bật
+          </div>
+          <h2 class="section-title">Các Khóa học Phổ biến nhất</h2>
+          <p class="section-text">
+            Khám phá những khóa học được yêu thích nhất, được giảng dạy bởi các chuyên gia hàng đầu trong ngành.
+          </p>
+        </div>
+
+        <div class="courses-grid">
+          <article class="course-card">
+            <div class="course-card-image">
+              <img src="images/course1.jpg" alt="Lập trình Web Bootcamp" />
+              <span class="course-card-badge badge-beginner">Cơ bản</span>
+              <button class="course-card-wishlist" aria-label="Yêu thích">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="course-card-body">
+              <div class="course-card-category">Lập trình</div>
+              <h3 class="course-card-title">
+                <a href="course-detail.html">Complete Lập trình Web Bootcamp 2024</a>
+              </h3>
+              <p class="course-card-description">
+                Học HTML, CSS, JavaScript, React, Node.js và nhiều hơn nữa. Xây dựng 10+ dự án thực tế.
+              </p>
+              <div class="course-card-instructor">
+                <img src="images/instructor1.jpg" alt="Sarah Johnson" />
+                <span class="course-card-instructor-name">Sarah Johnson</span>
+              </div>
+              <div class="course-card-meta">
+                <span class="course-card-meta-item">
+                  <i class="far fa-clock"></i> 32 giờ
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-signal"></i> Mọi trình độ
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-star"></i> 4.8
+                </span>
+              </div>
+            </div>
+            <div class="course-card-footer">
+              <span class="course-card-price">$49.99</span>
+              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
+            </div>
+          </article>
+
+          <article class="course-card">
+            <div class="course-card-image">
+              <img src="images/course3.jpg" alt="UI/UX Thiết kế" />
+              <span class="course-card-badge badge-beginner">Cơ bản</span>
+              <button class="course-card-wishlist" aria-label="Yêu thích">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="course-card-body">
+              <div class="course-card-category">Thiết kế</div>
+              <h3 class="course-card-title">
+                <a href="course-detail.html">UI/UX Thiết kế Fundamentals: From Zero to Hero</a>
+              </h3>
+              <p class="course-card-description">
+                Học các nguyên lý thiết kế, Figma, prototyping, nghiên cứu người dùng và tạo giao diện tuyệt đẹp.
+              </p>
+              <div class="course-card-instructor">
+                <img src="images/instructor3.jpg" alt="Emily Rodriguez" />
+                <span class="course-card-instructor-name">Emily Rodriguez</span>
+              </div>
+              <div class="course-card-meta">
+                <span class="course-card-meta-item">
+                  <i class="far fa-clock"></i> 28 giờ
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-signal"></i> Cơ bản
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-star"></i> 4.7
+                </span>
+              </div>
+            </div>
+            <div class="course-card-footer">
+              <span class="course-card-price">$39.99</span>
+              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
+            </div>
+          </article>
+
+          <article class="course-card">
+            <div class="course-card-image">
+              <img src="images/course1.jpg" alt="Data Science" />
+              <span class="course-card-badge badge-intermediate">Trung cấp</span>
+              <button class="course-card-wishlist" aria-label="Yêu thích">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="course-card-body">
+              <div class="course-card-category">Khoa học dữ liệu</div>
+              <h3 class="course-card-title">
+                <a href="course-detail.html">Data Science & Machine Learning với Python</a>
+              </h3>
+              <p class="course-card-description">
+                Làm chủ Python, Pandas, Scikit-learn, TensorFlow và các kỹ thuật ML hiện đại qua các dự án thực tế.
+              </p>
+              <div class="course-card-instructor">
+                <img src="images/instructor1.jpg" alt="David Chen" />
+                <span class="course-card-instructor-name">David Chen</span>
+              </div>
+              <div class="course-card-meta">
+                <span class="course-card-meta-item">
+                  <i class="far fa-clock"></i> 45 giờ
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-signal"></i> Trung cấp
+                </span>
+                <span class="course-card-meta-item">
+                  <i class="fas fa-star"></i> 4.9
+                </span>
+              </div>
+            </div>
+            <div class="course-card-footer">
+              <span class="course-card-price">$69.99</span>
+              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="text-center mt-40">
+          <a href="courses.html" class="btn btn-outline btn-lg">
+            <i class="fas fa-th-list"></i> Xem tất cả khóa học
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-number">50.000+</div>
+            <div class="stat-label">Học viên đang theo học</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-book"></i></div>
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Khóa học trực tuyến</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Giảng viên chuyên gia</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-globe"></i></div>
+            <div class="stat-number">120+</div>
+            <div class="stat-label">Quốc gia</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">
+            <i class="fas fa-quote-right"></i> Học viên nói gì
+          </div>
+          <h2 class="section-title">Hàng ngàn học viên đã tin tưởng</h2>
+          <p class="section-text">
+            Đọc những chia sẻ thực tế từ cộng đồng học viên đã thay đổi sự nghiệp nhờ MinhThach Learning.
+          </p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Khóa học lập trình web đã thay đổi hoàn toàn sự nghiệp của tôi. Chỉ sau 3 tháng, tôi đã xin được việc làm mới với mức lương tăng gấp đôi!"
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div>
+                <div class="testimonial-author-name">Nguyễn Văn An</div>
+                <div class="testimonial-author-role">Lập trình viên Front-end</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Giảng viên rất tận tình và chuyên nghiệp. Các bài học được thiết kế rất dễ hiểu, phù hợp với người mới bắt đầu như tôi."
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div>
+                <div class="testimonial-author-name">Trần Thị Mai</div>
+                <div class="testimonial-author-role">Nhà thiết kế UX/UI</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Khóa học Data Science cực kỳ chất lượng! Tôi đã áp dụng ngay kiến thức vào công việc và được sếp đánh giá rất cao."
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div>
+                <div class="testimonial-author-name">Lê Hoàng Nam</div>
+                <div class="testimonial-author-role">Kỹ sư dữ liệu</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta">
+      <div class="container">
+        <h2 class="cta-title">Sẵn sàng bắt đầu hành trình học tập?</h2>
+        <p class="cta-text">
+          Tham gia cùng hơn 50.000 học viên và bắt đầu học từ các giảng viên hàng đầu thế giới. Tương lai của bạn bắt đầu tại đây.
+        </p>
+        <div class="cta-actions">
+          <a href="register.html" class="btn btn-white btn-lg">
+            <i class="fas fa-user-plus"></i> Bắt đầu miễn phí
+          </a>
+          <a href="courses.html" class="btn btn-outline btn-lg" style="border-color: rgba(255,255,255,0.3);">
+            <i class="fas fa-play-circle"></i> Duyệt khóa học
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-icon">M</span>
+            MinhThach<span> Learning</span>
+          </a>
+          <p class="footer-description">
+            Nền tảng E-Learning hàng đầu, kết nối bạn với các chuyên gia và khóa học chất lượng cao từ khắp nơi trên thế giới.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Khóa học</h4>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Kinh doanh</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Trí tuệ nhân tạo</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Công ty</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Liên hệ</h4>
+          <ul class="footer-contact">
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh
+            </li>
+            <li>
+              <i class="fas fa-envelope"></i>
+              contact@minhthach.vn
+            </li>
+            <li>
+              <i class="fas fa-phone"></i>
+              +84 28 1234 5678
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth reveal animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.course-card, .category-card, .testimonial-card, .stat-item').forEach(el => {
+      // Items already in view get visible immediately
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add('fade-in-up');
+      } else {
+        el.style.opacity = '0';
+        observer.observe(el);
+      }
+    });
+  </script>
+</body>
+</html> 
