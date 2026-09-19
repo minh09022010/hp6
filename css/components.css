@@ -23,7 +23,11 @@
   border: none;
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
 }
-
+#submit-btn:disabled {
+  background-color: #94a3b8;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .btn-primary:hover {
   background: var(--primary);
   transform: translateY(-2px);
@@ -175,10 +179,6 @@
   margin-bottom: 6px;
 }
 
-.form-group label .required {
-  color: var(--error);
-}
-
 .form-input,
 .form-textarea,
 .form-select {
@@ -211,6 +211,26 @@
 .form-input::placeholder,
 .form-textarea::placeholder {
   color: var(--gray-300);
+}
+.form-input.valid {
+  border-color: #22c55e;
+}
+
+/* Viền đỏ khi SAI */
+.form-input.invalid {
+  border-color: #ef4444;
+}
+.form-group label .required {
+  color: var(--error);
+}
+.form-input.invalid:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-input.valid:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
 }
 
 .form-textarea {
@@ -399,4 +419,26 @@
   border-radius: var(--radius-full);
   background: var(--gradient-primary);
   transition: width 1s ease;
+}
+.error-msg {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
+.success-msg {
+  display: none;
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+  border-radius: 6px;
+  font-size: 13.5px;
+  text-align: center;
+}
+
+.success-msg.show {
+  display: block;
 }
