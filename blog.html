@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog MinhThach Learning - Mẹo, hướng dẫn và kiến thức về lập trình, thiết kế." />
+  <title>Blog - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MinhThach<span> Learning</span>
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link active">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current">Blog</span>
+      </nav>
+      <h1 class="page-hero-title">Blog của chúng tôi</h1>
+      <p class="page-hero-text">Kiến thức chuyên sâu, hướng dẫn và mẹo từ các giảng viên chuyên gia.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="courses-toolbar">
+        <div class="courses-count">Hiển thị <strong>1-6</strong> trong số <strong>48</strong> bài viết</div>
+        <div class="courses-filters">
+          <select class="filter-select">
+            <option>Tất cả danh mục</option>
+            <option>Lập trình</option><option>Khoa học dữ liệu</option><option>Thiết kế</option>
+            <option>Nghề nghiệp</option><option>Hướng dẫn</option>
+          </select>
+          <select class="filter-select">
+            <option>Mới nhất</option><option>Cũ nhất</option><option>Phổ biến nhất</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course1.jpg" alt="Lập trình Web" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">Lập trình</span><span><i class="far fa-calendar-alt"></i> 10/06/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">Top 10 Lập trình Web Trends in 2024</a></h3>
+            <p class="blog-card-excerpt">Khám phá những xu hướng phát triển web hàng đầu định hình ngành công nghiệp trong năm 2024.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">Sarah Johnson</span></div>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course2.jpg" alt="Machine Learning" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">Khoa học dữ liệu</span><span><i class="far fa-calendar-alt"></i> 08/06/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">Getting Started with Machine Learning</a></h3>
+            <p class="blog-card-excerpt">Học các kiến thức cơ bản về machine learning và xây dựng mô hình dự đoán đầu tiên với Python.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">Michael Chen</span></div>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course4.jpg" alt="React Native" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">Hướng dẫn</span><span><i class="far fa-calendar-alt"></i> 03/06/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">Build Your First React Native App</a></h3>
+            <p class="blog-card-excerpt">Làm theo hướng dẫn toàn diện này để xây dựng ứng dụng mobile đa nền tảng đầu tiên với React Native.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">David Kim</span></div>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course3.jpg" alt="UI/UX Design" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">Thiết kế</span><span><i class="far fa-calendar-alt"></i> 05/06/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">The Principles of Great UI/UX Design</a></h3>
+            <p class="blog-card-excerpt">Khám phá các nguyên tắc cơ bản của thiết kế giao diện người dùng và trải nghiệm người dùng.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">Emily Rodriguez</span></div>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course6.jpg" alt="Cybersecurity" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">An ninh mạng</span><span><i class="far fa-calendar-alt"></i> 28/05/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">Essential Cybersecurity Practices</a></h3>
+            <p class="blog-card-excerpt">Bảo vệ bản thân và dữ liệu với các thực hành bảo mật thiết yếu cho người làm việc từ xa.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">Marcus Brown</span></div>
+          </div>
+        </article>
+        <article class="blog-card">
+          <div class="blog-card-image"><img src="images/course5.jpg" alt="AWS Cloud" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta"><span class="blog-card-category">Cloud</span><span><i class="far fa-calendar-alt"></i> 20/05/2024</span></div>
+            <h3 class="blog-card-title"><a href="blog-detail.html">AWS vs Azure vs GCP: Which Cloud Platform?</a></h3>
+            <p class="blog-card-excerpt">So sánh ba nền tảng đám mây lớn nhất để giúp bạn chọn nền tảng phù hợp.</p>
+            <div class="blog-card-author"><div class="blog-card-avatar"><i class="fas fa-user"></i></div><span class="blog-card-author-name">Lisa Wang</span></div>
+          </div>
+        </article>
+      </div>
+
+      <nav class="pagination" aria-label="Phân trang">
+        <a href="#" class="next-prev"><i class="fas fa-chevron-left"></i> Trước</a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">...</a>
+        <a href="#">8</a>
+        <a href="#" class="next-prev">Sau <i class="fas fa-chevron-right"></i></a>
+      </nav>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

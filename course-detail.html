@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Complete Lập trình Web Bootcamp 2024 - Học HTML, CSS, JavaScript, React, Node.js." />
+  <title>Lập trình Web Bootcamp - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">M</span>
+        MinhThach<span> Learning</span>
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link active">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="course-detail-hero">
+    <div class="container">
+      <nav class="course-detail-breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="courses.html">Khóa học</a>
+        <i class="fas fa-chevron-right"></i>
+        <span style="color: var(--accent);">Lập trình Web Bootcamp</span>
+      </nav>
+      <div class="course-detail-header">
+        <div class="course-detail-info">
+          <span class="hero-badge" style="background: rgba(255,255,255,0.1); color: var(--accent);">
+            <i class="fas fa-code"></i> Lập trình
+          </span>
+          <h1>Complete Lập trình Web Bootcamp 2024</h1>
+          <p>Master full-stack web development from scratch. Learn HTML5, CSS3, JavaScript, React, Node.js, MongoDB, and more. Build 10+ production-ready projects.</p>
+          <div class="course-detail-meta">
+            <span class="course-detail-meta-item"><i class="fas fa-star"></i> 4.8 (2,450 đánh giá)</span>
+            <span class="course-detail-meta-item"><i class="fas fa-users"></i> 12,500+ đã ghi danh</span>
+            <span class="course-detail-meta-item"><i class="far fa-clock"></i> 32 giờ</span>
+            <span class="course-detail-meta-item"><i class="fas fa-signal"></i> Mọi trình độ</span>
+          </div>
+        </div>
+        <div class="course-detail-sidebar">
+          <img src="images/course1.jpg" alt="Lập trình Web Bootcamp" />
+          <div class="sidebar-content">
+            <div class="sidebar-price">$49.99 <span class="original">$99.99</span></div>
+            <p style="font-size:14px;color:var(--success);margin-bottom:16px"><i class="fas fa-clock"></i> 12 giờ còn lại với giá này!</p>
+            <a href="register.html" class="btn btn-primary btn-lg sidebar-btn"><i class="fas fa-shopping-cart"></i> Ghi danh ngay</a>
+            <div class="sidebar-includes">
+              <h4>Khóa học này bao gồm:</h4>
+              <ul>
+                <li><i class="fas fa-check"></i> 32 giờ video</li>
+                <li><i class="fas fa-check"></i> 120 tài nguyên tải về</li>
+                <li><i class="fas fa-check"></i> Truy cập trọn đời</li>
+                <li><i class="fas fa-check"></i> Chứng chỉ hoàn thành</li>
+                <li><i class="fas fa-check"></i> Bài tập & dự án</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="course-content-section">
+    <div class="container">
+      <div class="content-layout">
+        <div class="content-main">
+          <h2>Về khóa học này</h2>
+          <p>Chào mừng đến với Lập trình Web Bootcamp 2024 — khóa học duy nhất bạn cần để học phát triển web và trở thành full-stack developer chuyên nghiệp.</p>
+          <p>Với hơn 32 giờ nội dung video HD, 120+ tài liệu có thể tải và 10+ dự án thực tế, bạn sẽ có được kinh nghiệm thực tế xây dựng ứng dụng web hiện đại.</p>
+
+          <div class="curriculum">
+            <div class="curriculum-header">
+              <h2>Chương trình học</h2>
+              <span class="curriculum-count">32 giờ - 12 phần - 145 bài học</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-item-header">
+                <h4><i class="fas fa-play-circle" style="color:var(--primary);margin-right:8px"></i> Introduction to Web Development</h4>
+                <span>3 giờ - 12 bài</span>
+              </div>
+              <div class="curriculum-lessons">
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Welcome & Course Overview</span><span class="curriculum-lesson-duration">14:30</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> How the Internet Works</span><span class="curriculum-lesson-duration">18:45</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Setting Up Your Environment</span><span class="curriculum-lesson-duration">22:10</span></div>
+              </div>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-item-header">
+                <h4><i class="fas fa-play-circle" style="color:var(--primary);margin-right:8px"></i> HTML5 & Semantic Markup</h4>
+                <span>4 giờ - 15 bài</span>
+              </div>
+              <div class="curriculum-lessons">
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> HTML Document Structure</span><span class="curriculum-lesson-duration">16:20</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Semantic Elements & Accessibility</span><span class="curriculum-lesson-duration">20:15</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Forms & Input Validation</span><span class="curriculum-lesson-duration">28:30</span></div>
+              </div>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-item-header">
+                <h4><i class="fas fa-play-circle" style="color:var(--primary);margin-right:8px"></i> CSS3 & Modern Styling</h4>
+                <span>5 giờ - 20 bài</span>
+              </div>
+              <div class="curriculum-lessons">
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> CSS Selectors & Specificity</span><span class="curriculum-lesson-duration">19:45</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Flexbox & CSS Grid</span><span class="curriculum-lesson-duration">32:10</span></div>
+                <div class="curriculum-lesson"><span class="curriculum-lesson-left"><i class="fas fa-play-circle"></i> Responsive Design & Media Queries</span><span class="curriculum-lesson-duration">24:30</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="instructor-card">
+            <img src="images/instructor1.jpg" alt="Sarah Johnson" />
+            <div>
+              <h3>Sarah Johnson</h3>
+              <p class="role">Full-Stack Developer & Instructor</p>
+              <p>Senior developer với 10+ năm kinh nghiệm. Sarah đã dạy hơn 50,000 học viên trên toàn thế giới.</p>
+            </div>
+          </div>
+
+          <div class="reviews">
+            <h2>Đánh giá từ học viên</h2>
+            <div class="review-item">
+              <div class="review-header">
+                <div class="review-avatar"><i class="fas fa-user"></i></div>
+                <div><h4>John Anderson</h4><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                <span class="review-date">2 tuần trước</span>
+              </div>
+              <p class="review-text">"This is hands-down the best web development course I've ever taken. The projects are practical and the instructor explains complex concepts perfectly."</p>
+            </div>
+            <div class="review-item">
+              <div class="review-header">
+                <div class="review-avatar"><i class="fas fa-user"></i></div>
+                <div><h4>Maria Garcia</h4><div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                <span class="review-date">1 tháng trước</span>
+              </div>
+              <p class="review-text">"I love how the course is structured. Each section builds on the previous one. I've already recommended this course to my colleagues!"</p>
+            </div>
+          </div>
+        </div>
+        <aside class="blog-sidebar">
+          <div class="sidebar-widget">
+            <h3>Khóa học liên quan</h3>
+            <ul class="sidebar-posts">
+              <li>
+                <div class="sidebar-post-image"><img src="images/course2.jpg" alt="Data Science" /></div>
+                <div class="sidebar-post-content"><h4><a href="course-detail.html">Data Science & ML Bootcamp</a></h4><span class="sidebar-post-date">48 giờ</span></div>
+              </li>
+              <li>
+                <div class="sidebar-post-image"><img src="images/course3.jpg" alt="UI/UX Design" /></div>
+                <div class="sidebar-post-content"><h4><a href="course-detail.html">UI/UX Design Fundamentals</a></h4><span class="sidebar-post-date">28 giờ</span></div>
+              </li>
+              <li>
+                <div class="sidebar-post-image"><img src="images/course7.jpg" alt="Python" /></div>
+                <div class="sidebar-post-content"><h4><a href="course-detail.html">Python cho mọi người</a></h4><span class="sidebar-post-date">24 giờ</span></div>
+              </li>
+            </ul>
+          </div>
+          <div class="sidebar-widget">
+            <h3>Thông tin</h3>
+            <ul class="sidebar-categories">
+              <li><a href="#">Thời lượng <span>32 giờ</span></a></li>
+              <li><a href="#">Bài học <span>145</span></a></li>
+              <li><a href="#">Cấp độ <span>Mọi trình độ</span></a></li>
+              <li><a href="#">Ngôn ngữ <span>Tiếng Anh</span></a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
