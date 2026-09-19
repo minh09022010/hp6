@@ -1,211 +1,163 @@
+const registerForm = document.querySelector("form");
+const firstnameInput = document.getElementById("firstname");
+const lastnameInput = document.getElementById("lastname");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const confirmPassword = document.getElementById("confirm-password");
+const btnSubmit = document.getElementById("submit-btn");
+const successMsg = document.getElementById("success-msg");
+const termsInput = document.querySelector('input[name="terms"]');
 
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("registerForm");
+const errFirstname = document.getElementById("error-firstname");
+const errLastname = document.getElementById("error-lastname")
+const errEmail = document.getElementById("error-email");
+const errPassword = document.getElementById("error-password");
+const errConfirm = document.getElementById("error-confirm");
 
-    if (!form) {
-        console.error("Không tìm thấy form đăng ký.");
-        return;
-    }
+let isFirstNameValid = false;
+let isLastNameValid = false;
+let isEmailValid = false;
+let isPasswordValid = false;
+let isConfirmValid = false;
 
-    const firstnameInput = document.getElementById("firstname");
-    const lastnameInput = document.getElementById("lastname");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput =
-        document.getElementById("confirm-password");
+function updateFieldStatus(input, errElement, isValid, errorText) {
+  if (input.value.length === 0) {
+    // Chưa nhập gì -> viền xám mặc định, xóa lỗi
+    input.classList.remove("valid", "invalid");
+    errElement.textContent = "";
+  } else if (isValid) {
+    // Hợp lệ -> viền xanh
+    input.classList.add("valid");
+    input.classList.remove("invalid");
+    errElement.textContent = "";
+  } else {
+    // Sai -> viền đỏ, hiển thị lỗi
+    input.classList.add("invalid");
+    input.classList.remove("valid");
+    errElement.textContent = errorText;
+  }
+}
 
-    if (
-        !firstnameInput ||
-        !lastnameInput ||
-        !emailInput ||
-        !passwordInput ||
-        !confirmPasswordInput
-    ) {
-        console.error("Thiếu input trong form.");
-        return;
-    }
+function checkAllValid(){
+  if (
+    isFirstNameValid &&
+    isLastNameValid &&
+    isEmailValid &&
+    isPasswordValid &&
+    isConfirmValid&&
+    termsInput.checked
+) {
+    btnSubmit.disabled = false;
+} else {
+    btnSubmit.disabled = true;
+}
+}
+firstnameInput.addEventListener("input",()=>{
+    const val = firstnameInput.value 
+    const noSpace = !/\s/.test(val);
+    const regexVn =/^[\p{L}\s]{2,50}$/u;
+    isFirstNameValid = val.length >= 2 && noSpace && regexVn.test(val);
 
-    function getUsers() {
-        try {
-            const data = localStorage.getItem("users");
+  updateFieldStatus(
+    firstnameInput,
+    errFirstname,
+    isFirstNameValid,
+    "Họ phải từ 2 ký tự trở lên, viết liền không dấu cách và không chứa số"
+  );
+  checkAllValid();
+})
 
-            if (!data) {
-                return [];
-            }
+lastnameInput.addEventListener("input", () => {
+    const val = lastnameInput.value 
+    const regexVn = /^[\p{L}\s]{2,50}$/u;
+    isLastNameValid = val.length >= 2 && regexVn.test(val);
 
-            const users = JSON.parse(data);
+  updateFieldStatus(
+    lastnameInput,
+    errLastname,
+    isLastNameValid,
+    "Tên không chứa số, ký tự đặc biệt và phải từ 2 ký tự trở lên"
+  );
+  checkAllValid();
+})
 
-            return Array.isArray(users) ? users : [];
-        } catch (error) {
-            console.error(error);
-            alert("Dữ liệu tài khoản bị lỗi.");
-            return [];
-        }
-    }
+emailInput.addEventListener("input", () => {
+  const val = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  isEmailValid = emailRegex.test(val);
 
-    function saveUsers(users) {
-        try {
-            localStorage.setItem(
-                "users",
-                JSON.stringify(users)
-            );
+  updateFieldStatus(
+    emailInput,
+    errEmail,
+    isEmailValid,
+    "Email không đúng định dạng (cần có @ và .)"
+  );
+  checkAllValid();
+});
 
-            return true;
-        } catch (error) {
-            console.error(error);
-            alert("Không thể lưu tài khoản.");
-            return false;
-        }
-    }
+passwordInput.addEventListener("input", () => {
+  const val = passwordInput.value;
 
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+  const hasLength = val.length >= 8;
+  const hasUpper = /[A-Z]/.test(val);
+  const hasLower = /[a-z]/.test(val);
+  const hasNumber = /[0-9]/.test(val);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(val);
 
-    function isValidName(name) {
-        return /^[\p{L}\s]+$/u.test(name);
-    }
+  isPasswordValid = hasLength && hasUpper && hasLower && hasNumber && hasSpecial;
 
-    function isValidPassword(password) {
-        if (password.length < 8) {
-            return "Mật khẩu phải có ít nhất 8 ký tự.";
-        }
+  updateFieldStatus(
+    passwordInput,
+    errPassword,
+    isPasswordValid,
+    "Cần 8+ ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt"
+  );
 
-        if (/\s/.test(password)) {
-            return "Mật khẩu không được chứa khoảng trắng.";
-        }
+  // Nếu ô xác nhận mật khẩu đã được gõ thì kiểm tra lại khớp không
+  if (confirmPassword.value.length > 0) {
+    isConfirmValid = confirmPassword.value === passwordInput.value;
+    updateFieldStatus(
+      confirmPassword,
+      errConfirm,
+      isConfirmValid,
+      "Mật khẩu xác nhận không trùng khớp"
+    );
+  }
 
-        if (!/[A-Za-z]/.test(password)) {
-            return "Mật khẩu phải chứa ít nhất một chữ cái.";
-        }
+  checkAllValid();
+});
 
-        if (!/[0-9]/.test(password)) {
-            return "Mật khẩu phải chứa ít nhất một chữ số.";
-        }
+confirmPassword.addEventListener("input", () => {
+  isConfirmValid = confirmPassword.value.length > 0 && confirmPassword.value === passwordInput.value;
 
-        return null;
-    }
+  updateFieldStatus(
+    confirmPassword,
+    errConfirm,
+    isConfirmValid,
+    "Mật khẩu xác nhận không trùng khớp"
+  );
+  checkAllValid();
+});
+termsInput.addEventListener("change", () => {
+    checkAllValid();
+});
+function validateAllFields() {
+    firstnameInput.dispatchEvent(new Event("input"));
+    lastnameInput.dispatchEvent(new Event("input"));
+    emailInput.dispatchEvent(new Event("input"));
+    passwordInput.dispatchEvent(new Event("input"));
+    confirmPassword.dispatchEvent(new Event("input"));
+    checkAllValid();
+}
 
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
+validateAllFields();
+registerForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    // Hiển thị thông báo thành công
+    successMsg.classList.add("show");
 
-        try {
-            const firstname = firstnameInput.value.trim();
-            const lastname = lastnameInput.value.trim();
-            const email = emailInput.value.trim().toLowerCase();
-            const password = passwordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-
-            if (!firstname) {
-                alert("Vui lòng nhập tên.");
-                firstnameInput.focus();
-                return;
-            }
-
-            if (!lastname) {
-                alert("Vui lòng nhập họ.");
-                lastnameInput.focus();
-                return;
-            }
-
-            if (!email) {
-                alert("Vui lòng nhập email.");
-                emailInput.focus();
-                return;
-            }
-
-            if (!password) {
-                alert("Vui lòng nhập mật khẩu.");
-                passwordInput.focus();
-                return;
-            }
-
-            if (!confirmPassword) {
-                alert("Vui lòng xác nhận mật khẩu.");
-                confirmPasswordInput.focus();
-                return;
-            }
-
-            if (!isValidName(firstname)) {
-                alert("Tên không được chứa số hoặc ký tự đặc biệt.");
-                firstnameInput.focus();
-                return;
-            }
-
-            if (!isValidName(lastname)) {
-                alert("Họ không được chứa số hoặc ký tự đặc biệt.");
-                lastnameInput.focus();
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                alert("Địa chỉ email không hợp lệ.");
-                emailInput.focus();
-                return;
-            }
-
-            const passwordError = isValidPassword(password);
-
-            if (passwordError) {
-                alert(passwordError);
-                passwordInput.focus();
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                alert("Mật khẩu xác nhận không khớp.");
-                confirmPasswordInput.focus();
-                return;
-            }
-
-            const terms = form.querySelector(
-                'input[name="terms"]'
-            );
-
-            if (terms && !terms.checked) {
-                alert("Bạn phải đồng ý với điều khoản.");
-                terms.focus();
-                return;
-            }
-
-            const users = getUsers();
-
-            const emailExists = users.some(
-                user =>
-                    user &&
-                    typeof user.email === "string" &&
-                    user.email.toLowerCase() === email
-            );
-            if (emailExists) {
-                alert("Email này đã được đăng ký.");
-                emailInput.focus();
-                return;
-            }
-            const newUser = {
-                id: crypto.randomUUID
-                    ? crypto.randomUUID()
-                    : Date.now().toString(),
-                firstname,
-                lastname,
-                email,
-                password,
-                createdAt: new Date().toISOString()
-            };
-
-            users.push(newUser);
-
-            if (!saveUsers(users)) {
-                return;
-            }
-            alert("Đăng ký tài khoản thành công!");
-
-            form.reset();
-
-            window.location.href = "login.html";
-
-        } catch (error) {
-            console.error(error);
-            alert("Đã xảy ra lỗi. Vui lòng thử lại.");
-        }
-    });
+  // Ẩn thông báo sau 4 giây
+    setTimeout(() => {
+        successMsg.classList.remove("show");
+    }, 4000);
 });
