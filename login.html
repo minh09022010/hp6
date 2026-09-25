@@ -22,8 +22,7 @@
   <header class="header">
     <nav class="navbar">
       <a href="index.html" class="logo">
-        <span class="logo-icon">M</span>
-        MinhThach<span> Learning</span>
+        <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
       </a>
       <input type="checkbox" id="menu-toggle" />
       <label for="menu-toggle" class="menu-toggle">
@@ -56,7 +55,8 @@
           <h1>Chào mừng trở lại</h1>
           <p>Đăng nhập để tiếp tục hành trình học tập</p>
         </div>
-        <form action="#" method="post">
+        <form action="#" method="post" novalidate>
+          <div class="error-msg" id="login-error" style="margin-bottom: 10px;"></div>
           <div class="form-group">
             <label for="email">Địa chỉ Email <span class="required">*</span></label>
             <input type="email" id="email" name="email" class="form-input" placeholder="email@vi-du.com" required />
@@ -66,7 +66,7 @@
             <input type="password" id="password" name="password" class="form-input" placeholder="Nhập mật khẩu" required />
           </div>
           <div class="auth-forgot">
-            <a href="#">Quên mật khẩu?</a>
+            <a href="#" id="forgot-link">Quên mật khẩu?</a>
           </div>
           <div class="form-group">
             <label class="form-checkbox">
@@ -89,7 +89,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
           <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -114,5 +114,11 @@
     </div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
 </body>
 </html>

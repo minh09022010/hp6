@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trang quản trị - MinhThach Learning." />
+  <title>Quản trị - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only"></li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="admin-section">
+    <div class="container">
+      <div class="admin-header">
+        <h1><i class="fas fa-cog"></i> Trang quản trị</h1>
+        <p>Quản lý tài khoản, khóa học và hồ sơ giảng viên của hệ thống</p>
+      </div>
+
+      <div class="admin-warning" id="firestore-warning" style="display:none">
+        ⚠️ <strong>Firestore bị chặn</strong> — danh sách đang đọc từ session cache, có thể thiếu user mới.
+        Hãy publish rules mở trong Console → Firestore Database → Rules rồi tải lại trang.
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="users"><i class="fas fa-users"></i> Người dùng</button>
+        <button class="admin-tab" data-tab="courses"><i class="fas fa-book"></i> Khóa học</button>
+        <button class="admin-tab" data-tab="instructors"><i class="fas fa-chalkboard-teacher"></i> Giảng viên</button>
+      </div>
+
+      <!-- TAB USERS -->
+      <div class="admin-panel active" id="panel-users">
+        <div class="admin-stats" id="user-stats">
+          <div class="stat-card stat-total">
+            <i class="fas fa-users"></i>
+            <div>
+              <div class="stat-value" id="stat-total">0</div>
+              <div class="stat-label">Tổng người dùng</div>
+            </div>
+          </div>
+          <div class="stat-card stat-admin">
+            <i class="fas fa-user-shield"></i>
+            <div>
+              <div class="stat-value" id="stat-admin">0</div>
+              <div class="stat-label">Quản trị viên</div>
+            </div>
+          </div>
+          <div class="stat-card stat-teacher">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <div>
+              <div class="stat-value" id="stat-teacher">0</div>
+              <div class="stat-label">Giảng viên</div>
+            </div>
+          </div>
+          <div class="stat-card stat-student">
+            <i class="fas fa-user-graduate"></i>
+            <div>
+              <div class="stat-value" id="stat-student">0</div>
+              <div class="stat-label">Học viên</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <input type="text" id="search-users" class="form-input" placeholder="Tìm theo tên / email..." />
+          <select id="filter-role" class="form-input admin-filter-select">
+            <option value="">Tất cả quyền</option>
+            <option value="admin">Quản trị viên</option>
+            <option value="teacher">Giảng viên</option>
+            <option value="student">Học viên</option>
+          </select>
+          <button id="btn-new-user" class="btn btn-primary btn-sm"><i class="fas fa-user-plus"></i> Tạo tài khoản</button>
+          <button id="btn-test-accounts" class="btn btn-outline btn-sm" title="Tạo nhanh 3 tài khoản thử nghiệm (mật khẩu chung: Test@1234)"><i class="fas fa-flask"></i> Tạo nhanh TK test</button>
+          <button id="refresh-users" class="btn btn-outline btn-sm"><i class="fas fa-sync-alt"></i> Tải lại</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Người dùng</th>
+                <th>Quyền</th>
+                <th>Ngày tạo</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="4">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB COURSES -->
+      <div class="admin-panel" id="panel-courses">
+        <div class="admin-toolbar">
+          <button id="btn-new-course" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Thêm khóa học</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Khóa học</th>
+                <th>Giảng viên</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="courses-tbody">
+              <tr><td colspan="5">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB INSTRUCTORS -->
+      <div class="admin-panel" id="panel-instructors">
+        <div class="admin-toolbar">
+          <p style="margin:0; font-size:13.5px; color:#64748b" id="instructors-hint">
+            Cấp quyền <strong>Giảng viên</strong> cho tài khoản, và bấm <strong>"Sửa hồ sơ"</strong> để cập nhật hồ sơ công khai hiển thị ở trang Giảng viên.
+          </p>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Người dùng</th>
+                <th>Quyền hiện tại</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="perm-tbody">
+              <tr><td colspan="3">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal tạo tài khoản phụ -->
+  <div class="admin-modal" id="user-modal" style="display:none">
+    <div class="admin-modal-box">
+      <h3 id="user-modal-title">Tạo tài khoản phụ</h3>
+      <p class="admin-modal-hint">Tài khoản tạo ở đây dùng để thử nghiệm quản lý (cấp/thu hồi quyền, xóa hồ sơ...).</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tên *</label>
+          <input type="text" id="new-user-firstname" class="form-input" placeholder="Nguyễn" />
+        </div>
+        <div class="form-group">
+          <label>Họ *</label>
+          <input type="text" id="new-user-lastname" class="form-input" placeholder="Văn A" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="new-user-email" class="form-input" placeholder="email@vi-du.com" />
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu *</label>
+        <input type="password" id="new-user-password" class="form-input" placeholder="8+ ký tự, có hoa/thường/số/ký tự đặc biệt" />
+      </div>
+      <p class="admin-modal-hint">Mật khẩu sẽ được lưu vào hồ sơ để admin xem lại qua nút "👁 MK" trong bảng — chỉ dùng cho tài khoản thử nghiệm.</p>
+      <div class="form-group">
+        <label>Quyền</label>
+        <select id="new-user-role" class="form-input">
+          <option value="student">Học viên</option>
+          <option value="teacher">Giảng viên</option>
+        </select>
+      </div>
+      <div class="admin-modal-actions">
+        <button class="btn btn-outline" id="user-cancel">Hủy</button>
+        <button class="btn btn-primary" id="user-save">Tạo tài khoản</button>
+      </div>
+      <div class="error-msg" id="user-error"></div>
+    </div>
+  </div>
+
+  <!-- Modal thêm/sửa khóa học (đầy đủ) -->
+  <div class="admin-modal" id="course-modal" style="display:none">
+    <div class="admin-modal-box admin-modal-box-lg">
+      <h3 id="course-modal-title">Thêm khóa học</h3>
+
+      <div class="form-group">
+        <label>Tên khóa học *</label>
+        <input type="text" id="course-title" class="form-input" placeholder="VD: Lập trình Web cơ bản" />
+      </div>
+      <div class="form-group">
+        <label>Mô tả ngắn (hiển thị ở card khóa học)</label>
+        <input type="text" id="course-desc" class="form-input" placeholder="Mô tả ngắn gọn về khóa học" />
+      </div>
+      <div class="form-group">
+        <label>Mô tả chi tiết (mỗi dòng = 1 đoạn văn, hiển thị ở trang chi tiết)</label>
+        <textarea id="course-longdesc" class="form-input form-textarea" style="min-height:90px" placeholder="Dòng 1: giới thiệu khóa học...&#10;Dòng 2: học viên sẽ nhận được gì..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Danh mục</label>
+          <select id="course-category" class="form-input"></select>
+        </div>
+        <div class="form-group">
+          <label>Cấp độ</label>
+          <select id="course-level" class="form-input"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Thời lượng (giờ)</label>
+          <input type="number" id="course-duration" class="form-input" min="0" placeholder="VD: 32" />
+        </div>
+        <div class="form-group">
+          <label>Số bài học</label>
+          <input type="number" id="course-lessons" class="form-input" min="0" placeholder="VD: 145" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Giá (VNĐ)</label>
+          <input type="number" id="course-price" class="form-input" placeholder="0 = miễn phí" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Giá gốc (VNĐ, 0 = ẩn)</label>
+          <input type="number" id="course-original-price" class="form-input" placeholder="VD: 9999000" min="0" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Trạng thái</label>
+          <select id="course-status" class="form-input">
+            <option value="published">Xuất bản</option>
+            <option value="draft">Nháp</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Giảng viên phụ trách</label>
+          <select id="course-teacher" class="form-input"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ảnh khóa học (đường dẫn)</label>
+          <select id="course-image" class="form-input"></select>
+        </div>
+        <div class="form-group">
+          <label>Ngôn ngữ</label>
+          <input type="text" id="course-language" class="form-input" value="Tiếng Việt" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Đánh giá (0-5)</label>
+          <input type="number" id="course-rating" class="form-input" min="0" max="5" step="0.1" placeholder="VD: 4.8" />
+        </div>
+        <div class="form-group">
+          <label>Số lượt đánh giá</label>
+          <input type="number" id="course-reviews-count" class="form-input" min="0" placeholder="VD: 2450" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Số học viên đã ghi danh</label>
+        <input type="number" id="course-students-count" class="form-input" min="0" placeholder="VD: 12500" />
+      </div>
+
+      <div class="form-group">
+        <label>Khóa học bao gồm (mỗi dòng = 1 mục)</label>
+        <textarea id="course-includes" class="form-input form-textarea" style="min-height:80px" placeholder="32 giờ video&#10;120 tài nguyên tải về..."></textarea>
+      </div>
+
+      <!-- Chương trình học -->
+      <div class="admin-subsection">
+        <div class="admin-subsection-head">
+          <h4><i class="fas fa-list-ol"></i> Chương trình học</h4>
+          <button type="button" class="btn btn-outline btn-xs" id="btn-add-section"><i class="fas fa-plus"></i> Thêm phần</button>
+        </div>
+        <p class="admin-modal-hint">Mỗi phần có tiêu đề, thời lượng và danh sách bài học — mỗi dòng 1 bài theo dạng <code>Tên bài | 14:30</code>.</p>
+        <div id="course-curriculum-list"></div>
+      </div>
+
+      <!-- Đánh giá -->
+      <div class="admin-subsection">
+        <div class="admin-subsection-head">
+          <h4><i class="fas fa-star"></i> Đánh giá mẫu từ học viên</h4>
+          <button type="button" class="btn btn-outline btn-xs" id="btn-add-review"><i class="fas fa-plus"></i> Thêm đánh giá</button>
+        </div>
+        <div id="course-reviews-list"></div>
+      </div>
+
+      <div class="admin-modal-actions">
+        <button class="btn btn-outline" id="course-cancel">Hủy</button>
+        <button class="btn btn-primary" id="course-save">Lưu khóa học</button>
+      </div>
+      <div class="error-msg" id="course-error"></div>
+    </div>
+  </div>
+
+  <!-- Modal hồ sơ giảng viên (2 cột: form + xem trước trực tiếp) -->
+  <div class="admin-modal" id="teacher-modal" style="display:none">
+    <div class="admin-modal-box admin-modal-box-lg">
+      <div class="teacher-modal-grid">
+        <div class="teacher-modal-form">
+          <h3 id="teacher-modal-title">Sửa hồ sơ giảng viên</h3>
+          <p class="admin-modal-hint">Hồ sơ hiển thị công khai ở trang <strong>Giảng viên</strong> và phần giảng viên trong trang chi tiết khóa học.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Chức danh</label>
+              <input type="text" id="teacher-title" class="form-input" placeholder="VD: Full-Stack Developer" />
+            </div>
+            <div class="form-group">
+              <label>Số năm kinh nghiệm</label>
+              <input type="text" id="teacher-experience" class="form-input" placeholder="VD: 10+" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Ảnh đại diện</label>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+              <select id="teacher-image" class="form-input" style="flex:1; min-width:180px"></select>
+              <input type="file" id="teacher-image-file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+              <button type="button" class="btn btn-outline btn-sm" id="btn-teacher-image-upload">
+                <i class="fas fa-upload"></i> Tải ảnh lên
+              </button>
+            </div>
+            <div class="error-msg" id="error-teacher-image"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Giới thiệu ngắn (hiển thị ở card giảng viên)</label>
+            <textarea id="teacher-bio" class="form-input form-textarea" style="min-height:64px" placeholder="1-2 câu giới thiệu ngắn gọn..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Về tôi (mỗi dòng = 1 đoạn văn, hiển thị ở trang hồ sơ)</label>
+            <textarea id="teacher-about" class="form-input form-textarea" style="min-height:96px" placeholder="Dòng 1: hành trình nghề nghiệp...&#10;Dòng 2: triết lý giảng dạy..."></textarea>
+          </div>
+
+          <div class="admin-subsection">
+            <div class="admin-subsection-head">
+              <h4><i class="fas fa-tools"></i> Kỹ năng</h4>
+              <button type="button" class="btn btn-outline btn-xs" id="btn-add-skill"><i class="fas fa-plus"></i> Thêm kỹ năng</button>
+            </div>
+            <div id="teacher-skills-list"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Số học viên</label>
+              <input type="number" id="teacher-students" class="form-input" min="0" placeholder="VD: 50000" />
+            </div>
+            <div class="form-group">
+              <label>Đánh giá trung bình (0-5)</label>
+              <input type="number" id="teacher-rating" class="form-input" min="0" max="5" step="0.1" placeholder="VD: 4.9" />
+            </div>
+          </div>
+
+          <div class="admin-subsection">
+            <div class="admin-subsection-head">
+              <h4><i class="fas fa-share-alt"></i> Mạng xã hội (không bắt buộc)</h4>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><input type="url" id="teacher-twitter" class="form-input" placeholder="Twitter/X URL" /></div>
+              <div class="form-group"><input type="url" id="teacher-linkedin" class="form-input" placeholder="LinkedIn URL" /></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><input type="url" id="teacher-github" class="form-input" placeholder="GitHub URL" /></div>
+              <div class="form-group"><input type="url" id="teacher-facebook" class="form-input" placeholder="Facebook URL" /></div>
+            </div>
+          </div>
+
+          <div class="admin-modal-actions">
+            <button class="btn btn-outline" id="teacher-cancel">Hủy</button>
+            <button class="btn btn-primary" id="teacher-save"><i class="fas fa-save"></i> Lưu hồ sơ</button>
+          </div>
+          <div class="error-msg" id="teacher-error"></div>
+        </div>
+
+        <!-- Xem trước trực tiếp -->
+        <aside class="teacher-preview" id="teacher-preview">
+          <h4><i class="fas fa-eye"></i> Xem trước hồ sơ</h4>
+          <img id="preview-avatar" src="images/instructor1.jpg" alt="Ảnh đại diện" />
+          <h5 id="preview-name">Giảng viên</h5>
+          <p class="role" id="preview-title">Chức danh</p>
+          <p class="preview-bio" id="preview-bio">Giới thiệu ngắn sẽ hiển thị ở đây.</p>
+          <div class="instructor-profile-stats">
+            <div>
+              <div class="instructor-profile-stat-value" id="preview-students">0+</div>
+              <div class="instructor-profile-stat-label">Học viên</div>
+            </div>
+            <div>
+              <div class="instructor-profile-stat-value" id="preview-rating">—</div>
+              <div class="instructor-profile-stat-label">Đánh giá</div>
+            </div>
+          </div>
+          <div id="preview-skills"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
+          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

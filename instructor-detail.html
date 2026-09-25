@@ -22,8 +22,7 @@
   <header class="header">
     <nav class="navbar">
       <a href="index.html" class="logo">
-        <span class="logo-icon">M</span>
-        MinhThach<span> Learning</span>
+        <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
       </a>
       <input type="checkbox" id="menu-toggle" />
       <label for="menu-toggle" class="menu-toggle">
@@ -56,10 +55,10 @@
         <i class="fas fa-chevron-right"></i>
         <a href="instructors.html">Giảng viên</a>
         <i class="fas fa-chevron-right"></i>
-        <span class="current">Sarah Johnson</span>
+        <span class="current" id="profile-breadcrumb">Giảng viên</span>
       </nav>
       <h1 class="page-hero-title">Hồ sơ giảng viên</h1>
-      <p class="page-hero-text">Tìm hiểu về giảng viên và triết lý giảng dạy của họ.</p>
+      <p class="page-hero-text" id="profile-hero-name"></p>
     </div>
   </section>
 
@@ -67,107 +66,42 @@
     <div class="container">
       <div class="instructor-profile">
         <div class="instructor-profile-sidebar">
-          <img src="images/instructor1.jpg" alt="Sarah Johnson" />
-          <h1>Sarah Johnson</h1>
-          <p class="role">Full-Stack Developer</p>
-          <div class="social-links">
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-          </div>
+          <img id="profile-image" src="" alt="" />
+          <h1 id="profile-name"></h1>
+          <p class="role" id="profile-role"></p>
+          <div class="social-links" id="profile-social"></div>
+          <a id="profile-edit-btn" href="admin.html" class="btn btn-primary btn-sm" style="display:none; margin-top:16px; width:100%">
+            <i class="fas fa-user-edit"></i> Sửa hồ sơ giảng viên
+          </a>
         </div>
         <div class="instructor-profile-main">
           <div class="stats-box">
-            <div><div class="stat-counter-value">50,000+</div><div class="stat-counter-label">Học viên</div></div>
-            <div><div class="stat-counter-value">8</div><div class="stat-counter-label">Khóa học</div></div>
-            <div><div class="stat-counter-value">4.9</div><div class="stat-counter-label">Đánh giá</div></div>
-            <div><div class="stat-counter-value">10+</div><div class="stat-counter-label">Năm KN</div></div>
+            <div>
+              <div class="stat-counter-value" id="profile-students"></div>
+              <div class="stat-counter-label">Học viên</div>
+            </div>
+            <div>
+              <div class="stat-counter-value" id="profile-courses-count"></div>
+              <div class="stat-counter-label">Khóa học</div>
+            </div>
+            <div>
+              <div class="stat-counter-value" id="profile-rating"></div>
+              <div class="stat-counter-label">Đánh giá</div>
+            </div>
+            <div>
+              <div class="stat-counter-value" id="profile-experience"></div>
+              <div class="stat-counter-label">Năm KN</div>
+            </div>
           </div>
 
           <h2>Về tôi</h2>
-          <p>Tôi là một Full-Stack Developer với hơn 10 năm kinh nghiệm xây dựng ứng dụng web cho các công ty Fortune 500. Tôi đam mê giảng dạy và giúp đỡ người khác phát triển kỹ năng lập trình.</p>
-          <p>Các khóa học của tôi được thiết kế để đưa bạn từ người mới bắt đầu trở thành lập trình viên chuyên nghiệp thông qua các dự án thực tế.</p>
+          <div id="profile-about"></div>
 
           <h2>Kỹ năng</h2>
-          <div class="skills">
-            <div class="skill-item">
-              <div class="skill-header"><span>HTML5 & CSS3</span><span>95%</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-header"><span>JavaScript & TypeScript</span><span>92%</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-header"><span>React & Next.js</span><span>90%</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div>
-            </div>
-            <div class="skill-item">
-              <div class="skill-header"><span>Node.js & Python</span><span>85%</span></div>
-              <div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div>
-            </div>
-          </div>
+          <div class="skills" id="profile-skills"></div>
 
-          <h2 style="margin-top:50px">Khóa học của Sarah</h2>
-          <div class="courses-grid" style="margin-top:24px">
-            <article class="course-card">
-              <div class="course-card-image">
-                <img src="images/course1.jpg" alt="Lập trình Web" />
-                <span class="course-card-badge badge-beginner">Cơ bản</span>
-              </div>
-              <div class="course-card-body">
-                <div class="course-card-category">Lập trình</div>
-                <h3 class="course-card-title"><a href="course-detail.html">Complete Lập trình Web Bootcamp 2024</a></h3>
-                <p class="course-card-description">Học HTML, CSS, JavaScript, React, Node.js. Xây dựng 10+ dự án thực tế.</p>
-                <div class="course-card-meta">
-                  <span class="course-card-meta-item"><i class="far fa-clock"></i> 32 giờ</span>
-                  <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.8</span>
-                </div>
-              </div>
-              <div class="course-card-footer">
-                <span class="course-card-price">$49.99</span>
-                <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-              </div>
-            </article>
-            <article class="course-card">
-              <div class="course-card-image">
-                <img src="images/course7.jpg" alt="Python" />
-                <span class="course-card-badge badge-beginner">Cơ bản</span>
-              </div>
-              <div class="course-card-body">
-                <div class="course-card-category">Lập trình</div>
-                <h3 class="course-card-title"><a href="course-detail.html">Python cho mọi người</a></h3>
-                <p class="course-card-description">Học Python từ cơ bản đến nâng cao: OOP, APIs, tự động hóa.</p>
-                <div class="course-card-meta">
-                  <span class="course-card-meta-item"><i class="far fa-clock"></i> 24 giờ</span>
-                  <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.7</span>
-                </div>
-              </div>
-              <div class="course-card-footer">
-                <span class="course-card-price">$29.99</span>
-                <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-              </div>
-            </article>
-            <article class="course-card">
-              <div class="course-card-image">
-                <img src="images/course8.jpg" alt="Advanced JS" />
-                <span class="course-card-badge badge-advanced">Nâng cao</span>
-              </div>
-              <div class="course-card-body">
-                <div class="course-card-category">Lập trình</div>
-                <h3 class="course-card-title"><a href="course-detail.html">Advanced JavaScript: Patterns & Performance</a></h3>
-                <p class="course-card-description">Master advanced JavaScript patterns and performance optimization.</p>
-                <div class="course-card-meta">
-                  <span class="course-card-meta-item"><i class="far fa-clock"></i> 18 giờ</span>
-                  <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.9</span>
-                </div>
-              </div>
-              <div class="course-card-footer">
-                <span class="course-card-price">$44.99</span>
-                <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-              </div>
-            </article>
-          </div>
+          <h2 style="margin-top:50px" id="courses-title">Khóa học của giảng viên</h2>
+          <div class="courses-grid" style="margin-top:24px" id="profile-courses"></div>
         </div>
       </div>
     </div>
@@ -177,7 +111,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
           <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -202,5 +136,12 @@
     </div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script src="js/instructor-detail.js"></script>
 </body>
 </html>

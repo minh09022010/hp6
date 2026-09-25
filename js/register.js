@@ -151,13 +151,49 @@ function validateAllFields() {
 }
 
 validateAllFields();
-registerForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    // Hiển thị thông báo thành công
+registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Đảm bảo tất cả field hợp lệ trước khi gửi lên server
+    validateAllFields();
+    if (!checkAllValidSilently()) return;
+
+    // Khóa nút trong lúc chờ Firebase
+    btnSubmit.disabled = true;
+
+    // Tạo tài khoản trên Firebase (Auth) + lưu hồ sơ lên Firestore (server)
+    const result = await addUser({
+      firstname: firstnameInput.value,
+      lastname: lastnameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    });
+
+    if (!result.ok) {
+      // VD: email đã tồn tại, mật khẩu yếu... -> báo lỗi dưới ô email
+      isEmailValid = false;
+      updateFieldStatus(emailInput, errEmail, false, result.error);
+      checkAllValid();
+      return;
+    }
+
+    // Đã tự động đăng nhập trong addUser() -> hiện thông báo thành công
     successMsg.classList.add("show");
 
-  // Ẩn thông báo sau 4 giây
+    // Chuyển về trang chủ sau 1.2 giây
     setTimeout(() => {
-        successMsg.classList.remove("show");
-    }, 4000);
+        window.location.href = "index.html";
+    }, 1200);
 });
+
+// Kiểm tra hợp lệ mà không cần dispatch lại event (dùng trước khi lưu)
+function checkAllValidSilently() {
+  return (
+    isFirstNameValid &&
+    isLastNameValid &&
+    isEmailValid &&
+    isPasswordValid &&
+    isConfirmValid &&
+    termsInput.checked
+  );
+}

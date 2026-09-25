@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tạo tài khoản MinhThach Learning và bắt đầu học tập ngay hôm nay." />
-  <title>Đăng ký - MinhThach Learning</title>
+  <meta name="description" content="Hồ sơ cá nhân - MinhThach Learning." />
+  <title>Hồ sơ cá nhân - MinhThach Learning</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -36,10 +36,7 @@
         <li><a href="blog.html" class="nav-link">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
-        <li class="mobile-only">
-          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
-          <a href="register.html" class="btn btn-primary active">Đăng ký</a>
-        </li>
+        <li class="mobile-only"></li>
       </ul>
       <div class="nav-buttons">
         <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
@@ -52,53 +49,86 @@
     <div class="auth-container">
       <div class="auth-card">
         <div class="auth-header">
-          <h1>Tạo tài khoản</h1>
-          <p>Bắt đầu hành trình học tập ngay hôm nay — hoàn toàn miễn phí!</p>
+          <h1><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</h1>
+          <p>Xem và cập nhật thông tin tài khoản của bạn</p>
         </div>
-        <form action="#" method="post">
+
+        <!-- Thông tin tài khoản -->
+        <div id="account-info" style="background:var(--light, #f8fafc); border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13.5px;">
+        </div>
+
+        <!-- Ảnh đại diện -->
+        <h3 style="margin-bottom:12px;"><i class="fas fa-image"></i> Ảnh đại diện</h3>
+        <div class="avatar-upload">
+          <img id="avatar-preview" class="avatar-upload-preview" src="" alt="Ảnh đại diện" />
+          <div class="avatar-upload-actions">
+            <input type="file" id="avatar-input" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+            <button type="button" class="btn btn-outline btn-sm" id="btn-choose-avatar">
+              <i class="fas fa-upload"></i> Chọn ảnh từ máy
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-save-avatar" disabled style="display:none">
+              <i class="fas fa-save"></i> Lưu ảnh
+            </button>
+            <p class="avatar-upload-hint">JPG, PNG, WebP hoặc GIF — tối đa 5MB. Ảnh sẽ được crop vuông và nén tự động.</p>
+            <div class="error-msg" id="error-avatar"></div>
+          </div>
+        </div>
+
+        <hr style="margin:28px 0; border:none; border-top:1px solid #e2e8f0;" />
+
+        <!-- Form cập nhật thông tin -->
+        <h3 style="margin-bottom:12px;"><i class="fas fa-id-card"></i> Thông tin cá nhân</h3>
+        <form id="profile-form" novalidate>
           <div class="form-row">
             <div class="form-group">
               <label for="firstname">Tên <span class="required">*</span></label>
-              <input type="text" id="firstname" name="firstname" class="form-input" placeholder="Nguyễn" required />
+              <input type="text" id="firstname" name="firstname" class="form-input" placeholder="Minh" required />
               <div class="error-msg" id="error-firstname"></div>
             </div>
             <div class="form-group">
               <label for="lastname">Họ <span class="required">*</span></label>
-              <input type="text" id="lastname" name="lastname" class="form-input" placeholder="Văn A" required />
+              <input type="text" id="lastname" name="lastname" class="form-input" placeholder="Nguyễn" required />
               <div class="error-msg" id="error-lastname"></div>
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Địa chỉ Email <span class="required">*</span></label>
-            <input type="email" id="email" name="email" class="form-input" placeholder="email@vi-du.com" required />
-            <div class="error-msg" id="error-email"></div>
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-input" disabled style="opacity:0.65" />
+          </div>
+          <button type="submit" id="save-btn" class="btn btn-primary btn-lg btn-block">
+            <i class="fas fa-save"></i> Lưu thay đổi
+          </button>
+          <div class="success-msg" id="profile-success-msg">✅ Đã lưu thông tin!</div>
+        </form>
+
+        <hr style="margin:28px 0; border:none; border-top:1px solid #e2e8f0;" />
+
+        <!-- Form đổi mật khẩu -->
+        <h3 style="margin-bottom:12px;"><i class="fas fa-key"></i> Đổi mật khẩu</h3>
+        <form id="password-form" novalidate>
+          <div class="form-group">
+            <label for="current-password">Mật khẩu hiện tại <span class="required">*</span></label>
+            <input type="password" id="current-password" class="form-input" placeholder="Nhập mật khẩu hiện tại" required />
           </div>
           <div class="form-group">
-            <label for="password">Mật khẩu <span class="required">*</span></label>
-            <input type="password" id="password" name="password" class="form-input" placeholder="Tạo mật khẩu mạnh" required />
-            <div class="error-msg" id="error-password"></div>
+            <label for="new-password">Mật khẩu mới <span class="required">*</span></label>
+            <input type="password" id="new-password" class="form-input" placeholder="Tạo mật khẩu mạnh" required />
+            <div class="error-msg" id="error-new-password"></div>
           </div>
           <div class="form-group">
-            <label for="confirm-password">Xác nhận mật khẩu <span class="required">*</span></label>
-            <input type="password" id="confirm-password" name="confirm-password" class="form-input" placeholder="Xác nhận mật khẩu" required />
+            <label for="confirm-password">Xác nhận mật khẩu mới <span class="required">*</span></label>
+            <input type="password" id="confirm-password" class="form-input" placeholder="Xác nhận mật khẩu mới" required />
             <div class="error-msg" id="error-confirm"></div>
           </div>
-          <div class="form-group">
-            <label class="form-checkbox">
-              <input type="checkbox" name="terms" required />
-              <span>Tôi đồng ý với <a href="#" style="color:var(--primary)">Điều khoản dịch vụ</a> và <a href="#" style="color:var(--primary)">Chính sách bảo mật</a></span>
-            </label>
-          </div>
-          <button type="submit" id="submit-btn" class="btn btn-primary btn-lg btn-block" disabled>
-            <i class="fas fa-user-plus"></i> Tạo tài khoản
+          <button type="submit" class="btn btn-outline btn-lg btn-block">
+            <i class="fas fa-lock"></i> Đổi mật khẩu
           </button>
+          <div class="success-msg" id="password-success-msg">✅ Đã đổi mật khẩu!</div>
         </form>
+
         <div class="auth-footer">
-          Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+          <a href="index.html">← Về trang chủ</a>
         </div>
-        <div class="success-msg" id="success-msg">
-        🎉 Đăng ký thành công!
-      </div>
       </div>
     </div>
   </section>
@@ -109,13 +139,6 @@
         <div class="footer-brand">
           <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
           <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
-          <div class="footer-social">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          </div>
         </div>
         <div>
           <h3 class="footer-heading">Liên hệ</h3>
@@ -131,11 +154,12 @@
       </div>
     </div>
   </footer>
+
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/register.js"></script>
+  <script src="js/profile.js"></script>
 </body>
 </html>

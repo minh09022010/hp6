@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/admin.css" />
   <link rel="stylesheet" href="css/footer.css" />
   <link rel="stylesheet" href="css/utilities.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -22,8 +23,7 @@
   <header class="header">
     <nav class="navbar">
       <a href="index.html" class="logo">
-        <span class="logo-icon">M</span>
-        MinhThach<span> Learning</span>
+        <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
       </a>
       <input type="checkbox" id="menu-toggle" />
       <label for="menu-toggle" class="menu-toggle">
@@ -81,174 +81,88 @@
       </div>
 
       <div class="courses-grid">
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course1.jpg" alt="Lập trình Web" />
-            <span class="course-card-badge badge-beginner">Cơ bản</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">Lập trình</div>
-            <h3 class="course-card-title"><a href="course-detail.html">Complete Lập trình Web Bootcamp 2024</a></h3>
-            <p class="course-card-description">Học HTML, CSS, JavaScript, React, Node.js. Xây dựng 10+ dự án thực tế.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor1.jpg" alt="Sarah Johnson" />
-              <span class="course-card-instructor-name">Sarah Johnson</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 32 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Mọi trình độ</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.8</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$49.99 <span class="original">$99.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
-
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course2.jpg" alt="Data Science" />
-            <span class="course-card-badge badge-intermediate">Trung cấp</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">Khoa học dữ liệu</div>
-            <h3 class="course-card-title"><a href="course-detail.html">Data Science & Machine Learning Bootcamp</a></h3>
-            <p class="course-card-description">Master Python, Pandas, Scikit-learn, TensorFlow. Build real-world ML models.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor2.jpg" alt="Michael Chen" />
-              <span class="course-card-instructor-name">Michael Chen</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 48 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Trung cấp</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.9</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$59.99 <span class="original">$129.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
-
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course3.jpg" alt="UI/UX Design" />
-            <span class="course-card-badge badge-beginner">Cơ bản</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">Thiết kế</div>
-            <h3 class="course-card-title"><a href="course-detail.html">UI/UX Design Fundamentals: Zero to Hero</a></h3>
-            <p class="course-card-description">Học Figma, prototyping, nghiên cứu người dùng và tạo giao diện đẹp.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor3.jpg" alt="Emily Rodriguez" />
-              <span class="course-card-instructor-name">Emily Rodriguez</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 28 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Cơ bản</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.7</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$39.99 <span class="original">$79.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
-
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course4.jpg" alt="React Native" />
-            <span class="course-card-badge badge-intermediate">Trung cấp</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">Mobile</div>
-            <h3 class="course-card-title"><a href="course-detail.html">React Native: Build Cross-Platform Apps</a></h3>
-            <p class="course-card-description">Xây dựng ứng dụng iOS và Android với React Native từ cơ bản đến nâng cao.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor4.jpg" alt="David Kim" />
-              <span class="course-card-instructor-name">David Kim</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 35 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Trung cấp</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.6</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$54.99 <span class="original">$109.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
-
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course5.jpg" alt="AWS Cloud" />
-            <span class="course-card-badge badge-beginner">Cơ bản</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">Cloud</div>
-            <h3 class="course-card-title"><a href="course-detail.html">AWS Certified Solutions Architect 2024</a></h3>
-            <p class="course-card-description">Chuẩn bị cho kỳ thi AWS SAA-C03 với các phòng lab thực hành.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor5.jpg" alt="Lisa Wang" />
-              <span class="course-card-instructor-name">Lisa Wang</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 42 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Mọi trình độ</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.8</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$74.99 <span class="original">$159.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
-
-        <article class="course-card">
-          <div class="course-card-image">
-            <img src="images/course6.jpg" alt="Cybersecurity" />
-            <span class="course-card-badge badge-advanced">Nâng cao</span>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-category">An ninh mạng</div>
-            <h3 class="course-card-title"><a href="course-detail.html">Advanced Cybersecurity: Ethical Hacking</a></h3>
-            <p class="course-card-description">Học penetration testing, network security, và các kỹ thuật bảo mật nâng cao.</p>
-            <div class="course-card-instructor">
-              <img src="images/instructor6.jpg" alt="Marcus Brown" />
-              <span class="course-card-instructor-name">Marcus Brown</span>
-            </div>
-            <div class="course-card-meta">
-              <span class="course-card-meta-item"><i class="far fa-clock"></i> 50 giờ</span>
-              <span class="course-card-meta-item"><i class="fas fa-signal"></i> Nâng cao</span>
-              <span class="course-card-meta-item"><i class="fas fa-star"></i> 4.7</span>
-            </div>
-          </div>
-          <div class="course-card-footer">
-            <span class="course-card-price">$84.99 <span class="original">$179.99</span></span>
-            <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh</a>
-          </div>
-        </article>
+        <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:#64748b">
+          <i class="fas fa-book-open" style="font-size:48px; margin-bottom:16px; color:#cbd5e1"></i>
+          <h3 style="margin-bottom:8px; color:#334155">Chưa có khóa học nào</h3>
+          <p>Các khóa học sẽ xuất hiện ở đây sau khi giảng viên tạo và xuất bản trong hệ thống.</p>
+        </div>
       </div>
 
-      <nav class="pagination" aria-label="Phân trang">
-        <a href="#" class="next-prev"><i class="fas fa-chevron-left"></i> Trước</a>
-        <a href="#" class="active">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">...</a>
-        <a href="#">14</a>
-        <a href="#" class="next-prev">Sau <i class="fas fa-chevron-right"></i></a>
-      </nav>
     </div>
   </section>
+
+  <!-- Modal tạo khóa học (giảng viên / admin) -->
+  <div class="admin-modal" id="create-course-modal" style="display:none">
+    <div class="admin-modal-box">
+      <h3>Tạo khóa học</h3>
+      <div class="form-group">
+        <label>Tên khóa học *</label>
+        <input type="text" id="pub-course-title" class="form-input" placeholder="VD: Lập trình Web cơ bản" />
+      </div>
+      <div class="form-group">
+        <label>Mô tả ngắn</label>
+        <input type="text" id="pub-course-desc" class="form-input" placeholder="Mô tả ngắn gọn về khóa học" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Giá (VNĐ)</label>
+          <input type="number" id="pub-course-price" class="form-input" placeholder="0 = miễn phí" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Danh mục</label>
+          <select id="pub-course-category" class="form-input">
+            <option value="Lập trình">Lập trình</option>
+            <option value="Khoa học dữ liệu">Khoa học dữ liệu</option>
+            <option value="Thiết kế">Thiết kế</option>
+            <option value="Kinh doanh">Kinh doanh</option>
+            <option value="Mobile">Mobile</option>
+            <option value="An ninh mạng">An ninh mạng</option>
+            <option value="Cloud">Cloud</option>
+            <option value="AI & ML">AI & ML</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cấp độ</label>
+          <select id="pub-course-level" class="form-input">
+            <option>Mọi trình độ</option>
+            <option>Cơ bản</option>
+            <option>Trung cấp</option>
+            <option>Nâng cao</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Thời lượng (giờ)</label>
+          <input type="number" id="pub-course-duration" class="form-input" min="0" placeholder="VD: 32" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Trạng thái</label>
+          <select id="pub-course-status" class="form-input">
+            <option value="published">Xuất bản</option>
+            <option value="draft">Nháp (chỉ bạn thấy)</option>
+          </select>
+        </div>
+        <div class="form-group" id="pub-teacher-group">
+          <label>Giảng viên phụ trách</label>
+          <select id="pub-course-teacher" class="form-input"></select>
+        </div>
+      </div>
+      <div class="admin-modal-actions">
+        <button class="btn btn-outline" id="pub-course-cancel">Hủy</button>
+        <button class="btn btn-primary" id="pub-course-save">Tạo khóa học</button>
+      </div>
+      <div class="error-msg" id="pub-course-error"></div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><span class="logo-icon">M</span>MinhThach<span> Learning</span></a>
+          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
           <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -283,5 +197,12 @@
     </div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script src="js/courses.js"></script>
 </body>
 </html>
