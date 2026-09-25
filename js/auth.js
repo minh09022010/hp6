@@ -90,26 +90,52 @@ function unpackProfile(str) {
   return null;
 }
 
-// Ghi hồ sơ: thử Firestore trước, chặn thì dùng displayName. Trả về true nếu lưu được ít nhất 1 nơi
-async function saveProfile(uid, profile) {
-  let saved = false;
-  if (db) {
-    try {
-      await db.collection("users").doc(uid).set(profile, { merge: true });
-      saved = true;
-    } catch (e) {
-      // Firestore bị chặn -> thử phương án 2 bên dưới
+// Ghi hồ sơ: thử Firestore trước, chặn thì dùng displayName.
+// Trả về true nếu lưu được ít nhất 1 nơi
+async function saveProfile(id, profile) {
+    let saved = false;
+
+    // 1. Lưu vào Firestore trước
+    if (db) {
+        try {
+            await db.collection("users").doc(id).set(profile, {
+                merge: true
+            });
+
+            saved = true;
+
+            console.log("Firestore: Lưu hồ sơ thành công");
+
+        } catch (e) {
+            // Firestore bị chặn -> thử phương án 2 bên dưới
+            console.error("Lỗi lưu Firestore:", e);
+        }
     }
-  }
-  if (!saved && auth && auth.currentUser && auth.currentUser.uid === uid) {
-    try {
-      await auth.currentUser.updateProfile({ displayName: packProfile(profile) });
-      saved = true;
-    } catch (e) {
-      // Cả hai đều lỗi (mất mạng...) -> báo false
+
+    // 2. Nếu Firestore không lưu được, thử cập nhật Firebase Auth
+    if (
+        !saved &&
+        auth &&
+        auth.currentUser &&
+        auth.currentUser.uid === id
+    ) {
+        try {
+            await auth.currentUser.updateProfile({
+                displayName: packProfile(profile)
+            });
+
+            saved = true;
+
+            console.log("Firebase Auth: Cập nhật thành công");
+
+        } catch (e) {
+            // Cả hai đều lỗi (mất mạng...) -> báo false
+            console.error("Lỗi cập nhật Firebase Auth:", e);
+        }
     }
-  }
-  return saved;
+
+    // Trả về true nếu lưu được ít nhất 1 nơi
+    return saved;
 }
 
 // Đọc hồ sơ: thử Firestore, chặn thì đọc displayName
@@ -322,65 +348,71 @@ async function changePassword(userId, currentPassword, newPassword) {
 // Ảnh gốc được nén về ô vuông ≤ 300px rồi encode base64 -> lưu thẳng vào
 // Firestore (không cần Firebase Storage). Trả về chuỗi dataURL để lưu vào
 // trường avatar (user) hoặc image (giảng viên).
+// Trợ avatar (user) / nén ảnh (giải viền)
 async function fileToCompressedDataUrl(file, maxSize) {
-  maxSize = maxSize || 300;
-  const errors = {
-    type: "Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF).", // 1
-    size: "Ảnh quá lớn (tối đa 5MB). Hãy chọn ảnh khác.", // 2
-    read: "Không đọc được file ảnh. Thử file khác.", // 3
-    decode: "File này không phải ảnh hợp lệ hoặc đã hỏng.", // 4
-    empty: "Không nén được ảnh. Thử ảnh khác.", // 5
-  };
-  const fail = (key) => ({ ok: false, error: errors[key] });
+    maxSize = maxSize || 300;
+    const errors = {
+        type: "Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF).",
+        size: "Ảnh quá lớn (tối đa 5MB). Hãy chọn ảnh khác.",
+        read: "Không đọc được file ảnh. Thử lại.",
+        decode: "File này không phải ảnh hợp lệ hoặc đã hỏng.",
+        empty: "Không nén được ảnh. Thử ảnh khác."
+    };
+    const fail = (key) => ({ ok: false, error: errors[key] });
+    if (!file || !/^image\/(jpeg|png|webp|gif)$/i.test(file.type))
+        return fail("type");
+    if (file.size > 5 * 1024 * 1024)
+        return fail("size");
+    // Đọc file thành dataURL
+    const dataUrl = await new Promise((resolve, reject) =>
+        Object.assign(new FileReader(), {
+            onload: (e) => resolve(e.target.result),
+            onerror: () => reject(new Error("read")),
+        }).readAsDataURL(file)
+    ).catch(() => null);
+    if (!dataUrl) return fail("read");
+    // GIF động: nén sẽ mất chuyển động -> giữ nguyên nếu đã nhỏ
+    if (file.type === "image/gif" && dataUrl.length <= 600 * 1024) {
+        return { ok: true, dataUrl };
+    }
+    // Vẽ lên canvas: crop giữa về ô vuông maxSize x maxSize
+    // Sửa lỗi: Gán img.src trước khi await Promise hoàn thành
+    const img = await new Promise((resolve, reject) => {
+        const image = new Image();
 
-  if (!file || !/^image\/(jpeg|png|webp|gif)$/.test(file.type)) return fail("type");
-  if (file.size > 5 * 1024 * 1024) return fail("size");
+        Object.assign(image, {
+            onload: () => resolve(image),
+            onerror: () => reject(new Error("decode")),
+        });
+        image.src = dataUrl;
+    }).catch(() => null);
+    if (!img) return fail("decode");
+    const side = Math.min(
+        img.naturalWidth || img.width,
+        img.naturalHeight || img.height
+    );
+    if (!side) return fail("empty");
+    const out = Math.min(maxSize, side); // không phóng to ảnh nhỏ
+    const sx = ((img.naturalWidth || img.width) - side) / 2;
+    const sy = ((img.naturalHeight || img.height) - side) / 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = out;
+    canvas.height = out;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return fail("empty");
+    ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
+    // PNG giữ độ trong suốt; loại khác xuất JPEG chất lượng 0.85
+    const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
+    let result = canvas.toDataURL(mime, 0.85);
 
-  // Đọc file thành dataURL
-  const dataUrl = await new Promise((resolve, reject) =>
-    Object.assign(new FileReader(), {
-      onload: (e) => resolve(e.target.result),
-      onerror: () => reject(new Error("read")),
-    }).readAsDataURL(file)
-  ).catch(() => null);
-  if (!dataUrl) return fail("read");
+    if (result.length > 600 * 1024 && mime === "image/png") {
+        result = canvas.toDataURL("image/jpeg", 0.85); // PNG quá to -> hạ xuống JPEG
+    }
 
-  // GIF động: nén sẽ mất chuyển động -> giữ nguyên nếu đã đủ nhỏ
-  if (file.type === "image/gif" && dataUrl.length <= 600 * 1024) {
-    return { ok: true, dataUrl };
-  }
-
-  // Vẽ lên canvas: crop giữa về ô vuông maxSize x maxSize
-  const img = await new Promise((resolve, reject) =>
-    Object.assign(new Image(), {
-      onload: () => resolve(img),
-      onerror: () => reject(new Error("decode")),
-    })
-  );
-  img.src = dataUrl;
-
-  const side = Math.min(img.naturalWidth || img.width, img.naturalHeight || img.height);
-  if (!side) return fail("empty");
-  const out = Math.min(maxSize, side); // không phóng to ảnh nhỏ
-  const sx = ((img.naturalWidth || img.width) - side) / 2;
-  const sy = ((img.naturalHeight || img.height) - side) / 2;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = out;
-  canvas.height = out;
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
-
-  // PNG giữ độ trong suốt; loại khác xuất JPEG chất lượng 0.85
-  const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
-  let result = canvas.toDataURL(mime, 0.85);
-  if (result.length > 600 * 1024 && mime === "image/png") {
-    result = canvas.toDataURL("image/jpeg", 0.85); // PNG quá to -> hạ xuống JPEG
-  }
-  if (result.length > 600 * 1024) {
-    result = canvas.toDataURL("image/jpeg", 0.7);
-  }
-  return { ok: true, dataUrl: result };
+    if (result.length > 600 * 1024) {
+        result = canvas.toDataURL("image/jpeg", 0.7);
+    }
+    return { ok: true, dataUrl: result };
 }
 
 // Lưu avatar cho chính user đang đăng nhập (Firestore + session cache)

@@ -81,31 +81,42 @@ function formatDate(iso) {
 btnChooseAvatar.addEventListener("click", () => avatarInput.click());
 
 avatarInput.addEventListener("change", async () => {
-  errAvatar.textContent = "";
-  const file = avatarInput.files && avatarInput.files[0];
-  avatarInput.value = ""; // cho phép chọn lại cùng 1 file lần sau
-  if (!file) return;
+    errAvatar.textContent = "";
 
-  if (typeof fileToCompressedDataUrl !== "function") {
-    errAvatar.textContent = "Thiếu hàm nén ảnh (js/auth.js chưa được nhúng?).";
-    return;
-  }
+    const file = avatarInput.files?.[0];
+    avatarInput.value = ""; //cho phép chạy lại cùng 1 file lần sau
 
-  btnChooseAvatar.disabled = true;
-  btnChooseAvatar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-  const res = await fileToCompressedDataUrl(file, 300);
-  btnChooseAvatar.disabled = false;
-  btnChooseAvatar.innerHTML = '<i class="fas fa-upload"></i> Chọn ảnh từ máy';
+    if (!file) return;
 
-  if (!res.ok) {
-    errAvatar.textContent = res.error;
-    return;
-  }
+    btnChooseAvatar.disabled = true;
+    btnChooseAvatar.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
 
-  pendingAvatar = res.dataUrl;
-  avatarPreview.src = pendingAvatar; // xem trước ngay
-  btnSaveAvatar.disabled = false;
-  btnSaveAvatar.style.display = "";
+    try {
+        const res = await fileToCompressedDataUrl(file, 300);
+
+        if (!res.ok) {
+            errAvatar.textContent = res.error;
+            return;
+        }
+
+        pendingAvatar = res.dataUrl;
+
+        avatarPreview.src = pendingAvatar;//xem trước ngay
+        btnSaveAvatar.disabled = false;
+        btnSaveAvatar.style.display = "";
+
+    } catch (error) {
+        console.error("Lỗi xử lý ảnh:", error);
+
+        errAvatar.textContent =
+            "Không thể xử lý ảnh. Vui lòng thử ảnh khác.";
+
+    } finally {
+        btnChooseAvatar.disabled = false;
+        btnChooseAvatar.innerHTML =
+            '<i class="fas fa-upload"></i> Chọn ảnh từ máy';
+    }
 });
 
 btnSaveAvatar.addEventListener("click", async () => {
