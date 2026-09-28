@@ -564,15 +564,21 @@ function updateHeaderForUser() {
     : '<i class="fas fa-user-circle"></i>';
   const roleBadge =
     user.role === "admin"
-      ? '<span style="background:var(--primary);color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px">ADMIN</span>'
+      ? '<span class="role-badge" style="background:var(--primary);color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px">ADMIN</span>'
       : user.role === "teacher"
-      ? '<span style="background:var(--secondary,#10b981);color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px">GIÁO VIÊN</span>'
+      ? '<span class="role-badge" style="background:var(--secondary,#10b981);color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px">GIÁO VIÊN</span>'
       : "";
   const adminLink =
     user.role === "admin"
       ? '<a href="admin.html" class="btn btn-outline btn-sm"><i class="fas fa-cog"></i> Quản lý</a>'
       : user.role === "teacher"
       ? '<a href="admin.html?tab=courses" class="btn btn-outline btn-sm"><i class="fas fa-book"></i> Khóa học của tôi</a>'
+      : "";
+  const mobileAdminLink =
+    user.role === "admin"
+      ? '<a href="admin.html" class="nav-link"><i class="fas fa-cog"></i> Quản lý hệ thống</a>'
+      : user.role === "teacher"
+      ? '<a href="admin.html?tab=courses" class="nav-link"><i class="fas fa-book"></i> Khóa học của tôi</a>'
       : "";
   const headerHtml = `
     <div class="nav-user">
@@ -583,9 +589,17 @@ function updateHeaderForUser() {
       <a href="profile.html" class="btn btn-outline btn-sm">Hồ sơ</a>
       <a href="#" class="btn btn-primary btn-sm" onclick="logout(); return false;">Đăng xuất</a>
     </div>`;
+  // Mobile: render dạng item menu (full-width, chữ to) thay vì cụm nút nhỏ
+  const mobileHtml = `
+    <a href="profile.html" class="nav-link mobile-nav-user">
+      ${avatarImg} <span class="mobile-nav-name">${userName}</span>${roleBadge}
+    </a>
+    ${mobileAdminLink}
+    <a href="profile.html" class="nav-link"><i class="fas fa-id-card"></i> Hồ sơ cá nhân</a>
+    <a href="#" class="nav-link nav-link-logout" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>`;
 
   if (navButtons) navButtons.outerHTML = headerHtml;
-  if (mobileOnly) mobileOnly.innerHTML = headerHtml;
+  if (mobileOnly) mobileOnly.innerHTML = mobileHtml;
 }
 
 document.addEventListener("DOMContentLoaded", updateHeaderForUser);

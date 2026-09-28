@@ -197,33 +197,35 @@
   .nav-user-name { max-width: 130px; }
 }
 
-/* ---------- 993–1099px: mức chật nhất trước khi gập menu ----------
-   Thu logo + button mạnh để 8 mục menu vừa khít, không đè lên nhau */
-@media (max-width: 1099px) and (min-width: 993px) {
-  .navbar { padding: 0 12px; gap: 8px; }
-  .logo { font-size: 18px; }
-  .logo-icon { height: 30px; }
-  .nav-link { padding: 8px 6px; font-size: 12.5px; }
-  .nav-buttons .btn,
-  .nav-user .btn { padding: 6px 8px; font-size: 12px; }
-  .nav-user-name { max-width: 80px; font-size: 13px; }
-}
-
-/* ---------- ≤992px: hamburger + drawer ---------- */
-@media (max-width: 992px) {
+/* ---------- ≤1099px: hamburger + drawer ----------
+   Gập sớm hơn trước (992px) để dải 993–1099px không bị nav-user
+   (Tên + Quản lý + Hồ sơ + Đăng xuất) chèn chật trên thanh menu */
+@media (max-width: 1099px) {
   .menu-toggle { display: flex; }
 
-  /* Drawer trượt từ trái ra */
+  /* Quan trọng: tắt backdrop-filter trên header vì nó biến header thành
+     "containing block" cho position:fixed -> drawer bị kẹp trong khung 72px
+     của header thay vì phủ full viewport (nguyên nhân menu bị nhỏ) */
+  .header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--white);
+  }
+
+  /* Drawer trượt ra phủ TOÀN màn hình (full web) */
   .nav-menu {
     position: fixed;
-    top: var(--header-height);
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    height: 100vh;
+    height: 100dvh;
     background: var(--white);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 20px 24px 32px;
+    align-items: stretch;
+    /* chừa chỗ cho nút X góc trên */
+    padding: 88px 16px 40px;
     gap: 2px;
     box-shadow: var(--shadow-lg);
     transform: translateX(-100%);
@@ -238,30 +240,38 @@
     opacity: 1;
   }
 
+  /* Nút X nổi trên drawer để đóng menu */
+  .menu-toggle { position: relative; z-index: 1001; }
+
   /* Hamburger → X */
   #menu-toggle:checked ~ .menu-toggle span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   #menu-toggle:checked ~ .menu-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   #menu-toggle:checked ~ .menu-toggle span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-  /* Links trong drawer */
+  /* Links trong drawer — chữ to, chiếm full màn hình, dễ bấm */
   .nav-link {
-    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
     width: 100%;
-    font-size: 15px;
+    font-size: 17px;
+    font-weight: 600;
     border-radius: var(--radius-sm);
   }
+  .nav-link i { width: 24px; text-align: center; margin-right: 4px; }
 
   /* Drawer: chia khoảng cách thoáng hơn cho dễ bấm */
   .nav-menu { gap: 4px; }
 
-  /* Ẩn nav-buttons desktop */
-  .nav-buttons { display: none; }
+  /* Ẩn khu vực desktop (cả khi chưa và đã đăng nhập) */
+  .nav-buttons,
+  .nav-user { display: none; }
 
-  /* Hiện khu vực mobile-only (đăng nhập / thông tin user) */
+  /* Khu vực mobile-only: item menu của user (JS chèn vào) + nút đăng nhập/đăng ký */
   .mobile-only {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
     width: 100%;
     margin-top: 12px;
     padding-top: 16px;
@@ -269,25 +279,21 @@
   }
   .mobile-only .btn { width: 100%; text-align: center; justify-content: center; }
 
-  /* nav-user trong drawer */
-  .nav-user {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding-top: 16px;
-    border-top: 1px solid var(--gray-100);
+  /* Tên user trong drawer: to, đậm, hiện rõ */
+  .mobile-only .mobile-nav-user {
+    background: var(--primary-bg, #eff6ff);
+    color: var(--primary);
   }
-  .nav-user-name {
-    max-width: 100%;
-    font-size: 15px;
-    padding: 6px 0;
+  .mobile-only .mobile-nav-user img {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
   }
-  .nav-user a.btn,
-  .nav-user button.btn {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-  }
+  .mobile-only .mobile-nav-name { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+  .mobile-only .role-badge { margin-left: auto; font-size: 10px; }
+
+  /* Đăng xuất: nổi bật màu đỏ */
+  .mobile-only .nav-link-logout { color: #dc2626; }
+  .mobile-only .nav-link-logout:hover { background: #fef2f2; color: #b91c1c; }
 }
