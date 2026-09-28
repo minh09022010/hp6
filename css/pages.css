@@ -1133,7 +1133,7 @@
   border: 1px solid var(--gray-100);
   border-radius: var(--radius-md);
   margin-bottom: 8px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .curriculum-item-header {
@@ -1296,6 +1296,79 @@
   font-size: 14px;
   color: var(--gray-500);
   line-height: 1.7;
+}
+
+/* Form đánh giá khóa học (chỉ học viên đã ghi danh) */
+.review-form-box {
+  margin: 20px 0 28px;
+  padding: 20px 24px;
+  background: var(--primary-bg, #eff6ff);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg, 12px);
+}
+
+.review-form-box h3 {
+  font-size: 16px;
+  margin: 0 0 6px;
+  color: var(--secondary);
+}
+
+.review-form-hint {
+  font-size: 13px;
+  color: var(--gray-400, #94a3b8);
+  margin: 0 0 14px;
+}
+
+.review-form-stars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 24px;
+  color: #f59e0b;
+  cursor: pointer;
+}
+
+.review-form-stars i {
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.review-form-stars i:hover {
+  transform: scale(1.2);
+}
+
+.review-form-stars-label {
+  font-size: 13px;
+  color: var(--gray-400, #94a3b8);
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.review-form-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-200, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.review-form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.review-login-hint {
+  font-size: 14px;
+  color: var(--gray-400, #94a3b8);
+  background: var(--gray-50, #f8fafc);
+  border-radius: var(--radius-md, 8px);
+  padding: 12px 16px;
+  margin: 0 0 24px;
 }
 
 /* Contact CTA box */

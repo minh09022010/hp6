@@ -40,6 +40,7 @@ let cachedCourses = []; // [{id, title, desc, longDesc, category, level, duratio
 let editingCourseId = null;
 let editingTeacherId = null;
 let uploadedTeacherImage = null; // dataURL ảnh giảng viên vừa upload từ máy
+let uploadedCourseImage = null; // dataURL ảnh khóa học vừa upload từ máy
 
 // ---------- Tabs ----------
 document.querySelectorAll(".admin-tab").forEach((tab) => {
@@ -51,9 +52,20 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
   });
 });
 
+// Mở tab đúng khi vào trang: theo URL ?tab=... (vd admin.html?tab=courses)
+// - admin: mặc định tab Người dùng
+// - teacher: tab Người dùng đã bị ẩn -> mặc định tab Khóa học của chính mình
+(function openInitialTab() {
+  const urlTab = new URLSearchParams(window.location.search).get("tab");
+  const target = isAdminUser ? urlTab || "users" : urlTab === "users" ? "courses" : urlTab || "courses";
+  const tab = document.querySelector(`.admin-tab[data-tab="${target}"]`);
+  if (tab && !tab.classList.contains("active")) tab.click();
+})();
+
 // ---------- Load toàn bộ dữ liệu ----------
 async function loadAll() {
   await Promise.all([loadUsers(), loadCourses()]);
+  assignFallbackTeachers();
   renderUsers();
   renderPermTable();
   renderCourses();
@@ -183,19 +195,31 @@ function renderUsers() {
 }
 
 function userActionButtons(u) {
-  const roleBtn =
-    u.role === "teacher"
-      ? `<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'student')" title="Thu hồi quyền giảng viên">Hạ xuống học viên</button>`
-      : u.role === "student"
-      ? `<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'teacher')" title="Cấp quyền giảng viên">Cấp giảng viên</button>`
-      : ""; // admin khác: không cho đổi quyền qua UI
-  const profileBtn = u.role === "teacher" ? `<button class="btn-xs btn-outline" onclick="openTeacherModal('${u.id}')" title="Sửa hồ sơ giảng viên công khai"><i class="fas fa-user-edit"></i> Sửa hồ sơ</button>` : "";
+  let roleBtn = "";
+  if (u.role === "admin") {
+    // Admin khác: cho phép hạ xuống teacher (chỉ admin gốc không bị đụng)
+    const isRootAdmin = ADMIN_EMAILS.includes((u.email || "").toLowerCase());
+    if (!isRootAdmin) {
+      roleBtn = `<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'teacher')" title="Hạ xuống Giảng viên">Hạ xuống GV</button>`;
+    }
+  } else if (u.role === "teacher") {
+    roleBtn = `
+      <button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'admin')"   title="Cấp quyền Quản trị viên">Cấp Admin</button>
+      <button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'student')" title="Thu hồi quyền giảng viên">Hạ học viên</button>`;
+  } else {
+    // student
+    roleBtn = `
+      <button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'admin')"   title="Cấp quyền Quản trị viên">Cấp Admin</button>
+      <button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'teacher')" title="Cấp quyền giảng viên">Cấp GV</button>`;
+  }
+  const profileBtn = u.role === "teacher" || u.role === "admin" ? `<button class="btn-xs btn-outline" onclick="openTeacherModal('${u.id}')" title="Sửa hồ sơ giảng viên công khai"><i class="fas fa-user-edit"></i> Sửa hồ sơ</button>` : "";
+  const walletBtn = `<button class="btn-xs btn-outline" onclick="openAdjustBalanceModal('${u.id}')" title="Cộng/trừ số dư ví thủ công"><i class="fas fa-wallet"></i> Ví</button>`;
   const mkBtn = u.tempPassword
     ? `<button class="btn-xs btn-outline" onclick="showSavedPassword('${u.id}')" title="Xem mật khẩu đã lưu">👁 MK</button>`
     : "";
   const resetBtn = `<button class="btn-xs btn-outline" onclick="resetPassword('${escapeAttr(u.email)}')" title="Gửi email đặt lại mật khẩu">Reset MK</button>`;
   const delBtn = `<button class="btn-xs btn-danger" onclick="deleteUser('${u.id}')" title="Xóa hồ sơ khỏi Firestore">Xóa hồ sơ</button>`;
-  return [profileBtn, roleBtn, mkBtn, resetBtn, delBtn].filter(Boolean).join(" ");
+  return [profileBtn, roleBtn, walletBtn, mkBtn, resetBtn, delBtn].filter(Boolean).join(" ");
 }
 
 function escapeAttr(s) {
@@ -218,6 +242,11 @@ async function setRole(userId, role) {
   const u = cachedUsers.find((x) => x.id === userId);
   if (!u) return;
 
+  const name = `${u.lastname || ""} ${u.firstname || ""}`.trim() || u.email;
+  const roleLabel = { admin: "Quản trị viên", teacher: "Giảng viên", student: "Học viên" }[role] || role;
+
+  if (!confirm(`Cấp quyền "${roleLabel}" cho ${name} (${u.email})?`)) return;
+
   let savedToServer = false;
   if (db) {
     try {
@@ -229,14 +258,22 @@ async function setRole(userId, role) {
   }
 
   u.role = role; // cập nhật cache local để UI phản ánh ngay
+
+  // Nếu đổi role của chính mình → cập nhật session
+  if (userId === adminUser.id) {
+    adminUser.role = role;
+    loginSession({ ...adminUser, role });
+    updateHeaderForUser();
+  }
+
   renderUsers();
   renderPermTable();
   renderCourses();
 
   alert(
     savedToServer
-      ? `Đã lưu quyền mới lên server cho ${u.email}!`
-      : `Firestore đang chặn nên quyền chỉ đổi tạm trong máy này.\nĐể lưu vĩnh viễn: publish rules mở trong Firestore -> Rules.`
+      ? `✅ Đã cấp quyền "${roleLabel}" cho ${name}!`
+      : `⚠️ Firestore đang chặn nên quyền chỉ đổi tạm trong máy này.\nĐể lưu vĩnh viễn hãy publish Firestore Rules.`
   );
 }
 
@@ -263,6 +300,8 @@ async function loadCourses() {
       const snap = await db.collection("courses").get();
       snap.forEach((doc) => {
         const d = doc.data();
+        // Gỡ cờ "seed" của khóa học mẫu: sau khi seed, khóa mẫu là khóa như khóa thường
+        delete d.seed;
         cachedCourses.push({
           id: doc.id,
           title: d.title || "",
@@ -292,6 +331,23 @@ async function loadCourses() {
       console.warn("[admin] Firestore courses blocked:", e.code);
       showFirestoreWarning();
     }
+  }
+}
+
+// Khóa học thiếu giảng viên phụ trách (teacherId rỗng, VD khóa học mẫu)
+// -> gán cho admin/giảng viên để nút Sửa / link giảng viên hoạt động ngay
+// Gọi sau khi loadUsers + loadCourses XONG (hai hàm chạy song song nên không gán trong loadCourses được)
+function assignFallbackTeachers() {
+  const fallbackTeachers = cachedUsers.filter((u) => u.role === "teacher" || u.role === "admin");
+  if (fallbackTeachers.length) {
+    let ti = 0;
+    cachedCourses.forEach((c) => {
+      if (!c.teacherId) {
+        const t = fallbackTeachers[ti++ % fallbackTeachers.length];
+        c.teacherId = t.id;
+        c.teacherName = `${t.lastname || ""} ${t.firstname || ""}`.trim() || t.email;
+      }
+    });
   }
 }
 
@@ -378,6 +434,9 @@ function openCourseModal(course) {
       [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option value="images/course${n}.jpg">course${n}.jpg</option>`).join("");
   }
 
+  // Ảnh vừa upload: nhận diện dataURL đã lưu trước đó để hiện preview
+  uploadedCourseImage = course && typeof course.image === "string" && course.image.startsWith("data:image/") ? course.image : null;
+
   if (course) {
     // Chỉnh sửa
     document.getElementById("course-modal-title").textContent = "Sửa khóa học";
@@ -391,7 +450,8 @@ function openCourseModal(course) {
     document.getElementById("course-price").value = course.price || 0;
     document.getElementById("course-original-price").value = course.originalPrice || "";
     document.getElementById("course-status").value = course.status || "draft";
-    document.getElementById("course-image").value = course.image || "";
+    // Ảnh dataURL (upload) không khớp option nào -> để trống dropdown, hiện qua preview
+    document.getElementById("course-image").value = uploadedCourseImage ? "" : course.image || "";
     document.getElementById("course-language").value = course.language || "Tiếng Việt";
     document.getElementById("course-rating").value = course.rating || "";
     document.getElementById("course-reviews-count").value = course.reviewsCount || "";
@@ -401,6 +461,7 @@ function openCourseModal(course) {
     renderReviewsEditor(course.reviews || []);
     teacherSelect.value = course.teacherId || adminUser.id;
     editingCourseId = course.id;
+    updateCourseImagePreview();
   } else {
     // Tạo mới
     document.getElementById("course-modal-title").textContent = "Thêm khóa học";
@@ -417,6 +478,7 @@ function openCourseModal(course) {
     renderReviewsEditor([]);
     teacherSelect.value = adminUser.id; // mặc định là người đang đăng nhập
     editingCourseId = null;
+    updateCourseImagePreview();
   }
 
   // Teacher không được chọn giảng viên khác (luôn là chính mình)
@@ -428,6 +490,76 @@ function openCourseModal(course) {
 function closeCourseModal() {
   document.getElementById("course-modal").style.display = "none";
   document.getElementById("course-error").textContent = "";
+}
+
+// ---------- Ảnh khóa học: upload từ máy + preview ----------
+const courseImageFile = document.getElementById("course-image-file");
+const btnCourseImageUpload = document.getElementById("btn-course-image-upload");
+
+btnCourseImageUpload.addEventListener("click", () => courseImageFile.click());
+
+courseImageFile.addEventListener("change", async () => {
+  const errImg = document.getElementById("error-course-image");
+  if (errImg) errImg.textContent = "";
+  const file = courseImageFile.files && courseImageFile.files[0];
+  courseImageFile.value = ""; // cho phép chọn lại cùng 1 file lần sau
+  if (!file) return;
+
+  if (typeof fileToCompressedDataUrl !== "function") {
+    if (errImg) errImg.textContent = "Thiếu hàm nén ảnh (js/auth.js chưa được nhúng?).";
+    return;
+  }
+
+  btnCourseImageUpload.disabled = true;
+  btnCourseImageUpload.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+  // 800px: đủ nét cho card + hero, vừa giới hạnFirestore (1MB); giữ tỉ lệ gốc
+  const res = await fileToCompressedDataUrl(file, 800, true);
+  btnCourseImageUpload.disabled = false;
+  btnCourseImageUpload.innerHTML = '<i class="fas fa-upload"></i> Tải ảnh lên';
+
+  if (!res.ok) {
+    if (errImg) errImg.textContent = res.error;
+    return;
+  }
+
+  uploadedCourseImage = res.dataUrl;
+  updateCourseImagePreview();
+});
+
+// Bỏ ảnh đã upload -> quay lại dùng ảnh chọn từ dropdown (hoặc tự động)
+document.getElementById("btn-course-image-remove").addEventListener("click", () => {
+  uploadedCourseImage = null;
+  updateCourseImagePreview();
+});
+
+// Khi đổi ảnh trong dropdown: nếu đang có ảnh upload thì nhả ra (ưu tiên lựa chọn mới)
+// + xem trước ngay ảnh chọn từ dropdown
+document.getElementById("course-image").addEventListener("change", () => {
+  if (uploadedCourseImage) {
+    uploadedCourseImage = null;
+    const sel = document.getElementById("course-image");
+    if (sel) sel.disabled = false;
+  }
+  updateCourseImagePreview();
+});
+
+function updateCourseImagePreview() {
+  const wrap = document.getElementById("course-image-preview");
+  const img = document.getElementById("course-image-preview-img");
+  const sel = document.getElementById("course-image");
+  if (!wrap || !img) return;
+
+  const selected = sel && sel.value ? sel.value : "";
+  const current = uploadedCourseImage || selected;
+  if (current) {
+    img.src = current;
+    wrap.style.display = "";
+  } else {
+    img.removeAttribute("src");
+    wrap.style.display = "none";
+  }
+  // Đánh dấu dropdown đang bị ảnh upload đè lên
+  if (sel) sel.disabled = !!uploadedCourseImage;
 }
 
 document.getElementById("btn-new-course").addEventListener("click", () => openCourseModal(null));
@@ -562,6 +694,8 @@ document.getElementById("course-save").addEventListener("click", async () => {
   // Teacher: khóa học luôn thuộc về chính mình
   const finalTeacherId = isAdminUser ? teacherId : adminUser.id;
   const teacher = cachedUsers.find((u) => u.id === finalTeacherId);
+  // Ảnh upload từ máy đè lên lựa chọn dropdown (nếu có)
+  const imageValue = uploadedCourseImage || document.getElementById("course-image").value;
   const data = {
     title,
     desc,
@@ -573,7 +707,7 @@ document.getElementById("course-save").addEventListener("click", async () => {
     price: num(document.getElementById("course-price").value, 0),
     originalPrice: num(document.getElementById("course-original-price").value, 0),
     status: document.getElementById("course-status").value,
-    image: document.getElementById("course-image").value,
+    image: imageValue,
     language: document.getElementById("course-language").value.trim() || "Tiếng Việt",
     rating: num(document.getElementById("course-rating").value, 0),
     reviewsCount: num(document.getElementById("course-reviews-count").value, 0),
@@ -616,38 +750,31 @@ document.getElementById("course-save").addEventListener("click", async () => {
 function renderPermTable() {
   const tbody = document.getElementById("perm-tbody");
 
-  // Teacher chỉ thấy và sửa được hồ sơ của chính mình
-  const visibleUsers = isAdminUser ? cachedUsers : cachedUsers.filter((u) => u.id === adminUser.id);
+  // Tab này chỉ dành cho giảng viên: admin thấy các user role teacher/admin, teacher thấy chính mình
+  const visibleUsers = isAdminUser
+    ? cachedUsers.filter((u) => u.role === "teacher" || u.role === "admin")
+    : cachedUsers.filter((u) => u.id === adminUser.id);
 
   if (visibleUsers.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3">Không có người dùng nào.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="3">Chưa có giảng viên nào. Cấp quyền Giảng viên ở tab Người dùng.</td></tr>';
     return;
   }
 
   tbody.innerHTML = visibleUsers
     .map((u) => {
       const name = `${u.lastname || ""} ${u.firstname || ""}`.trim() || "(Chưa có tên)";
-      const isTeacherLike = u.role === "teacher" || u.role === "admin";
       const isSelf = u.id === adminUser.id;
       const profileDone = !!(u.title || u.bio || (u.about && u.about.length));
-      const profileState = isTeacherLike
-        ? profileDone
-          ? '<span class="role-badge status-published">Đã có hồ sơ</span>'
-          : '<span class="role-badge status-draft">Chưa cập nhật</span>'
-        : '<span style="color:#94a3b8; font-size:12.5px">—</span>';
+      const profileState = profileDone
+        ? '<span class="role-badge status-published">Đã có hồ sơ</span>'
+        : '<span class="role-badge status-draft">Chưa cập nhật</span>';
 
-      // Hành động: Sửa hồ sơ (giảng viên) + xem trang công khai; admin được đổi quyền người khác
+      // Hành động: Sửa hồ sơ + xem trang công khai; admin thu hồi quyền giảng viên (không còn học viên ở tab này)
       const actions = [];
-      if (isTeacherLike) {
-        actions.push(`<button class="btn-xs btn-outline" onclick="openTeacherModal('${u.id}')"><i class="fas fa-user-edit"></i> Sửa hồ sơ</button>`);
-        actions.push(`<a class="btn-xs btn-outline" href="instructor-detail.html?id=${encodeURIComponent(u.id)}" target="_blank" title="Xem trang hồ sơ công khai"><i class="fas fa-eye"></i> Xem trang</a>`);
-      }
-      if (isAdminUser && !isSelf) {
-        actions.push(
-          u.role === "teacher"
-            ? `<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'student')">Thu hồi quyền</button>`
-            : `<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'teacher')">Cấp quyền giảng viên</button>`
-        );
+      actions.push(`<button class="btn-xs btn-outline" onclick="openTeacherModal('${u.id}')"><i class="fas fa-user-edit"></i> Sửa hồ sơ</button>`);
+      actions.push(`<a class="btn-xs btn-outline" href="instructor-detail.html?id=${encodeURIComponent(u.id)}" target="_blank" title="Xem trang hồ sơ công khai"><i class="fas fa-eye"></i> Xem trang</a>`);
+      if (isAdminUser && !isSelf && u.role === "teacher") {
+        actions.push(`<button class="btn-xs btn-outline" onclick="setRole('${u.id}', 'student')">Thu hồi quyền</button>`);
       }
 
       return `
@@ -1098,3 +1225,456 @@ document.getElementById("user-save").addEventListener("click", async () => {
 
 // ---------- Khởi động ----------
 loadAll();
+
+
+// ============================================================
+// DUYỆT NẠP TIỀN (tab Nạp tiền - chỉ ADMIN)
+// Yêu cầu nạp nằm trong collection "deposits", status:
+// pending -> approved (cộng ví) / rejected
+// ============================================================
+
+let cachedDeposits = [];
+
+async function loadDeposits() {
+  cachedDeposits = [];
+  if (!db) return;
+  try {
+    const snap = await db.collection("deposits").get();
+    snap.forEach((doc) => cachedDeposits.push({ id: doc.id, ...doc.data() }));
+    // Chưa duyệt lên đầu, mới nhất trước
+    cachedDeposits.sort((a, b) => {
+      const p = (x) => (x.status === "pending" ? 0 : 1);
+      if (p(a) !== p(b)) return p(a) - p(b);
+      return String(b.createdAt || "").localeCompare(String(a.createdAt || ""));
+    });
+  } catch (e) {
+    console.warn("[admin] Không đọc được deposits:", e.code);
+  }
+}
+
+function renderDeposits() {
+  const tbody = document.getElementById("deposits-tbody");
+  if (!tbody) return;
+
+  const statusFilter = (document.getElementById("filter-deposit-status") || {}).value || "";
+  const list = statusFilter ? cachedDeposits.filter((d) => d.status === statusFilter) : cachedDeposits;
+
+  const badge = {
+    pending: '<span class="role-badge dep-status-pending">Chờ duyệt</span>',
+    approved: '<span class="role-badge dep-status-approved">Đã duyệt</span>',
+    rejected: '<span class="role-badge dep-status-rejected">Từ chối</span>',
+  };
+  // Yêu cầu kẹt (approved nhưng chưa cộng tiền) -> badge cảnh báo riêng
+  const badgeFor = (d) =>
+    d.status === "approved" && !d.credited
+      ? '<span class="role-badge dep-status-pending">Đã duyệt — CHƯA cộng tiền</span>'
+      : badge[d.status] || d.status;
+
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5">Không có yêu cầu nạp tiền nào.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = list
+    .map((d) => {
+      const name = d.userName || d.userEmail || "(Không rõ)";
+      const when = d.createdAt ? new Date(d.createdAt).toLocaleString("vi-VN") : "—";
+      // Yêu cầu đã duyệt nhưng CHƯA cộng tiền vào ví (bị kẹt từ bản code lỗi)
+      // -> vẫn hiện nút Duyệt để admin bấm lại, tự chữa lỗi
+      const stuck = d.status === "approved" && !d.credited;
+      const actions =
+        d.status === "pending" || stuck
+          ? `<button class="btn-xs btn-outline" onclick="adminApproveDeposit('${d.id}')" title="Duyệt và cộng tiền vào ví"><i class="fas fa-check"></i> Duyệt${stuck ? " lại" : ""}</button>` +
+            (d.status === "pending"
+              ? ` <button class="btn-xs btn-danger" onclick="adminRejectDeposit('${d.id}')" title="Từ chối yêu cầu"><i class="fas fa-times"></i> Từ chối</button>`
+              : "")
+          : `<span style="color:#94a3b8; font-size:12.5px">✓ Đã cộng tiền${d.processedBy ? " — " + escapeHtml(d.processedBy) : ""}</span>`;
+      return `
+      <tr>
+        <td>
+          <div class="admin-user-cell">
+            <i class="fas fa-user-circle"></i>
+            <div>
+              <div class="admin-user-name">${escapeHtml(name)}</div>
+              <div class="admin-user-email">${escapeHtml(d.userEmail || "")}</div>
+            </div>
+          </div>
+        </td>
+        <td><strong style="color:var(--primary)">${vnd(d.amount)}</strong></td>
+        <td>${when}</td>
+        <td>${badgeFor(d)}</td>
+        <td class="admin-actions-cell">${actions}</td>
+      </tr>`;
+    })
+    .join("");
+}
+
+// Duyệt: wallet.js sẽ tự cộng totalDeposited vào hồ sơ user
+async function adminApproveDeposit(id) {
+  if (!confirm("Duyệt yêu cầu nạp này? Tiền sẽ được cộng vào ví của người dùng.")) return;
+  const res = await approveDeposit(id); // hàm approveDeposit trong js/wallet.js
+  if (!res.ok) {
+    alert(res.error);
+    return;
+  }
+  alert("✅ Đã duyệt — tiền đã vào ví của người dùng.");
+  await loadDeposits();
+  renderDeposits();
+}
+
+function adminRejectDeposit(id) {
+  if (!confirm("Từ chối yêu cầu nạp này?")) return;
+  rejectDeposit(id).then(async (res) => { // hàm rejectDeposit trong js/wallet.js
+    if (!res.ok) {
+      alert(res.error);
+      return;
+    }
+    await loadDeposits();
+    renderDeposits();
+  });
+}
+
+// ============================================================
+// ĐIỀU CHỈNH SỐ DƯ VỦ THỦ CÔNG (chỉ ADMIN)
+// Dùng adminAdjustBalance trong js/wallet.js — ghi vào
+// wallet.adjustment (không đụng totalDeposited) + sổ wallet-adjustments
+// ============================================================
+
+let adjustingUserId = null;
+
+async function openAdjustBalanceModal(userId) {
+  if (!isAdminUser) return;
+  const modal = document.getElementById("adjust-balance-modal");
+  if (!modal) return;
+
+  const u = cachedUsers.find((x) => x.id === userId);
+  if (!u) {
+    alert("Không tìm thấy người dùng này trong danh sách.");
+    return;
+  }
+  adjustingUserId = userId;
+
+  const name = `${u.lastname || ""} ${u.firstname || ""}`.trim() || u.email;
+  document.getElementById("adj-user-name").textContent = `${name} (${u.email || "—"})`;
+  document.getElementById("adj-current-balance").textContent = "Đang tải...";
+  document.getElementById("adj-amount").value = "";
+  document.getElementById("adj-note").value = "";
+  document.getElementById("adj-error").textContent = "";
+  modal.style.display = "flex";
+
+  // Đọc số dư mới nhất từ Firestore (cache có thể đã cũ)
+  const w = await fetchUserWallet(userId);
+  document.getElementById("adj-current-balance").textContent = w ? vnd(w.balance) : "Không đọc được";
+}
+
+(function initAdjustBalanceModal() {
+  const modal = document.getElementById("adjust-balance-modal");
+  if (!modal) return;
+
+  const close = () => {
+    modal.style.display = "none";
+    adjustingUserId = null;
+  };
+  document.getElementById("adj-cancel").addEventListener("click", close);
+  modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+
+  document.getElementById("adj-save").addEventListener("click", async () => {
+    const errEl = document.getElementById("adj-error");
+    errEl.textContent = "";
+    if (!adjustingUserId) { errEl.textContent = "Không xác định được người dùng."; return; }
+
+    const amount = Number(document.getElementById("adj-amount").value);
+    if (!amount) { errEl.textContent = "Nhập số tiền khác 0 (âm để trừ, dương để cộng)."; return; }
+
+    const btn = document.getElementById("adj-save");
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+    const res = await adminAdjustBalance(adjustingUserId, amount, document.getElementById("adj-note").value);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-check"></i> Áp dụng';
+
+    if (!res.ok) { errEl.textContent = res.error; return; }
+
+    modal.style.display = "none";
+    adjustingUserId = null;
+    alert(res.warning
+      ? `⚠️ Đã điều chỉnh (có cảnh báo).\n\nSố dư hiệu quả mới: ${vnd(res.balanceAfter)}\n\n${res.warning}`
+      : `✅ Đã điều chỉnh số dư. Số dư mới: ${vnd(res.balanceAfter)}`);
+    // Cập nhật lại số dư trong cache users nếu có
+    await loadUsers();
+    renderUsers();
+    renderPermTable();
+  });
+})();
+
+// Click tab Nạp tiền lần đầu -> tải dữ liệu
+(function initDepositsTab() {
+  const depTab = document.querySelector('.admin-tab[data-tab="deposits"]');
+  if (!depTab) return;
+  // Teacher không thấy tab này
+  if (adminUser && !isAdminUser) depTab.style.display = "none";
+
+  depTab.addEventListener("click", async () => {
+    const tbody = document.getElementById("deposits-tbody");
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>';
+    await loadDeposits();
+    renderDeposits();
+  });
+
+  const filterSel = document.getElementById("filter-deposit-status");
+  if (filterSel) filterSel.addEventListener("change", renderDeposits);
+
+  const refreshBtn = document.getElementById("refresh-deposits");
+  if (refreshBtn) refreshBtn.addEventListener("click", async () => {
+    await loadDeposits();
+    renderDeposits();
+  });
+
+  // Chẩn đoán: test quyền đọc/ghi từng collection để tìm nguyên nhân ví không cộng tiền
+  const diagBtn = document.getElementById("btn-diagnose-deposit");
+  if (diagBtn) diagBtn.addEventListener("click", async () => {
+    const log = [];
+    diagBtn.disabled = true;
+    diagBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang test...';
+
+    // 1. Đọc deposits
+    try {
+      const s = await db.collection("deposits").limit(1).get();
+      log.push("✅ ĐỌC deposits: OK (" + s.size + " doc)");
+    } catch (e) {
+      log.push("❌ ĐỌC deposits: " + (e.code || e.message));
+    }
+
+    // 2. Ghi deposits (doc test, xóa ngay)
+    try {
+      const ref = await db.collection("deposits").add({ test: true, createdAt: new Date().toISOString() });
+      try { await ref.delete(); } catch (e2) {}
+      log.push("✅ GHI deposits: OK");
+    } catch (e) {
+      log.push("❌ GHI deposits: " + (e.code || e.message));
+    }
+
+    // 3. Đọc users
+    try {
+      const s = await db.collection("users").limit(1).get();
+      log.push("✅ ĐỌC users: OK (" + s.size + " doc)");
+    } catch (e) {
+      log.push("❌ ĐỌC users: " + (e.code || e.message));
+    }
+
+    // 4. GHI users — đây là bước QUAN TRỌNG NHẤT (duyệt nạp phải ghi vào users để cộng ví)
+    let testUid = null;
+    try {
+      const s = await db.collection("users").limit(1).get();
+      if (!s.empty) {
+        testUid = s.docs[0].id;
+        const before = readWallet(s.docs[0].data()).balance;
+        await db.collection("users").doc(testUid).set({ wallet: { totalDeposited: before } }, { merge: true });
+        log.push("✅ GHI users: OK (test doc " + testUid.slice(0, 6) + "...)");
+      } else {
+        log.push("⚠️ users trống — không test ghi được");
+      }
+    } catch (e) {
+      log.push("❌ GHI users: " + (e.code || e.message) + "  ← ĐÂY chính là lý do duyệt nạp không cộng được tiền!");
+    }
+
+    // 5. Đếm yêu cầu kẹt (approved mà chưa credited)
+    const stuck = cachedDeposits.filter((x) => x.status === "approved" && !x.credited);
+    log.push(stuck.length
+      ? "⚠️ Có " + stuck.length + " yêu cầu ĐÃ DUYỆT nhưng CHƯA cộng tiền — bấm \"Duyệt lại\" ở bảng trên để cộng."
+      : "✅ Không có yêu cầu kẹt.");
+
+    diagBtn.disabled = false;
+    diagBtn.innerHTML = '<i class="fas fa-stethoscope"></i> Chẩn đoán';
+    alert("KẾT QUẢ CHẨN ĐOÁN:\n\n" + log.join("\n"));
+  });
+})();
+
+
+// ============================================================
+// QUẢN LÝ BLOG (tab Blog trong admin)
+// - Admin: xem/xóa/toggle tất cả bài viết
+// - Teacher: chỉ xem/xóa bài của mình
+// ============================================================
+
+let cachedBlogPosts = []; // [{id, title, authorId, authorName, category, status, createdAt, ...}]
+let deletingBlogId  = null;
+
+// ---------- Load danh sách bài viết từ Firestore ----------
+async function loadBlogPosts() {
+  cachedBlogPosts = [];
+  if (!db) return;
+  try {
+    let query = db.collection("blog-posts");
+    // Teacher chỉ thấy bài của chính mình
+    if (!isAdminUser) query = query.where("authorId", "==", adminUser.id);
+    const snap = await query.get();
+    snap.forEach(doc => cachedBlogPosts.push({ id: doc.id, ...doc.data() }));
+    // Mới nhất lên đầu
+    cachedBlogPosts.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+  } catch (e) {
+    console.warn("[admin-blog] Không đọc được blog-posts:", e.code);
+  }
+}
+
+// ---------- Render bảng ----------
+function renderBlogTable() {
+  const tbody  = document.getElementById("blog-tbody");
+  if (!tbody) return;
+
+  const search    = (document.getElementById("search-blog")?.value || "").toLowerCase();
+  const statusF   = document.getElementById("filter-blog-status")?.value || "";
+  const catF      = document.getElementById("filter-blog-cat")?.value    || "";
+
+  let list = cachedBlogPosts.filter(p => {
+    if (statusF && p.status !== statusF) return false;
+    if (catF    && p.category !== catF)  return false;
+    if (search  && !`${p.title || ""} ${p.authorName || ""}`.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px">Không có bài viết nào.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(p => {
+    const title   = escHtml(p.title   || "(Không có tiêu đề)");
+    const author  = escHtml(p.authorName || "Ẩn danh");
+    const cat     = escHtml(p.category  || "Chung");
+    const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString("vi-VN") : "—";
+    const statusBadge = p.status === "published"
+      ? '<span class="role-badge status-published">Xuất bản</span>'
+      : '<span class="role-badge status-draft">Nháp</span>';
+    const toggleLabel = p.status === "published" ? "Đưa về nháp" : "Xuất bản";
+    const toggleIcon  = p.status === "published" ? "fa-eye-slash" : "fa-globe";
+    const canDelete   = isAdminUser || p.authorId === adminUser.id;
+
+    return `<tr>
+      <td>
+        <div style="font-weight:600;color:#1e293b;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+          <a href="blog-detail.html?id=${p.id}" target="_blank" style="color:inherit;text-decoration:none"
+             title="${title}">${title}</a>
+        </div>
+      </td>
+      <td><span style="font-size:13.5px;color:#475569">${author}</span></td>
+      <td><span class="role-badge role-student">${cat}</span></td>
+      <td>${statusBadge}</td>
+      <td style="font-size:13px;color:#64748b">${dateStr}</td>
+      <td class="admin-actions-cell">
+        <button class="btn btn-xs btn-outline" onclick="toggleBlogStatus('${p.id}','${p.status}')" title="${toggleLabel}">
+          <i class="fas ${toggleIcon}"></i> ${toggleLabel}
+        </button>
+        ${canDelete ? `<button class="btn btn-xs btn-danger" onclick="confirmDeleteBlog('${p.id}','${title.replace(/'/g,"\\'")}')">
+          <i class="fas fa-trash-alt"></i> Xóa
+        </button>` : ""}
+        <a href="blog-detail.html?id=${p.id}" target="_blank" class="btn btn-xs btn-outline" title="Xem bài viết">
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+// Hàm escape HTML dùng trong admin-blog (tránh trùng tên)
+function escHtml(s) {
+  return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// ---------- Toggle trạng thái bài viết ----------
+async function toggleBlogStatus(postId, currentStatus) {
+  if (!db) return;
+  const newStatus = currentStatus === "published" ? "draft" : "published";
+  try {
+    await db.collection("blog-posts").doc(postId).update({
+      status: newStatus,
+      updatedAt: new Date().toISOString()
+    });
+    const p = cachedBlogPosts.find(x => x.id === postId);
+    if (p) p.status = newStatus;
+    renderBlogTable();
+  } catch (e) {
+    alert("Không cập nhật được trạng thái: " + (e.code || e.message));
+  }
+}
+
+// ---------- Xóa bài viết ----------
+function confirmDeleteBlog(postId, title) {
+  deletingBlogId = postId;
+  const titleEl = document.getElementById("delete-blog-title");
+  if (titleEl) titleEl.textContent = `"${title}"`;
+  const modal = document.getElementById("delete-blog-modal");
+  if (modal) modal.style.display = "flex";
+}
+
+function closeDeleteBlogModal() {
+  deletingBlogId = null;
+  const modal = document.getElementById("delete-blog-modal");
+  if (modal) modal.style.display = "none";
+}
+
+async function executeDeleteBlog() {
+  if (!deletingBlogId || !db) return;
+  const btn = document.getElementById("delete-blog-confirm");
+  if (btn) { btn.disabled = true; btn.textContent = "Đang xóa..."; }
+  try {
+    await db.collection("blog-posts").doc(deletingBlogId).delete();
+    cachedBlogPosts = cachedBlogPosts.filter(p => p.id !== deletingBlogId);
+    closeDeleteBlogModal();
+    renderBlogTable();
+  } catch (e) {
+    alert("Không xóa được bài viết: " + (e.code || e.message));
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-trash-alt"></i> Xóa bài viết'; }
+  }
+}
+
+// ---------- Gắn sự kiện ----------
+document.addEventListener("DOMContentLoaded", () => {
+  // Modal xóa
+  const cancelDel  = document.getElementById("delete-blog-cancel");
+  const confirmDel = document.getElementById("delete-blog-confirm");
+  if (cancelDel)  cancelDel.addEventListener("click",  closeDeleteBlogModal);
+  if (confirmDel) confirmDel.addEventListener("click", executeDeleteBlog);
+
+  // Click ngoài modal
+  const delModal = document.getElementById("delete-blog-modal");
+  if (delModal) delModal.addEventListener("click", e => { if (e.target === delModal) closeDeleteBlogModal(); });
+
+  // Toolbar filter
+  ["search-blog","filter-blog-status","filter-blog-cat"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", renderBlogTable);
+    if (el) el.addEventListener("change", renderBlogTable);
+  });
+
+  // Nút tải lại
+  const refreshBtn = document.getElementById("refresh-blog");
+  if (refreshBtn) refreshBtn.addEventListener("click", async () => {
+    refreshBtn.disabled = true;
+    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+    await loadBlogPosts();
+    renderBlogTable();
+    refreshBtn.disabled = false;
+    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Tải lại';
+  });
+
+  // Click vào tab Blog lần đầu → load dữ liệu
+  const blogTab = document.querySelector('.admin-tab[data-tab="blog"]');
+  if (blogTab) {
+    blogTab.addEventListener("click", async () => {
+      if (!cachedBlogPosts.length) {
+        const tbody = document.getElementById("blog-tbody");
+        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>';
+        await loadBlogPosts();
+        renderBlogTable();
+      }
+    });
+  }
+
+  // Teacher cũng thấy tab Blog (bài của chính mình)
+  if (adminUser && !isAdminUser) {
+    const blogTabEl = document.querySelector('.admin-tab[data-tab="blog"]');
+    if (blogTabEl) blogTabEl.style.display = "";
+  }
+});

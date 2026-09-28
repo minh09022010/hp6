@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -38,6 +38,7 @@
         <li><a href="courses.html" class="nav-link">Khóa học</a></li>
         <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
         <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link">Nạp tiền</a></li>
         <li><a href="blog.html" class="nav-link">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
@@ -168,7 +169,7 @@
     </section>
 
     <!-- ===== FEATURED COURSES ===== -->
-    <section class="section">
+    <section class="section" id="featured-section">
       <div class="container">
         <div class="section-header">
           <div class="section-badge">
@@ -180,123 +181,14 @@
           </p>
         </div>
 
-        <div class="courses-grid">
-          <article class="course-card">
-            <div class="course-card-image">
-              <img src="images/course1.jpg" alt="Lập trình Web Bootcamp" />
-              <span class="course-card-badge badge-beginner">Cơ bản</span>
-              <button class="course-card-wishlist" aria-label="Yêu thích">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="course-card-body">
-              <div class="course-card-category">Lập trình</div>
-              <h3 class="course-card-title">
-                <a href="course-detail.html">Complete Lập trình Web Bootcamp 2024</a>
-              </h3>
-              <p class="course-card-description">
-                Học HTML, CSS, JavaScript, React, Node.js và nhiều hơn nữa. Xây dựng 10+ dự án thực tế.
-              </p>
-              <div class="course-card-instructor">
-                <img src="images/instructor1.jpg" alt="Sarah Johnson" />
-                <span class="course-card-instructor-name">Sarah Johnson</span>
-              </div>
-              <div class="course-card-meta">
-                <span class="course-card-meta-item">
-                  <i class="far fa-clock"></i> 32 giờ
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-signal"></i> Mọi trình độ
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-star"></i> 4.8
-                </span>
-              </div>
-            </div>
-            <div class="course-card-footer">
-              <span class="course-card-price">$49.99</span>
-              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
-            </div>
-          </article>
-
-          <article class="course-card">
-            <div class="course-card-image">
-              <img src="images/course3.jpg" alt="UI/UX Thiết kế" />
-              <span class="course-card-badge badge-beginner">Cơ bản</span>
-              <button class="course-card-wishlist" aria-label="Yêu thích">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="course-card-body">
-              <div class="course-card-category">Thiết kế</div>
-              <h3 class="course-card-title">
-                <a href="course-detail.html">UI/UX Thiết kế Fundamentals: From Zero to Hero</a>
-              </h3>
-              <p class="course-card-description">
-                Học các nguyên lý thiết kế, Figma, prototyping, nghiên cứu người dùng và tạo giao diện tuyệt đẹp.
-              </p>
-              <div class="course-card-instructor">
-                <img src="images/instructor3.jpg" alt="Emily Rodriguez" />
-                <span class="course-card-instructor-name">Emily Rodriguez</span>
-              </div>
-              <div class="course-card-meta">
-                <span class="course-card-meta-item">
-                  <i class="far fa-clock"></i> 28 giờ
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-signal"></i> Cơ bản
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-star"></i> 4.7
-                </span>
-              </div>
-            </div>
-            <div class="course-card-footer">
-              <span class="course-card-price">$39.99</span>
-              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
-            </div>
-          </article>
-
-          <article class="course-card">
-            <div class="course-card-image">
-              <img src="images/course1.jpg" alt="Data Science" />
-              <span class="course-card-badge badge-intermediate">Trung cấp</span>
-              <button class="course-card-wishlist" aria-label="Yêu thích">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="course-card-body">
-              <div class="course-card-category">Khoa học dữ liệu</div>
-              <h3 class="course-card-title">
-                <a href="course-detail.html">Data Science & Machine Learning với Python</a>
-              </h3>
-              <p class="course-card-description">
-                Làm chủ Python, Pandas, Scikit-learn, TensorFlow và các kỹ thuật ML hiện đại qua các dự án thực tế.
-              </p>
-              <div class="course-card-instructor">
-                <img src="images/instructor1.jpg" alt="David Chen" />
-                <span class="course-card-instructor-name">David Chen</span>
-              </div>
-              <div class="course-card-meta">
-                <span class="course-card-meta-item">
-                  <i class="far fa-clock"></i> 45 giờ
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-signal"></i> Trung cấp
-                </span>
-                <span class="course-card-meta-item">
-                  <i class="fas fa-star"></i> 4.9
-                </span>
-              </div>
-            </div>
-            <div class="course-card-footer">
-              <span class="course-card-price">$69.99</span>
-              <a href="course-detail.html" class="btn btn-primary btn-sm">Ghi danh ngay</a>
-            </div>
-          </article>
+        <div class="courses-grid" id="featured-courses-grid">
+          <!-- Được load động từ Firestore -->
+          <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:#94a3b8">
+            <i class="fas fa-spinner fa-spin" style="font-size:28px"></i>
+          </div>
         </div>
 
-        <div class="text-center mt-40">
+        <div class="text-center mt-40" id="featured-view-all">
           <a href="courses.html" class="btn btn-outline btn-lg">
             <i class="fas fa-th-list"></i> Xem tất cả khóa học
           </a>
@@ -432,64 +324,54 @@
   </main>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="logo">
             <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
           </a>
-          <p class="footer-description">
-            Nền tảng E-Learning hàng đầu, kết nối bạn với các chuyên gia và khóa học chất lượng cao từ khắp nơi trên thế giới.
-          </p>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
         <div>
-          <h4 class="footer-heading">Khóa học</h4>
-          <ul class="footer-links">
-            <li><a href="courses.html">Lập trình</a></li>
-            <li><a href="courses.html">Thiết kế</a></li>
-            <li><a href="courses.html">Kinh doanh</a></li>
-            <li><a href="courses.html">Khoa học dữ liệu</a></li>
-            <li><a href="courses.html">Trí tuệ nhân tạo</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-heading">Công ty</h4>
+          <h3 class="footer-heading">Liên kết</h3>
           <ul class="footer-links">
             <li><a href="about.html">Giới thiệu</a></li>
-            <li><a href="blog.html">Blog</a></li>
             <li><a href="instructors.html">Giảng viên</a></li>
             <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
             <li><a href="contact.html">Liên hệ</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="footer-heading">Liên hệ</h4>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud & DevOps</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
           <ul class="footer-contact">
-            <li>
-              <i class="fas fa-map-marker-alt"></i>
-              123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh
-            </li>
-            <li>
-              <i class="fas fa-envelope"></i>
-              contact@minhthach.vn
-            </li>
-            <li>
-              <i class="fas fa-phone"></i>
-              +84 28 1234 5678
-            </li>
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 MinhThach Learning. Tất cả quyền được bảo lưu.</p>
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
       </div>
     </div>
   </footer>
@@ -535,5 +417,96 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script>
+  // ---- Load khóa học nổi bật từ Firestore ----
+  (async function loadFeaturedCourses() {
+    const grid    = document.getElementById("featured-courses-grid");
+    const section = document.getElementById("featured-section");
+    if (!grid) return;
+
+    // Đợi db + helpers sẵn sàng
+    let tries = 0;
+    while (typeof db === "undefined" || !db || typeof courseImage === "undefined") {
+      if (tries++ > 30) break;
+      await new Promise(r => setTimeout(r, 100));
+    }
+
+    if (!db) { if (section) section.style.display = "none"; return; }
+
+    let courses = [];
+    try {
+      const snap = await db.collection("courses")
+        .where("status", "==", "published").limit(6).get();
+      snap.forEach(doc => courses.push({ id: doc.id, ...doc.data() }));
+    } catch (e) {
+      if (section) section.style.display = "none";
+      return;
+    }
+
+    if (!courses.length) { if (section) section.style.display = "none"; return; }
+
+    // Ưu tiên rating cao, lấy tối đa 3
+    courses.sort((a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
+    courses = courses.slice(0, 3);
+
+    // Fetch ảnh giảng viên từ Firestore nếu chưa có trên doc khóa học
+    const teacherIds = [...new Set(courses.map(c => c.teacherId).filter(Boolean))];
+    const teacherImgs = {};
+    await Promise.all(teacherIds.map(async tid => {
+      try {
+        const doc = await db.collection("users").doc(tid).get();
+        if (doc.exists) teacherImgs[tid] = doc.data().image || doc.data().avatar || "";
+      } catch(e) { /* bỏ qua */ }
+    }));
+
+    grid.innerHTML = courses.map((c, i) => {
+      // Ảnh khóa học: dùng helper courseImage từ instructors-data.js
+      const img     = courseImage(c.image, i);
+      const price   = c.price > 0 ? Number(c.price).toLocaleString("vi-VN") + "₫" : "Miễn phí";
+      const level   = c.level || "Mọi trình độ";
+      const badge   = COURSE_BADGES[level] || "badge-beginner";
+
+      // Ảnh giảng viên: ưu tiên trên doc khóa học, sau đó fetch từ users, cuối fallback
+      const avatarRaw = c.teacherImage || c.teacherAvatar
+                      || (c.teacherId && teacherImgs[c.teacherId])
+                      || "";
+      const avatar  = instructorAvatar(avatarRaw, i);
+
+      const rating   = c.rating   ? `<span class="course-card-meta-item"><i class="fas fa-star"></i> ${Number(c.rating).toFixed(1)}</span>` : "";
+      const duration = c.duration ? `<span class="course-card-meta-item"><i class="far fa-clock"></i> ${escapeHtml(String(c.duration))} giờ</span>` : "";
+
+      return `
+      <article class="course-card">
+        <div class="course-card-image">
+          <img src="${escapeHtml(img)}" alt="${escapeHtml(c.title)}"
+               onerror="this.src='images/course1.jpg'" />
+          <span class="course-card-badge ${badge}">${escapeHtml(level)}</span>
+        </div>
+        <div class="course-card-body">
+          <div class="course-card-category">${escapeHtml(c.category || "Khác")}</div>
+          <h3 class="course-card-title">
+            <a href="course-detail.html?id=${escapeHtml(c.id)}">${escapeHtml(c.title)}</a>
+          </h3>
+          <p class="course-card-description">${escapeHtml(c.desc || "")}</p>
+          <div class="course-card-instructor">
+            <img src="${escapeHtml(avatar)}" alt="${escapeHtml(c.teacherName || "")}"
+                 onerror="this.src='images/instructor1.jpg'" />
+            <span class="course-card-instructor-name">${escapeHtml(c.teacherName || "Giảng viên")}</span>
+          </div>
+          <div class="course-card-meta">
+            ${duration}
+            <span class="course-card-meta-item"><i class="fas fa-signal"></i> ${escapeHtml(level)}</span>
+            ${rating}
+          </div>
+        </div>
+        <div class="course-card-footer">
+          <span class="course-card-price">${price}</span>
+          <a href="course-detail.html?id=${escapeHtml(c.id)}" class="btn btn-primary btn-sm">Xem chi tiết</a>
+        </div>
+      </article>`;
+    }).join("");
+  })();
+  </script>
 </body>
 </html> 

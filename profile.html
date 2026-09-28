@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -33,6 +33,7 @@
         <li><a href="courses.html" class="nav-link">Khóa học</a></li>
         <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
         <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link">Nạp tiền</a></li>
         <li><a href="blog.html" class="nav-link">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
@@ -56,6 +57,16 @@
         <!-- Thông tin tài khoản -->
         <div id="account-info" style="background:var(--light, #f8fafc); border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13.5px;">
         </div>
+
+        <hr style="margin:28px 0; border:none; border-top:1px solid #e2e8f0;" />
+
+        <!-- Khóa học đã ghi danh -->
+        <h3 style="margin-bottom:12px;"><i class="fas fa-graduation-cap"></i> Khóa học đã ghi danh</h3>
+        <div id="my-enrollments" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px">
+          <p style="color:#64748b; font-size:13.5px; margin:0"><i class="fas fa-spinner fa-spin"></i> Đang tải...</p>
+        </div>
+
+        <hr style="margin:28px 0; border:none; border-top:1px solid #e2e8f0;" />
 
         <!-- Ảnh đại diện -->
         <h3 style="margin-bottom:12px;"><i class="fas fa-image"></i> Ảnh đại diện</h3>
@@ -133,24 +144,54 @@
     </div>
   </section>
 
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
-          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+          </a>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud & DevOps</a></li>
+          </ul>
         </div>
         <div>
           <h3 class="footer-heading">Liên hệ</h3>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
             <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
             <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
       </div>
     </div>
   </footer>
@@ -161,5 +202,32 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/profile.js"></script>
+  <script>
+    // ---------- Danh sách khóa học đã ghi danh ----------
+    (async () => {
+      const box = document.getElementById("my-enrollments");
+      if (!box) return;
+
+      const list = await fetchMyEnrollments();
+      if (!list.length) {
+        box.innerHTML =
+          '<p style="color:#64748b; font-size:13.5px; margin:0">Bạn chưa ghi danh khóa học nào. <a href="courses.html" style="color:var(--primary); font-weight:600">Xem khóa học →</a></p>';
+        return;
+      }
+
+      box.innerHTML = list
+        .map(
+          (en) => `
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px">
+        <div>
+          <a href="course-detail.html?id=${encodeURIComponent(en.courseId)}" style="font-weight:600; color:#1e293b; text-decoration:none">${en.courseTitle || "Khóa học"}</a>
+          <div style="font-size:12px; color:#64748b; margin-top:2px">Ghi danh: ${en.enrolledAt ? new Date(en.enrolledAt).toLocaleDateString("vi-VN") : "—"}</div>
+        </div>
+        <a class="btn btn-outline btn-sm" href="course-detail.html?id=${encodeURIComponent(en.courseId)}">Xem khóa học</a>
+      </div>`
+        )
+        .join("");
+    })();
+  </script>
 </body>
 </html>

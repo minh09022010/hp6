@@ -225,6 +225,9 @@ async function checkCredentials(email, password) {
         await saveProfile(cred.user.uid, { role: "admin" }); // tự sửa lại hồ sơ trên server
       }
       profile.role = "admin";
+    } else if (profile.role === "admin") {
+      // Role admin được cấp động qua trang quản trị → giữ nguyên
+      profile.role = "admin";
     } else if (!profile.role) {
       profile.role = resolveRole(finalEmail);
     }
@@ -319,10 +322,11 @@ async function changePassword(userId, currentPassword, newPassword) {
 }
 
 // ---------- Ảnh đại diện (upload từ file local) ----------
-// Ảnh gốc được nén về ô vuông ≤ 300px rồi encode base64 -> lưu thẳng vào
-// Firestore (không cần Firebase Storage). Trả về chuỗi dataURL để lưu vào
-// trường avatar (user) hoặc image (giảng viên).
-async function fileToCompressedDataUrl(file, maxSize) {
+// Ảnh gốc được nén rồi encode base64 -> lưu thẳng vào Firestore (không cần
+// Firebase Storage). Mặc định crop giữa về ô vuông ≤ maxSize (avatar);
+// keepAspectRatio = true -> giữ tỉ lệ gốc, thu cạnh dài về maxSize (ảnh khóa học).
+// Trả về chuỗi dataURL để lưu vào trường avatar (user) hoặc image (giảng viên/khóa học).
+async function fileToCompressedDataUrl(file, maxSize, keepAspectRatio) {
   maxSize = maxSize || 300;
   const errors = {
     type: "Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF).", // 1
@@ -351,25 +355,40 @@ async function fileToCompressedDataUrl(file, maxSize) {
   }
 
   // Vẽ lên canvas: crop giữa về ô vuông maxSize x maxSize
-  const img = await new Promise((resolve, reject) =>
-    Object.assign(new Image(), {
-      onload: () => resolve(img),
-      onerror: () => reject(new Error("decode")),
-    })
-  );
-  img.src = dataUrl;
+  // LƯU Ý: gán src TRƯỚC khi await để onload kịp bắn (bản cũ gán sau await -> treo vĩnh viễn)
+  const img = await new Promise((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error("decode"));
+    el.src = dataUrl;
+  }).catch(() => null);
+  if (!img) return fail("decode");
 
-  const side = Math.min(img.naturalWidth || img.width, img.naturalHeight || img.height);
-  if (!side) return fail("empty");
-  const out = Math.min(maxSize, side); // không phóng to ảnh nhỏ
-  const sx = ((img.naturalWidth || img.width) - side) / 2;
-  const sy = ((img.naturalHeight || img.height) - side) / 2;
+  const w = img.naturalWidth || img.width;
+  const h = img.naturalHeight || img.height;
+  if (!w || !h) return fail("empty");
+
+  let sx = 0, sy = 0, sw = w, sh = h, outW, outH;
+  if (keepAspectRatio) {
+    // Ảnh khóa học/banner: giữ tỉ lệ gốc, thu cạnh dài về maxSize (không phóng to ảnh nhỏ)
+    const scale = Math.min(1, maxSize / Math.max(w, h));
+    outW = Math.max(1, Math.round(w * scale));
+    outH = Math.max(1, Math.round(h * scale));
+  } else {
+    // Avatar: crop giữa về ô vuông maxSize x maxSize
+    const side = Math.min(w, h);
+    sx = (w - side) / 2;
+    sy = (h - side) / 2;
+    sw = side;
+    sh = side;
+    outW = outH = Math.min(maxSize, side);
+  }
 
   const canvas = document.createElement("canvas");
-  canvas.width = out;
-  canvas.height = out;
+  canvas.width = outW;
+  canvas.height = outH;
   const ctx = canvas.getContext("2d");
-  ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
 
   // PNG giữ độ trong suốt; loại khác xuất JPEG chất lượng 0.85
   const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
@@ -395,6 +414,142 @@ async function updateUserAvatar(userId, dataUrl) {
   return { ok: true };
 }
 
+// ---------- Ghi danh khóa học ----------
+// Collection "enrollments": mỗi doc = 1 lượt ghi danh.
+// Doc id dạng "{uid}_{courseId}" để 1 user chỉ ghi danh 1 lần/khóa học.
+async function enrollInCourse(courseId, courseInfo) {
+  const user = getCurrentUser();
+  if (!user) return { ok: false, error: "Bạn cần đăng nhập trước khi ghi danh." };
+  if (!db) return { ok: false, error: "Firestore chưa được cấu hình." };
+  if (!courseId) return { ok: false, error: "Không xác định được khóa học." };
+
+  const docId = `${user.id}_${courseId}`;
+  try {
+    const ref = db.collection("enrollments").doc(docId);
+    const snap = await ref.get();
+    if (snap.exists) return { ok: false, error: "Bạn đã ghi danh khóa học này rồi.", already: true };
+
+    await ref.set({
+      userId: user.id,
+      userEmail: user.email || "",
+      userName: `${user.lastname || ""} ${user.firstname || ""}`.trim(),
+      courseId,
+      courseTitle: (courseInfo && courseInfo.title) || "",
+      teacherId: (courseInfo && courseInfo.teacherId) || "",
+      enrolledAt: new Date().toISOString(),
+    });
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: "Không ghi danh được: " + (e.code || e.message) };
+  }
+}
+
+// Kiểm tra user hiện tại đã ghi danh 1 khóa học chưa
+async function isEnrolledInCourse(courseId) {
+  const user = getCurrentUser();
+  if (!user || !db || !courseId) return false;
+  try {
+    const snap = await db.collection("enrollments").doc(`${user.id}_${courseId}`).get();
+    return snap.exists;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Danh sách khóa học user hiện tại đã ghi danh
+async function fetchMyEnrollments() {
+  const user = getCurrentUser();
+  if (!user || !db) return [];
+  try {
+    const snap = await db.collection("enrollments").where("userId", "==", user.id).get();
+    const list = [];
+    snap.forEach((doc) => list.push({ id: doc.id, ...doc.data() }));
+    list.sort((a, b) => String(b.enrolledAt || "").localeCompare(String(a.enrolledAt || "")));
+    return list;
+  } catch (e) {
+    console.warn("[auth] Không đọc được enrollments:", e.code);
+    return [];
+  }
+}
+
+// ---------- Đánh giá khóa học ----------
+// Collection "course-reviews": đánh giá THẬT của học viên.
+// CHỈ học viên đã ghi danh mới được đánh giá; 1 user 1 đánh giá/khóa học.
+async function submitCourseReview(courseId, courseInfo, stars, text) {
+  const user = getCurrentUser();
+  if (!user) return { ok: false, error: "Bạn cần đăng nhập để đánh giá." };
+  if (!db) return { ok: false, error: "Firestore chưa được cấu hình." };
+  if (!courseId) return { ok: false, error: "Không xác định được khóa học." };
+
+  const s = Math.max(1, Math.min(5, Math.round(Number(stars) || 0)));
+  if (!s) return { ok: false, error: "Hãy chọn số sao (1-5)." };
+
+  try {
+    // Bắt buộc đã ghi danh mới được đánh giá
+    const enrolled = await isEnrolledInCourse(courseId);
+    if (!enrolled) return { ok: false, error: "Bạn phải đăng ký (ghi danh) khóa học này trước khi đánh giá." };
+
+    const docId = `${user.id}_${courseId}`;
+    const ref = db.collection("course-reviews").doc(docId);
+    const existing = await ref.get();
+    if (existing.exists) return { ok: false, error: "Bạn đã đánh giá khóa học này rồi. Mỗi khóa học chỉ đánh giá 1 lần.", already: true };
+
+    await ref.set({
+      courseId,
+      courseTitle: (courseInfo && courseInfo.title) || "",
+      userId: user.id,
+      userName: `${user.lastname || ""} ${user.firstname || ""}`.trim(),
+      userAvatar: user.avatar || "",
+      stars: s,
+      text: String(text || "").trim(),
+      createdAt: new Date().toISOString(),
+    });
+
+    await recalcCourseRating(courseId);
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: "Không gửi được đánh giá: " + (e.code || e.message) };
+  }
+}
+
+// Đọc các đánh giá thật của 1 khóa học
+async function fetchCourseReviews(courseId) {
+  if (!db || !courseId) return [];
+  try {
+    const snap = await db.collection("course-reviews").where("courseId", "==", courseId).get();
+    const list = [];
+    snap.forEach((doc) => list.push({ id: doc.id, ...doc.data() }));
+    list.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+    return list;
+  } catch (e) {
+    console.warn("[auth] Không đọc được course-reviews:", e.code);
+    return [];
+  }
+}
+
+// Tính lại rating + reviewsCount của khóa học từ các đánh giá thật và ghi vào doc khóa học
+async function recalcCourseRating(courseId) {
+  if (!db || !courseId) return;
+  try {
+    const snap = await db.collection("course-reviews").where("courseId", "==", courseId).get();
+    let total = 0, count = 0;
+    snap.forEach((doc) => {
+      const s = Number(doc.data().stars) || 0;
+      if (s > 0) {
+        total += s;
+        count++;
+      }
+    });
+    const rating = count ? Math.round((total / count) * 10) / 10 : 0;
+    await db.collection("courses").doc(courseId).set(
+      { rating, reviewsCount: count, ratingUpdatedAt: new Date().toISOString() },
+      { merge: true }
+    );
+  } catch (e) {
+    console.warn("[auth] Không cập nhật được rating khóa học:", e.code);
+  }
+}
+
 // ---------- Cập nhật header trên mọi trang ----------
 
 function updateHeaderForUser() {
@@ -417,7 +572,7 @@ function updateHeaderForUser() {
     user.role === "admin"
       ? '<a href="admin.html" class="btn btn-outline btn-sm"><i class="fas fa-cog"></i> Quản lý</a>'
       : user.role === "teacher"
-      ? '<a href="admin.html" class="btn btn-outline btn-sm"><i class="fas fa-book"></i> Khóa học của tôi</a>'
+      ? '<a href="admin.html?tab=courses" class="btn btn-outline btn-sm"><i class="fas fa-book"></i> Khóa học của tôi</a>'
       : "";
   const headerHtml = `
     <div class="nav-user">

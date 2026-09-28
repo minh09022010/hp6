@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -34,6 +34,7 @@
         <li><a href="courses.html" class="nav-link">Khóa học</a></li>
         <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
         <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link">Nạp tiền</a></li>
         <li><a href="blog.html" class="nav-link">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
@@ -62,6 +63,8 @@
         <button class="admin-tab active" data-tab="users"><i class="fas fa-users"></i> Người dùng</button>
         <button class="admin-tab" data-tab="courses"><i class="fas fa-book"></i> Khóa học</button>
         <button class="admin-tab" data-tab="instructors"><i class="fas fa-chalkboard-teacher"></i> Giảng viên</button>
+        <button class="admin-tab" data-tab="deposits"><i class="fas fa-hand-holding-usd"></i> Nạp tiền</button>
+        <button class="admin-tab" data-tab="blog"><i class="fas fa-newspaper"></i> Blog</button>
       </div>
 
       <!-- TAB USERS -->
@@ -171,8 +174,117 @@
           </table>
         </div>
       </div>
+      <!-- TAB DEPOSITS (duyệt nạp tiền - chỉ admin) -->
+      <div class="admin-panel" id="panel-deposits">
+        <div class="admin-toolbar">
+          <select id="filter-deposit-status" class="form-input admin-filter-select">
+            <option value="">Tất cả trạng thái</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="approved">Đã duyệt</option>
+            <option value="rejected">Đã từ chối</option>
+          </select>
+          <button id="refresh-deposits" class="btn btn-outline btn-sm"><i class="fas fa-sync-alt"></i> Tải lại</button>
+          <button id="btn-diagnose-deposit" class="btn btn-outline btn-sm" title="Test quyền đọc/ghi Firestore cho deposits + users"><i class="fas fa-stethoscope"></i> Chẩn đoán</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Người dùng</th>
+                <th>Số tiền</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="deposits-tbody">
+              <tr><td colspan="5">Bấm tab để tải danh sách...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB BLOG -->
+      <div class="admin-panel" id="panel-blog">
+        <div class="admin-toolbar">
+          <input type="text" id="search-blog" class="form-input" placeholder="Tìm theo tiêu đề / tác giả..." />
+          <select id="filter-blog-status" class="form-input admin-filter-select">
+            <option value="">Tất cả trạng thái</option>
+            <option value="published">Đã xuất bản</option>
+            <option value="draft">Nháp</option>
+          </select>
+          <select id="filter-blog-cat" class="form-input admin-filter-select">
+            <option value="">Tất cả danh mục</option>
+            <option value="Lập trình">Lập trình</option>
+            <option value="Khoa học dữ liệu">Khoa học dữ liệu</option>
+            <option value="Thiết kế">Thiết kế</option>
+            <option value="Nghề nghiệp">Nghề nghiệp</option>
+            <option value="Hướng dẫn">Hướng dẫn</option>
+            <option value="Chung">Chung</option>
+          </select>
+          <button id="refresh-blog" class="btn btn-outline btn-sm"><i class="fas fa-sync-alt"></i> Tải lại</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Bài viết</th>
+                <th>Tác giả</th>
+                <th>Danh mục</th>
+                <th>Trạng thái</th>
+                <th>Ngày đăng</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="blog-tbody">
+              <tr><td colspan="6">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </section>
+
+  <!-- Modal điều chỉnh số dư ví (chỉ admin) -->
+  <div class="admin-modal" id="adjust-balance-modal" style="display:none">
+    <div class="admin-modal-box" style="max-width:460px">
+      <h3><i class="fas fa-wallet"></i> Điều chỉnh số dư ví</h3>
+      <p class="admin-modal-hint">
+        Người dùng: <strong id="adj-user-name">...</strong><br />
+        Số dư hiện tại: <strong id="adj-current-balance">...</strong> —
+        nhập số <strong>dương để cộng</strong>, <strong>âm để trừ</strong>. Thao tác được ghi vào sổ điều chỉnh.
+      </p>
+      <div class="form-group">
+        <label>Số tiền điều chỉnh (₫) *</label>
+        <input type="number" id="adj-amount" class="form-input" placeholder="VD: 50000 (cộng) hoặc -30000 (trừ)" step="1000" />
+      </div>
+      <div class="form-group">
+        <label>Lý do / ghi chú</label>
+        <input type="text" id="adj-note" class="form-input" placeholder="VD: Thưởng sự kiện, sửa sai sót ghi danh..." />
+      </div>
+      <div class="admin-modal-actions">
+        <button class="btn btn-outline" id="adj-cancel">Hủy</button>
+        <button class="btn btn-primary" id="adj-save"><i class="fas fa-check"></i> Áp dụng</button>
+      </div>
+      <div class="error-msg" id="adj-error"></div>
+    </div>
+  </div>
+
+  <!-- Modal xác nhận xóa bài viết -->
+  <div class="admin-modal" id="delete-blog-modal" style="display:none">
+    <div class="admin-modal-box" style="max-width:420px">
+      <h3 style="color:#dc2626"><i class="fas fa-trash-alt"></i> Xóa bài viết</h3>
+      <p style="margin:12px 0 20px;color:#475569">Bạn có chắc muốn xóa bài viết <strong id="delete-blog-title"></strong>? Hành động này không thể hoàn tác.</p>
+      <div class="admin-modal-actions">
+        <button class="btn btn-outline" id="delete-blog-cancel">Hủy</button>
+        <button class="btn btn-sm" id="delete-blog-confirm"
+          style="background:#dc2626;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer">
+          <i class="fas fa-trash-alt"></i> Xóa bài viết
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal tạo tài khoản phụ -->
   <div class="admin-modal" id="user-modal" style="display:none">
@@ -280,8 +392,21 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label>Ảnh khóa học (đường dẫn)</label>
-          <select id="course-image" class="form-input"></select>
+          <label>Ảnh khóa học</label>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+            <select id="course-image" class="form-input" style="flex:1; min-width:180px"></select>
+            <input type="file" id="course-image-file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+            <button type="button" class="btn btn-outline btn-sm" id="btn-course-image-upload">
+              <i class="fas fa-upload"></i> Tải ảnh lên
+            </button>
+          </div>
+          <div class="course-image-preview" id="course-image-preview" style="display:none">
+            <img id="course-image-preview-img" src="" alt="Ảnh khóa học" />
+            <button type="button" class="btn btn-outline btn-xs" id="btn-course-image-remove" title="Bỏ ảnh đã tải lên">
+              <i class="fas fa-times"></i> Bỏ ảnh
+            </button>
+          </div>
+          <div class="error-msg" id="error-course-image"></div>
         </div>
         <div class="form-group">
           <label>Ngôn ngữ</label>
@@ -440,24 +565,54 @@
     </div>
   </div>
 
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
-          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+          </a>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud & DevOps</a></li>
+          </ul>
         </div>
         <div>
           <h3 class="footer-heading">Liên hệ</h3>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
             <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
             <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
       </div>
     </div>
   </footer>
@@ -468,6 +623,7 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/instructors-data.js"></script>
+  <script src="js/wallet.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

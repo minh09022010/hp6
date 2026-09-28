@@ -11,11 +11,12 @@ const viewerIsTeacher = !!(viewer && (viewer.role === "teacher" || viewer.role =
 const coursesGrid = document.querySelector(".courses-grid");
 const coursesCount = document.querySelector(".courses-count");
 
-// Ảnh demo xoay vòng cho khóa học chưa có ảnh riêng
-const COURSE_IMAGES = ["course1.jpg", "course2.jpg", "course3.jpg", "course4.jpg", "course5.jpg", "course6.jpg", "course7.jpg", "course8.jpg", "course9.jpg"];
-const AVATARS = ["instructor1.jpg", "instructor2.jpg", "instructor3.jpg", "instructor4.jpg", "instructor5.jpg", "instructor6.jpg"];
-
 let pubTeachers = []; // danh sách giảng viên cho admin chọn khi tạo khóa học
+let allCourses = [];  // danh sách gốc đầy đủ để filter/sort không mất data
+
+// ---------- Lấy 3 dropdown filter ----------
+const filterSelects = document.querySelectorAll(".filter-select");
+const [filterCategory, filterLevel, filterSort] = filterSelects;
 
 function escapeHtml(s) {
   return String(s || "")
@@ -77,14 +78,76 @@ async function loadPublicCourses() {
     })
   );
 
-  // Mới nhất lên đầu
-  list.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+  // Lưu bản gốc để filter/sort sau
+  allCourses = list;
 
-  coursesGrid.innerHTML = list.map((c, i) => courseCardHTML(c, i)).join("");
+  // Render lần đầu theo filter hiện tại (mặc định: tất cả, sắp xếp mới nhất)
+  applyFilters();
+}
+
+// ---------- Lọc + sắp xếp khóa học ----------
+function applyFilters() {
+  const cat   = filterCategory ? filterCategory.value : "Tất cả danh mục";
+  const level = filterLevel    ? filterLevel.value    : "Mọi trình độ";
+  const sort  = filterSort     ? filterSort.value     : "Phổ biến";
+
+  let filtered = [...allCourses];
+
+  // Lọc danh mục
+  if (cat && cat !== "Tất cả danh mục") {
+    filtered = filtered.filter((c) => c.category === cat);
+  }
+
+  // Lọc trình độ
+  if (level && level !== "Mọi trình độ") {
+    filtered = filtered.filter((c) => c.level === level);
+  }
+
+  // Sắp xếp
+  switch (sort) {
+    case "Mới nhất":
+      filtered.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+      break;
+    case "Giá: Thấp đến Cao":
+      filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+      break;
+    case "Giá: Cao đến Thấp":
+      filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+      break;
+    case "Đánh giá cao nhất":
+      filtered.sort((a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
+      break;
+    default: // "Phổ biến" – giữ thứ tự mới nhất
+      filtered.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+      break;
+  }
+
+  // Render kết quả
+  if (filtered.length === 0) {
+    coursesGrid.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:#64748b">
+        <i class="fas fa-search" style="font-size:48px; margin-bottom:16px; color:#cbd5e1"></i>
+        <h3 style="margin-bottom:8px; color:#334155">Không tìm thấy khóa học</h3>
+        <p>Thử thay đổi bộ lọc để xem thêm kết quả.</p>
+      </div>`;
+  } else {
+    coursesGrid.innerHTML = filtered.map((c, i) => courseCardHTML(c, i)).join("");
+  }
+
+  // Cập nhật đếm
   if (coursesCount) {
-    coursesCount.innerHTML = `Hiển thị <strong>1-${list.length}</strong> trong số <strong>${list.length}</strong> khóa học`;
+    const total = allCourses.length;
+    const shown = filtered.length;
+    if (shown === total) {
+      coursesCount.innerHTML = `Hiển thị <strong>1-${total}</strong> trong số <strong>${total}</strong> khóa học`;
+    } else {
+      coursesCount.innerHTML = `Tìm thấy <strong>${shown}</strong> trong số <strong>${total}</strong> khóa học`;
+    }
   }
 }
+
+// ---------- Gắn event cho 3 dropdown ----------
+filterSelects.forEach((sel) => sel && sel.addEventListener("change", applyFilters));
 
 // Trạng thái rỗng cho lưới khóa học
 function showEmptyCourses(msg) {
@@ -99,10 +162,11 @@ function showEmptyCourses(msg) {
 }
 
 function courseCardHTML(c, idx) {
-  const img = c.image || COURSE_IMAGES[idx % COURSE_IMAGES.length];
-  // Ưu tiên ảnh giảng viên đã lưu (bao gồm ảnh upload dataURL), fallback ảnh mặc định
+  // Ảnh lưu trong Firestore là đường dẫn đầy đủ ("images/courseN.jpg") hoặc dataURL
+  // -> dùng helper (instructors-data.js) trả nguyên giá trị nếu có, rỗng thì fallback ảnh demo
+  const img = courseImage(c.image, idx);
   const teacherImg = c.teacherImage || c.teacherAvatar || "";
-  const avatar = teacherImg || AVATARS[idx % AVATARS.length];
+  const avatar = instructorAvatar(teacherImg, idx);
   const price = c.price > 0 ? Number(c.price).toLocaleString("vi-VN") + "₫" : "Miễn phí";
   const title = escapeHtml(c.title);
   const desc = escapeHtml(c.desc || "(Chưa có mô tả)");
@@ -114,7 +178,7 @@ function courseCardHTML(c, idx) {
   return `
       <article class="course-card">
         <div class="course-card-image">
-          <img src="images/${img}" alt="${title}" />
+          <img src="${img}" alt="${title}" />
           <span class="course-card-badge ${badgeClass}">${escapeHtml(level)}</span>
         </div>
         <div class="course-card-body">
@@ -122,7 +186,7 @@ function courseCardHTML(c, idx) {
           <h3 class="course-card-title"><a href="course-detail.html?id=${c.id}">${title}</a></h3>
           <p class="course-card-description">${desc}</p>
           <div class="course-card-instructor">
-            <img src="${String(avatar).startsWith("data:image/") ? avatar : "images/" + avatar}" alt="${teacher}" />
+            <img src="${avatar}" alt="${teacher}" />
             <span class="course-card-instructor-name">${teacher}</span>
           </div>
           <div class="course-card-meta">

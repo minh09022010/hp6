@@ -425,6 +425,23 @@
   gap: 6px;
 }
 
+/* Xem trước ảnh khóa học trong modal */
+.course-image-preview {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.course-image-preview img {
+  max-width: 180px;
+  max-height: 101px; /* ~16:9 */
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
 .teacher-preview img#preview-avatar {
   width: 92px;
   height: 92px;

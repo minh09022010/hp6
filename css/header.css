@@ -1,9 +1,7 @@
 /* ----- Header / Navigation ----- */
 .header {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 1000;
   background: var(--header-bg);
   backdrop-filter: blur(20px);
@@ -12,18 +10,11 @@
   transition: var(--transition);
 }
 
-/* Fallback for browsers/file:// that don't support backdrop-filter */
 @supports not (backdrop-filter: blur(20px)) {
-  .header {
-    background: var(--white);
-  }
+  .header { background: var(--white); }
 }
-
-/* Fallback for browsers that don't support backdrop-filter (incl. some file:// scenarios) */
 @supports not ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
-  .header {
-    background: var(--white);
-  }
+  .header { background: var(--white); }
 }
 
 .header.scrolled {
@@ -31,17 +22,19 @@
   border-bottom-color: rgba(37, 99, 235, 0.12);
 }
 
+/* ---- Navbar layout ---- */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   height: var(--header-height);
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* Logo */
+/* ---- Logo ---- */
 .logo {
   display: flex;
   align-items: center;
@@ -50,6 +43,7 @@
   font-weight: 800;
   color: var(--secondary);
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .logo-icon {
@@ -57,34 +51,37 @@
   width: auto;
   max-width: 120px;
   object-fit: contain;
+  flex-shrink: 0;
   border-radius: var(--radius-sm);
   transition: transform 0.3s ease;
 }
 
-.logo span {
-  color: var(--primary);
-}
+.logo span { color: var(--primary); }
 
 .logo:hover .logo-icon {
   transform: scale(1.05) rotate(-3deg);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
-/* Nav Menu */
+/* ---- Nav links ---- */
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
 }
 
 .nav-link {
   font-size: 14px;
   font-weight: 500;
   color: var(--gray-500);
-  padding: 8px 14px;
+  padding: 8px 9px;
   border-radius: var(--radius-sm);
   position: relative;
   transition: var(--transition-fast);
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -93,80 +90,38 @@
   bottom: 2px;
   left: 50%;
   transform: translateX(-50%) scaleX(0);
-  width: calc(100% - 28px);
+  width: calc(100% - 16px);
   height: 2px;
   background: var(--gradient-primary);
   border-radius: 2px;
   transition: transform 0.3s ease;
 }
 
-.nav-link:hover {
-  color: var(--primary);
-  background: var(--primary-bg);
-}
-
-.nav-link:hover::after {
-  transform: translateX(-50%) scaleX(1);
-}
+.nav-link:hover { color: var(--primary); background: var(--primary-bg); }
+.nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
 
 .nav-link.active {
   color: var(--white);
   background: var(--gradient-primary);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
+.nav-link.active::after { display: none; }
 
-.nav-link.active::after {
-  display: none;
-}
-
-/* Nav Buttons */
+/* ---- Nav Buttons (chưa đăng nhập) ---- */
 .nav-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
-/* Mobile Menu Toggle */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  transition: var(--transition-fast);
-  z-index: 10;
-}
-
-.menu-toggle:hover {
-  background: var(--gray-50);
-}
-
-.menu-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--secondary);
-  border-radius: 2px;
-  transition: var(--transition);
-  transform-origin: center;
-}
-
-#menu-toggle {
-  display: none;
-}
-
-/* Mobile-only */
-.mobile-only {
-  display: none;
-}
-
-/* Trạng thái đã đăng nhập trên header */
+/* ---- Trạng thái đã đăng nhập ---- */
 .nav-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
 }
 
 .nav-user-name {
@@ -176,16 +131,163 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Avatar - không bao giờ bị bóp */
+.nav-user-name img {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--primary-lighter, #dbeafe);
 }
 
 .nav-user-name i {
   color: var(--primary);
-  font-size: 1.25rem;
+  font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+/* ---- Hamburger ---- */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  z-index: 1001;
+}
+.menu-toggle:hover { background: var(--gray-50); }
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--secondary);
+  border-radius: 2px;
+  transition: var(--transition);
+  transform-origin: center;
+}
+#menu-toggle { display: none; }
+
+/* Mobile-only (nút đăng nhập / user trong drawer) */
+.mobile-only { display: none; }
+
+/* ================================================
+   RESPONSIVE MENU BAR — theo từng độ phân giải
+   ================================================ */
+
+/* ---------- ≥1280px: full menu, thoải mái ---------- */
+@media (min-width: 1280px) {
+  .nav-link { padding: 8px 12px; font-size: 14px; }
+}
+
+/* ---------- 1100–1279px: thu nhẹ chữ + padding ---------- */
+@media (max-width: 1279px) and (min-width: 1100px) {
+  .navbar { padding: 0 20px; }
+  .nav-link { padding: 8px 8px; font-size: 13.5px; }
+  .nav-user-name { max-width: 130px; }
+}
+
+/* ---------- 993–1099px: mức chật nhất trước khi gập menu ----------
+   Thu logo + button mạnh để 8 mục menu vừa khít, không đè lên nhau */
+@media (max-width: 1099px) and (min-width: 993px) {
+  .navbar { padding: 0 12px; gap: 8px; }
+  .logo { font-size: 18px; }
+  .logo-icon { height: 30px; }
+  .nav-link { padding: 8px 6px; font-size: 12.5px; }
+  .nav-buttons .btn,
+  .nav-user .btn { padding: 6px 8px; font-size: 12px; }
+  .nav-user-name { max-width: 80px; font-size: 13px; }
+}
+
+/* ---------- ≤992px: hamburger + drawer ---------- */
+@media (max-width: 992px) {
+  .menu-toggle { display: flex; }
+
+  /* Drawer trượt từ trái ra */
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 24px 32px;
+    gap: 2px;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  #menu-toggle:checked ~ .nav-menu {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* Hamburger → X */
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #menu-toggle:checked ~ .menu-toggle span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* Links trong drawer */
+  .nav-link {
+    padding: 13px 16px;
+    width: 100%;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Drawer: chia khoảng cách thoáng hơn cho dễ bấm */
+  .nav-menu { gap: 4px; }
+
+  /* Ẩn nav-buttons desktop */
+  .nav-buttons { display: none; }
+
+  /* Hiện khu vực mobile-only (đăng nhập / thông tin user) */
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-100);
+  }
+  .mobile-only .btn { width: 100%; text-align: center; justify-content: center; }
+
+  /* nav-user trong drawer */
   .nav-user {
     width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-100);
+  }
+  .nav-user-name {
+    max-width: 100%;
+    font-size: 15px;
+    padding: 6px 0;
+  }
+  .nav-user a.btn,
+  .nav-user button.btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    display: flex;
   }
 }

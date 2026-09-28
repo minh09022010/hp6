@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nạp tiền vào ví MinhThach Learning qua chuyển khoản ngân hàng (QR / số tài khoản)." />
+  <title>Nạp tiền - MinhThach Learning</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/wallet.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+      </a>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-toggle">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+        <li><a href="courses.html" class="nav-link">Khóa học</a></li>
+        <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
+        <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link active">Nạp tiền</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+        <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+        <li class="mobile-only">
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
+        </li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current">Nạp tiền</span>
+      </nav>
+      <h1 class="page-hero-title">Nạp tiền vào ví</h1>
+      <p class="page-hero-text">
+        Chuyển khoản qua QR hoặc số tài khoản — tiền vào ví ngay sau khi quản trị viên xác nhận.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 32px;">
+    <div class="container">
+      <!-- Chưa đăng nhập -->
+      <div id="deposit-login-required" style="display:none; text-align:center; padding:60px 20px;">
+        <i class="fas fa-lock" style="font-size:56px; color:#cbd5e1; margin-bottom:20px"></i>
+        <h2 style="margin-bottom:10px; color:#334155">Bạn cần đăng nhập để nạp tiền</h2>
+        <p style="color:#64748b; margin-bottom:24px">Đăng nhập để nạp tiền và theo dõi số dư ví của bạn.</p>
+        <a href="login.html" class="btn btn-primary btn-lg"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+      </div>
+
+      <!-- Nội dung chính (đã đăng nhập) -->
+      <div id="deposit-main" style="display:none">
+        <div class="deposit-layout">
+
+          <!-- CỘT TRÁI: QR + thông tin TK -->
+          <div class="deposit-bank-card">
+            <h2><i class="fas fa-qrcode"></i> Quét QR hoặc chuyển khoản thủ công</h2>
+            <p class="deposit-bank-hint">Mở app ngân hàng → quét mã QR (hoặc nhập số TK bên dưới) → chuyển khoản đúng số tiền bạn đã chọn.</p>
+
+            <div class="deposit-qr-frame">
+              <img id="deposit-qr" src="images/qr-payment.png" alt="Mã QR chuyển khoản" />
+              <span class="deposit-qr-note">QR chuyển khoản 24/7</span>
+            </div>
+
+            <div class="deposit-bank-info">
+              <div class="deposit-info-row">
+                <span><i class="fas fa-university"></i> Ngân hàng</span>
+                <strong id="deposit-bank-name">—</strong>
+              </div>
+              <div class="deposit-info-row">
+                <span><i class="fas fa-id-card"></i> Số tài khoản</span>
+                <strong class="deposit-stk" id="deposit-stk">—</strong>
+                <button class="wallet-copy-btn" id="btn-copy-stk" title="Copy số tài khoản"><i class="far fa-copy"></i> Copy</button>
+              </div>
+              <div class="deposit-info-row">
+                <span><i class="fas fa-user"></i> Chủ tài khoản</span>
+                <strong id="deposit-account-name">—</strong>
+              </div>
+              <div class="deposit-info-row deposit-info-amount">
+                <span><i class="fas fa-coins"></i> Số tiền chuyển</span>
+                <strong id="deposit-amount-display">—</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- CỘT PHẢI: chọn tiền + xác nhận -->
+          <div class="deposit-form-card">
+            <h2><i class="fas fa-wallet"></i> Chọn số tiền nạp</h2>
+
+            <div class="wallet-balance-preview">
+              Số dư hiện tại: <strong id="deposit-balance">—</strong>
+              <a href="profile.html" class="deposit-balance-link">Xem hồ sơ →</a>
+            </div>
+
+            <label style="display:block; font-size:13.5px; font-weight:600; color:#334155; margin:16px 0 8px">Chọn nhanh</label>
+            <div class="deposit-amount-grid">
+              <button type="button" class="deposit-amount-btn" data-amount="50000">50.000₫</button>
+              <button type="button" class="deposit-amount-btn" data-amount="100000">100.000₫</button>
+              <button type="button" class="deposit-amount-btn" data-amount="200000">200.000₫</button>
+              <button type="button" class="deposit-amount-btn" data-amount="500000">500.000₫</button>
+              <button type="button" class="deposit-amount-btn" data-amount="1000000">1.000.000₫</button>
+              <button type="button" class="deposit-amount-btn" data-amount="2000000">2.000.000₫</button>
+            </div>
+
+            <div class="form-group" style="margin-top:16px">
+              <label for="deposit-amount">Hoặc nhập số tiền khác (₫)</label>
+              <input type="number" id="deposit-amount" class="form-input" min="10000" step="10000" placeholder="VD: 150000" />
+            </div>
+
+            <div class="form-group">
+              <label for="deposit-note">Ghi chú (không bắt buộc)</label>
+              <input type="text" id="deposit-note" class="form-input" placeholder="VD: Nạp tiền mua kc" />
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-block" id="btn-confirm-deposit">
+              <i class="fas fa-paper-plane"></i> Tôi đã chuyển khoản
+            </button>
+            <div class="error-msg" id="deposit-error"></div>
+
+            <div class="deposit-steps">
+              <div class="deposit-step"><span class="deposit-step-num">1</span> Chọn số tiền và chuyển khoản theo QR/STK bên trái</div>
+              <div class="deposit-step"><span class="deposit-step-num">2</span> Bấm <strong>"Tôi đã chuyển khoản"</strong> để gửi yêu cầu</div>
+              <div class="deposit-step"><span class="deposit-step-num">3</span> Quản trị viên xác nhận → tiền vào ví trong ít phút</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- LỊCH SỬ NẠP -->
+        <div class="wallet-history" id="deposit-history-wrap" style="display:none; margin-top:28px">
+          <h3><i class="fas fa-receipt"></i> Lịch sử nạp tiền của bạn</h3>
+          <div class="admin-table-wrap">
+            <table class="admin-table wallet-history-table">
+              <thead>
+                <tr><th>Số tiền</th><th>Thời gian</th><th>Ghi chú</th><th>Trạng thái</th></tr>
+              </thead>
+              <tbody id="deposit-history-tbody"></tbody>
+            </table>
+          </div>
+          <p class="wallet-history-hint">Yêu cầu "Chờ duyệt" sẽ được quản trị viên xác nhận — tiền vào ví ngay khi được duyệt.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+          </a>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud &amp; DevOps</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Liên hệ</h3>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
+            <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
+            <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script src="js/wallet.js"></script>
+  <script src="js/wallet-page.js"></script>
+</body>
+</html>

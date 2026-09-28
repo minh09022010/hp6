@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Bảng giá MinhThach Learning - Chọn gói học tập phù hợp cho bạn." />
+  <meta name="description" content="Bảng giá MinhThach Learning - Nạp tiền, Top Contribution và khóa học mua bằng ví." />
   <title>Bảng giá - MinhThach Learning</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/variables.css" />
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/wallet.css" />
   <link rel="stylesheet" href="css/footer.css" />
   <link rel="stylesheet" href="css/utilities.css" />
   <link rel="stylesheet" href="css/responsive.css" />
@@ -33,6 +34,7 @@
         <li><a href="courses.html" class="nav-link">Khóa học</a></li>
         <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
         <li><a href="pricing.html" class="nav-link active">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link">Nạp tiền</a></li>
         <li><a href="blog.html" class="nav-link">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
@@ -55,92 +57,82 @@
         <i class="fas fa-chevron-right"></i>
         <span class="current">Bảng giá</span>
       </nav>
-      <h1 class="page-hero-title">Chọn gói của bạn</h1>
+      <h1 class="page-hero-title">Top Contribution &amp; Thanh toán</h1>
       <p class="page-hero-text">
-        Đầu tư vào tương lai với gói học tập hoàn hảo cho nhu cầu của bạn.
+        Bảng vàng người đóng góp — nạp tiền vào ví ở trang <a href="profile.html" style="color:inherit; text-decoration:underline"><strong>Hồ sơ cá nhân</strong></a> để mua khóa học.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <!-- ===== TOP CONTRIBUTION ===== -->
+  <section class="section" style="padding-top: 32px;">
     <div class="container">
-      <div class="pricing-toggle">
-        <span class="toggle-label active">Hàng tháng</span>
-        <span class="toggle-switch"></span>
-        <span class="toggle-label">Hàng năm <span style="color: var(--primary); font-weight: 600;">Tiết kiệm 20%</span></span>
+      <div class="section-header">
+        <h2 class="section-title">🏆 Top Contribution</h2>
+        <p class="section-text">
+          Bảng vàng người nạp quỹ nhiều nhất từ trước đến nay. Cảm ơn các bạn!
+        </p>
       </div>
-
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-header">
-            <h3 class="pricing-name">Cơ bản</h3>
-            <div class="pricing-price">
-              <span class="currency">$</span>29<span class="period">/tháng</span>
-            </div>
-            <p class="pricing-description">Hoàn hảo cho người mới bắt đầu.</p>
-          </div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> 100+ khóa học</li>
-            <li><i class="fas fa-check"></i> Chất lượng video HD</li>
-            <li><i class="fas fa-check"></i> Truy cập mobile</li>
-            <li><i class="fas fa-check"></i> Cộng đồng forum</li>
-            <li class="disabled"><i class="fas fa-times"></i> Chứng chỉ hoàn thành</li>
-            <li class="disabled"><i class="fas fa-times"></i> Hỗ trợ ưu tiên</li>
-          </ul>
-          <a href="register.html" class="btn btn-outline btn-lg pricing-btn">Bắt đầu</a>
+      <div class="top-contrib-grid">
+        <div class="top-contrib-card top1" id="topc-1">
+          <div class="topc-rank-medal">🥇</div>
+          <img class="topc-avatar" src="images/instructor1.jpg" alt="Hạng 1" />
+          <h3 class="topc-name">Đang tải...</h3>
+          <div class="topc-amount">0₫</div>
+          <div class="topc-rank-label">Hạng 1</div>
         </div>
-
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Phổ biến nhất</div>
-          <div class="pricing-header">
-            <h3 class="pricing-name">Chuyên nghiệp</h3>
-            <div class="pricing-price">
-              <span class="currency">$</span>49<span class="period">/tháng</span>
-            </div>
-            <p class="pricing-description">Giá trị tốt nhất cho người học nghiêm túc.</p>
-          </div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> 500+ khóa học</li>
-            <li><i class="fas fa-check"></i> Chất lượng video HD</li>
-            <li><i class="fas fa-check"></i> Truy cập mobile & TV</li>
-            <li><i class="fas fa-check"></i> Cộng đồng forum</li>
-            <li><i class="fas fa-check"></i> Chứng chỉ hoàn thành</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ ưu tiên</li>
-            <li class="disabled"><i class="fas fa-times"></i> Cố vấn 1-kèm-1</li>
-          </ul>
-          <a href="register.html" class="btn btn-primary btn-lg pricing-btn">Bắt đầu</a>
+        <div class="top-contrib-card top2" id="topc-2">
+          <div class="topc-rank-medal">🥈</div>
+          <img class="topc-avatar" src="images/instructor2.jpg" alt="Hạng 2" />
+          <h3 class="topc-name">Đang tải...</h3>
+          <div class="topc-amount">0₫</div>
+          <div class="topc-rank-label">Hạng 2</div>
         </div>
+        <div class="top-contrib-card top3" id="topc-3">
+          <div class="topc-rank-medal">🥉</div>
+          <img class="topc-avatar" src="images/instructor3.jpg" alt="Hạng 3" />
+          <h3 class="topc-name">Đang tải...</h3>
+          <div class="topc-amount">0₫</div>
+          <div class="topc-rank-label">Hạng 3</div>
+        </div>
+      </div>
+      <div class="top-contrib-table-wrap">
+        <table class="admin-table top-contrib-table">
+          <thead>
+            <tr><th>#</th><th>Thành viên</th><th>Tổng đã nạp</th></tr>
+          </thead>
+          <tbody id="top-contrib-tbody">
+            <tr><td colspan="3">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="top-contrib-note">
+        <i class="fas fa-info-circle"></i> Xếp hạng theo tổng tiền đã nạp (đã duyệt) từ quá khứ đến hiện tại, không trừ tiền đã tiêu.
+      </p>
+    </div>
+  </section>
 
-        <div class="pricing-card">
-          <div class="pricing-header">
-            <h3 class="pricing-name">Cao cấp</h3>
-            <div class="pricing-price">
-              <span class="currency">$</span>99<span class="period">/tháng</span>
-            </div>
-            <p class="pricing-description">Dành cho chuyên gia và tổ chức.</p>
-          </div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> Tất cả khóa học</li>
-            <li><i class="fas fa-check"></i> Video 4K</li>
-            <li><i class="fas fa-check"></i> Truy cập không giới hạn</li>
-            <li><i class="fas fa-check"></i> Cộng đồng ưu tiên</li>
-            <li><i class="fas fa-check"></i> Chứng chỉ hoàn thành</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ ưu tiên 24/7</li>
-            <li><i class="fas fa-check"></i> Cố vấn 1-kèm-1</li>
-          </ul>
-          <a href="register.html" class="btn btn-outline btn-lg pricing-btn">Bắt đầu</a>
+  <!-- ===== KHÓA HỌC MUA BẰNG VÍ ===== -->
+  <section class="section" style="background: var(--white);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Khóa học mua bằng ví</h2>
+        <p class="section-text">Các khóa học trả phí trong hệ thống — dùng số dư ví để mở khóa, không cần thẻ tín dụng.</p>
+      </div>
+      <div class="paid-courses-grid" id="paid-courses-grid">
+        <div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b">
+          <i class="fas fa-spinner fa-spin" style="font-size:32px"></i>
+          <p style="margin-top:12px">Đang tải khóa học...</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" style="background: var(--white);">
+  <section class="section" style="padding-top:0">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Có thắc mắc?</h2>
-        <p class="section-text">
-          Xem trang FAQ hoặc liên hệ chúng tôi để biết thêm thông tin về các gói.
-        </p>
+        <p class="section-text">Xem trang FAQ hoặc liên hệ chúng tôi để biết thêm thông tin về ví và thanh toán.</p>
         <div style="margin-top: 24px;">
           <a href="faq.html" class="btn btn-outline btn-lg">Xem FAQ</a>
         </div>
@@ -155,7 +147,7 @@
           <a href="index.html" class="logo">
             <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
           </a>
-          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -165,16 +157,37 @@
           </div>
         </div>
         <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud &amp; DevOps</a></li>
+          </ul>
+        </div>
+        <div>
           <h3 class="footer-heading">Liên hệ</h3>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
             <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
             <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
       </div>
     </div>
   </footer>
@@ -184,5 +197,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/instructors-data.js"></script>
+  <script src="js/wallet.js"></script>
+  <script src="js/pricing.js"></script>
 </body>
 </html>

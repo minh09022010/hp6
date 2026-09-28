@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Top 10 Lập trình Web Trends to Watch in 2024" />
-  <title>Top 10 Lập trình Web Trends 2024 - MinhThach Learning Blog</title>
+  <meta name="description" content="Bài viết Blog - MinhThach Learning" />
+  <title>Blog - MinhThach Learning</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -29,6 +29,7 @@
         <li><a href="courses.html" class="nav-link">Khóa học</a></li>
         <li><a href="instructors.html" class="nav-link">Giảng viên</a></li>
         <li><a href="pricing.html" class="nav-link">Bảng giá</a></li>
+        <li><a href="wallet.html" class="nav-link">Nạp tiền</a></li>
         <li><a href="blog.html" class="nav-link active">Blog</a></li>
         <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
         <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
@@ -44,89 +45,61 @@
     </nav>
   </header>
 
-  <section class="page-hero">
+  <section class="page-hero" id="detail-hero">
     <div class="container">
       <nav class="breadcrumb">
         <a href="index.html">Trang chủ</a>
         <i class="fas fa-chevron-right"></i>
         <a href="blog.html">Blog</a>
         <i class="fas fa-chevron-right"></i>
-        <span class="current">Web Trends 2024</span>
+        <span class="current" id="breadcrumb-title">Đang tải...</span>
       </nav>
-      <h1 class="page-hero-title">Blog Article</h1>
-      <p class="page-hero-text">Kiến thức chuyên sâu, hướng dẫn và mẹo từ các giảng viên chuyên gia.</p>
+      <h1 class="page-hero-title" id="detail-title">Đang tải bài viết...</h1>
+      <p class="page-hero-text" id="detail-excerpt"></p>
     </div>
   </section>
 
   <section class="blog-detail-section">
     <div class="container">
       <div class="blog-detail-layout">
-        <div class="blog-article">
-          <h1>Top 10 Lập trình Web Trends to Watch in 2024</h1>
-          <div class="blog-article-meta">
-            <span class="blog-article-meta-item"><i class="fas fa-user"></i> Sarah Johnson</span>
-            <span class="blog-article-meta-item"><i class="far fa-calendar-alt"></i> 10/06/2024</span>
-            <span class="blog-article-meta-item"><i class="far fa-clock"></i> 8 phút đọc</span>
-            <span class="blog-article-meta-item"><i class="fas fa-comment"></i> 24 bình luận</span>
-          </div>
-          <img src="images/course1.jpg" alt="Lập trình Web Trends 2024" />
-          <p>The web development landscape is evolving faster than ever before. As we move through 2024, new technologies, frameworks, and methodologies are reshaping how we build and interact with web applications.</p>
-          <h2>1. AI-Powered Development Tools</h2>
-          <p>Artificial intelligence is revolutionizing web development. From code generation to automated testing, AI-powered tools are making developers more productive than ever.</p>
-          <h2>2. WebAssembly (Wasm)</h2>
-          <p>WebAssembly continues to gain traction as a powerful tool for running high-performance code in the browser with near-native performance.</p>
-          <blockquote>"The future of web development is not about choosing between native and web — it's about leveraging the best of both worlds to create seamless user experiences."</blockquote>
-          <div class="blog-tags">
-            <span class="blog-tag">Web Development</span>
-            <span class="blog-tag">Trends 2024</span>
-            <span class="blog-tag">Technology</span>
+
+        <!-- Nội dung bài viết -->
+        <div class="blog-article" id="blog-article-wrap">
+          <!-- Loading spinner -->
+          <div id="article-loading" style="text-align:center;padding:60px 20px;color:#64748b">
+            <i class="fas fa-spinner fa-spin" style="font-size:36px;color:#cbd5e1;margin-bottom:16px;display:block"></i>
+            <p>Đang tải bài viết...</p>
           </div>
         </div>
 
+        <!-- Sidebar -->
         <aside class="blog-sidebar">
           <div class="sidebar-widget">
-            <h3>Tìm kiếm</h3>
-            <div class="sidebar-search">
-              <input type="text" placeholder="Tìm bài viết..." />
-              <button type="button" aria-label="Search"><i class="fas fa-search"></i></button>
-            </div>
-          </div>
-          <div class="sidebar-widget">
             <h3>Bài viết gần đây</h3>
-            <ul class="sidebar-posts">
-              <li>
-                <div class="sidebar-post-image"><img src="images/course1.jpg" alt="Lập trình Web" /></div>
-                <div class="sidebar-post-content"><h4><a href="blog-detail.html">Top 10 Lập trình Web Trends in 2024</a></h4><span class="sidebar-post-date">10/06/2024</span></div>
-              </li>
-              <li>
-                <div class="sidebar-post-image"><img src="images/course2.jpg" alt="Machine Learning" /></div>
-                <div class="sidebar-post-content"><h4><a href="blog-detail.html">Getting Started with Machine Learning</a></h4><span class="sidebar-post-date">08/06/2024</span></div>
-              </li>
-              <li>
-                <div class="sidebar-post-image"><img src="images/course3.jpg" alt="UI/UX Design" /></div>
-                <div class="sidebar-post-content"><h4><a href="blog-detail.html">Principles of Great UI/UX Design</a></h4><span class="sidebar-post-date">05/06/2024</span></div>
-              </li>
+            <ul class="sidebar-posts" id="sidebar-recent">
+              <li style="color:#94a3b8;font-size:13px">Đang tải...</li>
             </ul>
           </div>
           <div class="sidebar-widget">
             <h3>Danh mục</h3>
-            <ul class="sidebar-categories">
-              <li><a href="#">Lập trình <span>15</span></a></li>
-              <li><a href="#">Khoa học dữ liệu <span>8</span></a></li>
-              <li><a href="#">Thiết kế <span>10</span></a></li>
+            <ul class="sidebar-categories" id="sidebar-cats">
+              <li><a href="blog.html">Tất cả bài viết</a></li>
             </ul>
           </div>
         </aside>
+
       </div>
     </div>
   </section>
 
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="logo"><img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" /></a>
-          <p class="footer-description">MinhThach Learning là nền tảng học trực tuyến cao cấp.</p>
+          <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Logo MinhThach Learning" class="logo-icon" />
+          </a>
+          <p class="footer-description">MinhThach Learning là nền tảng E-Learning cao cấp, kết nối học viên với các chuyên gia hàng đầu.</p>
           <div class="footer-social">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -136,16 +109,37 @@
           </div>
         </div>
         <div>
+          <h3 class="footer-heading">Liên kết</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Giới thiệu</a></li>
+            <li><a href="instructors.html">Giảng viên</a></li>
+            <li><a href="pricing.html">Bảng giá</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Liên hệ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Khóa học</h3>
+          <ul class="footer-links">
+            <li><a href="courses.html">Lập trình</a></li>
+            <li><a href="courses.html">Khoa học dữ liệu</a></li>
+            <li><a href="courses.html">Thiết kế</a></li>
+            <li><a href="courses.html">Mobile</a></li>
+            <li><a href="courses.html">Cloud & DevOps</a></li>
+          </ul>
+        </div>
+        <div>
           <h3 class="footer-heading">Liên hệ</h3>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị</span></li>
+            <li><i class="fas fa-map-marker-alt"></i><span>Cam Lộ, Quảng Trị, Việt Nam</span></li>
             <li><i class="fas fa-phone-alt"></i><span>0914070720</span></li>
             <li><i class="fas fa-envelope"></i><span>thachlenhatminh09022010@gmail.com</span></li>
+            <li><i class="fas fa-clock"></i><span>T2 - T6: 8H - 17H</span></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 MinhThach Learning. Đã đăng ký bản quyền.</p>
+        <p>&copy; 2025 MinhThach Learning. Đã đăng ký bản quyền.</p>
       </div>
     </div>
   </footer>
@@ -155,5 +149,179 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script>
+  // ---- blog-detail: load bài viết từ Firestore theo ?id= ----
+  const FALLBACK_IMAGES = [
+    "images/course1.jpg","images/course2.jpg","images/course3.jpg",
+    "images/course4.jpg","images/course5.jpg","images/course6.jpg"
+  ];
+
+  function esc(s) {
+    return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function hashCode(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+    return h;
+  }
+
+  // Chuyển nội dung text thành HTML (mỗi dòng trống = xuống đoạn)
+  function textToHtml(text) {
+    return String(text || "")
+      .split(/\n\n+/)
+      .map(para => `<p>${para.replace(/\n/g, "<br>")}</p>`)
+      .join("");
+  }
+
+  function showError(msg) {
+    const wrap = document.getElementById("blog-article-wrap");
+    if (!wrap) return;
+    wrap.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;color:#64748b">
+        <i class="fas fa-exclamation-circle" style="font-size:48px;color:#fca5a5;margin-bottom:16px;display:block"></i>
+        <h3 style="color:#334155;margin-bottom:8px">${msg}</h3>
+        <a href="blog.html" class="btn btn-primary" style="margin-top:16px;display:inline-block">
+          <i class="fas fa-arrow-left"></i> Quay lại Blog
+        </a>
+      </div>`;
+  }
+
+  async function loadPost() {
+    const postId = new URLSearchParams(window.location.search).get("id");
+    if (!postId) { showError("Không tìm thấy bài viết."); return; }
+    if (!db)     { showError("Không kết nối được cơ sở dữ liệu."); return; }
+
+    try {
+      const doc = await db.collection("blog-posts").doc(postId).get();
+      if (!doc.exists) { showError("Bài viết không tồn tại hoặc đã bị xóa."); return; }
+
+      const p = { id: doc.id, ...doc.data() };
+
+      // Không cho xem bài nháp (trừ chủ bài / admin)
+      const viewer = getCurrentUser();
+      if (p.status !== "published") {
+        if (!viewer || (viewer.id !== p.authorId && viewer.role !== "admin")) {
+          showError("Bài viết này chưa được xuất bản.");
+          return;
+        }
+      }
+
+      renderPost(p);
+      loadRecent(postId);
+      loadCategories();
+    } catch (e) {
+      showError("Không tải được bài viết. Vui lòng thử lại sau.");
+      console.error("[blog-detail]", e);
+    }
+  }
+
+  function renderPost(p) {
+    // Cập nhật hero
+    const titleEl    = document.getElementById("detail-title");
+    const excerptEl  = document.getElementById("detail-excerpt");
+    const breadcrumb = document.getElementById("breadcrumb-title");
+    if (titleEl)    titleEl.textContent   = p.title || "Bài viết";
+    if (excerptEl)  excerptEl.textContent = p.excerpt || "";
+    if (breadcrumb) breadcrumb.textContent = p.title || "Bài viết";
+    document.title = `${p.title || "Blog"} - MinhThach Learning`;
+
+    const img     = p.image || FALLBACK_IMAGES[Math.abs(hashCode(p.id || p.title || "")) % FALLBACK_IMAGES.length];
+    const author  = esc(p.authorName || "Ẩn danh");
+    const cat     = esc(p.category  || "Chung");
+    const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString("vi-VN", {day:"2-digit",month:"2-digit",year:"numeric"}) : "";
+    const avatarStyle = p.authorAvatar
+      ? `background-image:url('${esc(p.authorAvatar)}');background-size:cover;background-position:center`
+      : "";
+    const avatarInner = p.authorAvatar ? "" : '<i class="fas fa-user"></i>';
+    const contentHtml = textToHtml(p.content || "(Bài viết chưa có nội dung)");
+
+    // Nút sửa/xóa nếu là chủ bài hoặc admin
+    const viewer = getCurrentUser();
+    const canEdit = viewer && (viewer.id === p.authorId || viewer.role === "admin");
+    const editBar = canEdit ? `
+      <div style="display:flex;gap:10px;margin-bottom:24px;padding:14px 16px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;align-items:center">
+        <i class="fas fa-pen-nib" style="color:#2563eb"></i>
+        <span style="font-size:13.5px;color:#475569;flex:1">Bạn là tác giả bài viết này</span>
+        <a href="blog.html" onclick="sessionStorage.setItem('editPostId','${esc(p.id)}');return true"
+           class="btn btn-outline btn-sm"><i class="fas fa-edit"></i> Sửa bài</a>
+      </div>` : "";
+
+    const wrap = document.getElementById("blog-article-wrap");
+    wrap.innerHTML = `
+      ${editBar}
+      <div class="blog-article-meta" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:20px;align-items:center">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="blog-card-avatar" style="${avatarStyle};width:38px;height:38px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;overflow:hidden;flex-shrink:0">${avatarInner}</div>
+          <span style="font-weight:600;color:#334155">${author}</span>
+        </div>
+        <span class="blog-article-meta-item"><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+        <span class="blog-card-category">${cat}</span>
+        ${p.status === "draft" ? '<span style="background:#fef3c7;color:#92400e;font-size:12px;padding:3px 10px;border-radius:999px;font-weight:600">Nháp</span>' : ""}
+      </div>
+
+      <img src="${esc(img)}" alt="${esc(p.title)}"
+           style="width:100%;border-radius:14px;object-fit:cover;max-height:420px;margin-bottom:28px"
+           onerror="this.src='images/course1.jpg'" />
+
+      <div class="blog-article-content" style="line-height:1.85;color:#334155;font-size:16px">
+        ${contentHtml}
+      </div>
+
+      <div class="blog-tags" style="margin-top:28px">
+        <span class="blog-tag">${cat}</span>
+      </div>
+
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e2e8f0">
+        <a href="blog.html" class="btn btn-outline">
+          <i class="fas fa-arrow-left"></i> Quay lại Blog
+        </a>
+      </div>`;
+  }
+
+  async function loadRecent(currentId) {
+    const el = document.getElementById("sidebar-recent");
+    if (!el || !db) return;
+    try {
+      const snap = await db.collection("blog-posts")
+        .where("status","==","published").get();
+      const posts = [];
+      snap.forEach(d => { if (d.id !== currentId) posts.push({id:d.id,...d.data()}); });
+      posts.sort((a,b) => String(b.createdAt||"").localeCompare(String(a.createdAt||"")));
+      const recent = posts.slice(0, 4);
+      if (!recent.length) { el.innerHTML = "<li style='color:#94a3b8;font-size:13px'>Chưa có bài viết khác</li>"; return; }
+      el.innerHTML = recent.map(p => {
+        const img = p.image || FALLBACK_IMAGES[Math.abs(hashCode(p.id||"")) % FALLBACK_IMAGES.length];
+        const date = p.createdAt ? new Date(p.createdAt).toLocaleDateString("vi-VN") : "";
+        return `<li>
+          <div class="sidebar-post-image"><img src="${esc(img)}" alt="${esc(p.title)}" onerror="this.src='images/course1.jpg'"></div>
+          <div class="sidebar-post-content">
+            <h4><a href="blog-detail.html?id=${esc(p.id)}">${esc(p.title)}</a></h4>
+            <span class="sidebar-post-date">${date}</span>
+          </div>
+        </li>`;
+      }).join("");
+    } catch(e) { /* bỏ qua */ }
+  }
+
+  async function loadCategories() {
+    const el = document.getElementById("sidebar-cats");
+    if (!el || !db) return;
+    try {
+      const snap = await db.collection("blog-posts").where("status","==","published").get();
+      const cats = {};
+      snap.forEach(d => {
+        const c = d.data().category || "Chung";
+        cats[c] = (cats[c] || 0) + 1;
+      });
+      el.innerHTML = `<li><a href="blog.html">Tất cả bài viết</a></li>` +
+        Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([c,n]) =>
+          `<li><a href="blog.html">${esc(c)} <span>${n}</span></a></li>`
+        ).join("");
+    } catch(e) { /* bỏ qua */ }
+  }
+
+  loadPost();
+  </script>
 </body>
 </html>
